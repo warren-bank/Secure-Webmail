@@ -1,0 +1,77 @@
+{
+  "name": "testing",
+  "version": "0.1.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "cross-env NODE_ENV=testing jest"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "babel-jest": "^22.0.0",
+    "cross-env": "^5.1.1",
+    "deep-freeze": "0.0.1",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
+    "enzyme-to-json": "^3.3.0",
+    "jest": "^22.0.0",
+    "jest-cli": "^22.0.1",
+    "jest-css-modules": "^1.1.0",
+    "regenerator-runtime": "^0.11.1"
+  },
+  "__devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1"
+  },
+  "__babel": {
+    "presets": [
+      "env",
+      "stage-0",
+      "react",
+      "jest"
+    ]
+  },
+  "jest": {
+    "rootDir": "..",
+    "roots": [
+      "<rootDir>/tests/react",
+      "<rootDir>/tests/redux"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/.jest/setup.js",
+    "setupFiles": [
+      "<rootDir>/tests/.jest/mocks/sessionStorage.js",
+      "<rootDir>/tests/.jest/mocks/localStorage.js",
+      "<rootDir>/tests/.jest/mocks/console.js",
+      "<rootDir>/tests/.jest/globals.js"
+    ],
+    "transform": {
+      "\\.(js|jsx)$": "<rootDir>/tests/node_modules/babel-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "<rootDir>/node_modules/jest-css-modules"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "<rootDir>/tests/node_modules",
+      "<rootDir>/node_modules",
+      "<rootDir>/src",
+      "<rootDir>/src/react/components/presentation/stateless-functions"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "author": {
+    "name": "Warren R. Bank",
+    "email": "warren.r.bank@gmail.com",
+    "url": "https://github.com/warren-bank"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

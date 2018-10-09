@@ -1,0 +1,125 @@
+--------------------------------------------------------------------------------
+
+https://developers.google.com/apps-script/guides/services/quotas#current_limitations
+
+https://support.google.com/a/answer/166852
+  Email sending limits
+
+https://support.google.com/a/answer/1366776?hl=en
+  Email receiving limits
+
+https://hiverhq.com/blog/gmail-and-google-apps-limits-every-admin-should-know/#Gmail
+  explanation of Email limits
+
+https://stackoverflow.com/questions/17875014/how-does-daily-google-apps-script-quota-limit-apply
+https://stackoverflow.com/questions/12847127/whose-quotas-are-in-use-on-a-web-app
+  for a web app published to run as the current user,
+  the daily quota limit belongs to each individual user
+  (ie: not aggregate for the script)
+
+--------------------------------------------------------------------------------
+
+https://stackoverflow.com/questions/36853612/how-to-select-account-in-google-app-scripts-for-users-with-multiple-accounts
+  there's no way to select one particular Google account when the user is logged into multiple;
+  Apps Script always uses the "primary" account (ie: id #0)
+
+--------------------------------------------------------------------------------
+
+https://developers.google.com/apps-script/guides/html/reference/run
+https://developers.google.com/apps-script/guides/html/communication
+  "google.script.run" calls from client to server can pass/return the following data types:
+    - Number, Boolean, String, or null
+    - Objects and Arrays that are composed of primitives, Objects and Arrays
+
+--------------------------------------------------------------------------------
+
+https://ctrlq.org/code/19747-google-forms-upload-files
+https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
+  example: how to pick a file, read its data into a "data:" URI, and upload (as a String) from client to server
+  notes:
+    * on the server, the base64 data is converted into a blob (using the content-type in the "data" URI, and the filename passed as an additional argument)
+    * this could be useful to attach file(s).. just need to encrypt the base64 data before upload
+
+client:
+=======
+var file
+var reader = new FileReader()
+
+// when file is fully read, upload to server
+reader.onloadend = function(e) {
+  google.script.run.uploadFile(
+    e.target.result,  // String (data: URI)
+    file.name         // String (filename)
+  )
+}
+
+// begin file read when form is submit
+function submitForm() {
+  file = $('#file')[0].files[0]
+  reader.readAsDataURL(file)
+}
+
+server:
+=======
+function uploadFile(data, file) {
+  try {
+    var contentType, bytes, blob
+    contentType = data.substring(5, data.indexOf(';'))
+    bytes       = Utilities.base64Decode(data.substr(data.indexOf('base64,') + 7))
+    blob        = Utilities.newBlob(bytes, contentType, file)
+  }
+  catch (err) {}
+}
+
+--------------------------------------------------------------------------------
+
+https://developers.google.com/web/fundamentals/media/capturing-images/
+  notes:
+    * on a mobile phone, in Chrome and Safari (Android and iOS respectively):
+      - <input type="file" accept="image/*">
+          prompts the user with options to either select an existing image file,
+          or to take a new photo using the camera
+      - <input type="file" accept="image/*" capture>
+          favors camera
+      - <input type="file" accept="image/*" capture="user">
+          favors front camera (ie: selfie)
+      - <input type="file" accept="image/*" capture="environment">
+          favors rear camera
+
+--------------------------------------------------------------------------------
+
+https://developers.google.com/apps-script/reference/gmail
+https://developers.google.com/apps-script/reference/gmail/gmail-app.html
+https://developers.google.com/apps-script/reference/gmail/gmail-app#getInboxThreads(Integer,Integer)
+https://developers.google.com/apps-script/reference/gmail/gmail-app#getThreadById(String)
+https://developers.google.com/apps-script/reference/gmail/gmail-app#sendEmail(String,String,String,Object)
+  scope: "https://mail.google.com/"
+
+https://developers.google.com/apps-script/reference/gmail/gmail-thread.html
+https://developers.google.com/apps-script/reference/gmail/gmail-thread#getMessages()
+https://developers.google.com/apps-script/reference/gmail/gmail-thread#moveToTrash()
+https://developers.google.com/apps-script/reference/gmail/gmail-thread#reply(String,Object)
+  scope: "https://mail.google.com/"
+
+https://developers.google.com/apps-script/reference/gmail/gmail-message
+https://developers.google.com/apps-script/reference/gmail/gmail-message#reply(String,Object)
+  scope: "https://mail.google.com/"
+
+https://developers.google.com/apps-script/reference/utilities/utilities#newBlob(String,String,String)
+  var blob_1 = Utilities.newBlob('text with html tags', 'text/html', 'filename.html')
+  var blob_2 = Utilities.newBlob('base64 encoded data', 'application/octet-stream', 'filename.bin')
+  thread.reply('text body', {
+    attachments: [blob_1, blob_2]
+  });
+
+--------------------------------------------------------------------------------
+
+https://developers.google.com/apps-script/advanced/gmail
+https://developers.google.com/gmail/api
+
+--------------------------------------------------------------------------------
+
+https://developers.google.com/apps-script/reference/mail/mail-app
+
+--------------------------------------------------------------------------------

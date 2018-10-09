@@ -1,0 +1,40 @@
+{
+  "timeZone": "GMT",
+  "dependencies": {
+    "enabledAdvancedServices": [{
+      "userSymbol": "Gmail",
+      "serviceId": "gmail",
+      "version": "v1"
+    }]
+  },
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/gmail.addons.execute",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/script.storage",
+    "https://www.googleapis.com/auth/script.external_request",
+    "https://www.googleapis.com/auth/gmail.addons.current.message.readonly",
+    "https://www.googleapis.com/auth/gmail.addons.current.action.compose"
+  ],
+  "urlFetchWhitelist": [
+    "https://script.google.com/macros/s/AKfycbzLN50DWIPbVbFX5Epu7jd_0JtOmSU9AekFyZSUzd3s/dev"
+  ],
+  "gmail": {
+    "name": "Secure Webmail",
+    "logoUrl": "https://www.onexte.com/wp-content/uploads/2018/03/voltage-securemail-lg-feature1.png",
+    "contextualTriggers": [{
+      "unconditional": {
+      },
+      "onTriggerFunction": "startApp"
+    }],
+    "universalActions": [{
+      "text": "Describe Usage",
+      "runFunction": "onClick_Menu_DescribeUsage"
+    },{
+      "text": "About Author",
+      "runFunction": "onClick_Menu_AboutAuthor"
+    }],
+    "primaryColor": "#F47041",
+    "secondaryColor": "#2E8B57",
+    "version": "TRUSTED_TESTER_V2"
+  }
+}

@@ -1,0 +1,258 @@
+-------------------------------------------------------------------------------- web app:
+
+React routes:
+=============
+
+#/
+  redirects to default route:
+    #/inbox
+
+#/inbox
+#/priority-inbox
+#/starred
+#/chat
+#/spam
+#/trash
+  display a paginated list of all threads in folder
+  - ex: 25 threads per page with prev/next arrows
+  - each thread is labeled by the subject of its first message
+  - buttons:
+    - compose new message
+
+#/thread/:thread_id
+  display all messages in thread
+  - buttons (per thread):
+    * reply
+    * reply all (last message)
+    * reply all (thread participants)
+    * toggle: important
+    * toggle: unread
+    * move to: trash
+    * move to: spam
+    * move to: inbox
+  - buttons (per message):
+    * toggle: star
+    * toggle: unread
+    * move to: trash
+
+React components:
+=================
+
+https://github.com/seanlin0800/rmail
+  code (MIT license)
+http://seanlin0800.github.io/rmail/build/
+  demo
+
+https://github.com/warren-bank/react-redux-bindings/tree/context-actions
+https://github.com/warren-bank/react-redux-bindings/blob/context-actions/src/index.js
+
+-------------------------------------------------------------------------------- Gmail addon:
+
+button w/ onclick:
+  - opens URL to web app route:
+      #/thread/:thread_id
+
+--------------------------------------------------------------------------------
+
+Redux state:
+============
+
+{
+  folders: [{
+    name,							// String
+    unread							// Number
+  }],
+  threads_in_folder: {
+    $folder_name: [
+      thread_id						// String
+    ]
+  },
+  threads: {
+    $thread_id: {
+      summary: {
+        from,						// String
+        subject,					// String
+        body,						// String
+        date_created,				// Number (UTC timestamp in ms)
+        date_modified,				// Number (UTC timestamp in ms)
+        msg_count					// Number
+      },
+      settings: {
+        star,						// Boolean
+        important,					// Boolean
+        unread,						// Boolean
+        trash,						// Boolean
+        spam,						// Boolean
+        inbox						// Boolean
+      },
+      messages: [{
+        message_id,					// String
+        summary: {
+          from,						// String
+          to,						// Array of String
+          timestamp					// Number (UTC timestamp in ms)
+        },
+        contents: {
+          body,						// String
+          attachments				// Array of Object {data: string, contentType: string, name: string}
+        },
+        settings: {
+          star,						// Boolean
+          unread,					// Boolean
+          trash						// Boolean
+        }
+      }],
+      participants: [
+        email_address				// String
+      ]
+    }
+  },
+  user: {
+    email_address,					// String
+    private_key						// String
+  },
+  public_keys: {
+    $email_address					// String
+  },
+  ui: {
+    folder_name,					// String
+    start_threads_index,            // Number
+    max_threads_per_page,           // Number
+    thread_id						// String
+  }
+}
+
+--------------------------------------------------------------------------------
+
+React component hierarchy:
+==========================
+
+<App state={state} >
+  <Sidebar folders={state.folders} />
+  <Folder name={state.ui.folder_name} threads={state.threads} thread_ids={state.threads_in_folder[ state.ui.folder_name ]} start={state.ui.start_threads_index} max={state.ui.max_threads_per_page} >
+    [
+      <Thread_Summary key={thread_id} thread_id={thread_id} summary={thread.summary} settings={thread.settings} />
+    ]
+  </ Folder>
+</ App>
+
+<App state={state}>
+  <Thread thread_id={state.ui.thread_id} {...state.threads[ state.ui.thread_id ]} public_keys={state.public_keys} private_key={state.user.private_key} >
+    [
+      <Message key={message.message_id} message={message} private_key={private_key} >
+        <Message_Summary message_id={message.message_id} summary={message.summary} settings={message.settings} />
+        <Message_Contents contents={message.contents} private_key={private_key} />
+      </ Message>
+    ]
+    <Thread_Reply thread_id={thread_id} reply_to_from={messages[messages.length - 1].summary.from} reply_to_cc={messages[messages.length - 1].summary.to} reply_to_participants={participants} public_keys={public_keys} >
+      <Thread_Reply_Button title="Reply"                           onClick={this.show_reply_form.bind(this, {cc: null})} />
+      <Thread_Reply_Button title="Reply all (last message)"        onClick={this.show_reply_form.bind(this, {cc: reply_to_cc})} />
+      <Thread_Reply_Button title="Reply all (thread participants)" onClick={this.show_reply_form.bind(this, {cc: reply_to_participants})} />
+
+      {
+        function getInitialState() {
+          return {showForm: false}
+        }
+
+        function show_reply_form({cc}) {
+          this.setState({showForm: true, cc})
+        }
+
+        this.state.showForm
+          ? <Thread_Reply_Form thread_id={thread_id} cc={this.state.cc} public_keys={public_keys} />
+          : null
+      }
+
+    </ Thread_Reply>
+  </ Thread>
+</ App>
+
+--------------------------------------------------------------------------------
+
+https://reactjs.org/docs/conditional-rendering.html
+  conditional rendering
+
+https://facebook.github.io/react/blog/2014/07/13/react-v0.11-rc1.html#rendering-to-null
+  render = () => null
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind
+  syntax: Function.bind(this, ...args)
+
+--------------------------------------------------------------------------------
+
+React/Redux glue for client/server communication:
+=================================================
+  * middleware is perfectly positioned
+    - receives actions before the reducer
+    - can prevent the action from propogating any farther down the middleware chain,
+      so it doesn't ever reach the reducer
+    - can run asynchronous client/server code and dispatch new action(s) when data is received
+      * these actions can pass through the middleware and deliver the data to a reducer,
+        which will be added to the global redux state
+    - this allows all client/server code to be stored in a single module
+
+Redux middleware:
+=================
+import constants from 'redux/data/constants'
+import actions   from 'redux/actions'
+
+const C = {
+  a: constants.actions,
+  m: constants.middleware
+}
+
+const get_threads_in_folder = function({getState, dispatch, next, action}) {
+  // -----------------------------------------------------------------------------------------------
+  // * next(action) is not called
+  // * dispatch() will be called twice
+  //   - each call passes a new action that contains data retrieved from the server,
+  //     and is intended for a specific reducer
+  // * the server function:
+  //     get_threads_in_folder(folder_name, body_length, start, max)
+  //   returns a data structure that needs to update 2 attributes of the global state;
+  //   each attribute is managed by a specific reducer..
+  //   so the data needs to be broken apart and passed in 2 discrete actions.
+  // -----------------------------------------------------------------------------------------------
+
+  const {folder_name, body_length, start, max} = action
+
+  const onSuccess = threads => {
+    if (!threads || !Array.isArray(threads) || !threads.length) return
+
+    const thread_ids = threads.map(thread => thread.thread_id)
+
+    dispatch(
+      actions.APPEND_THREADS_TO_FOLDER(thread_ids)
+    )
+    dispatch(
+      actions.SAVE_THREADS(threads)
+    )
+  }
+
+  google.script.run.withSuccessHandler(onSuccess).get_threads_in_folder(folder_name, body_length, start, max)
+}
+
+const server_API = ({getState, dispatch}) => next => action => {
+  switch (action.type) {
+    case C.a.GET_THREADS_IN_FOLDER:
+      get_threads_in_folder({getState, dispatch, next, action})
+      break
+
+    case C.a.APPEND_THREADS_TO_FOLDER:
+    case C.a.SAVE_THREADS:
+    default:
+      next(action)
+  }
+}
+
+export default server_API
+
+--------------------------------------------------------------------------------
+
+React router:
+=============
+
+https://medium.com/@pshrmn/a-simple-react-router-v4-tutorial-7f23ff27adf
+  good summary
+
+--------------------------------------------------------------------------------

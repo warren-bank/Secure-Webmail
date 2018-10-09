@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><?!= app.title ?></title>
+    <link rel="canonical" href="https://script.google.com/macros/s/-----/dev" />
+    <style>
+      <?!= HtmlService.createHtmlOutputFromFile('css').getContent(); ?>
+    </style>
+    <script>
+      try {
+        <?!= HtmlService.createHtmlOutputFromFile('lib/jsencrypt-min-js').getContent() ?>
+
+        <?!= HtmlService.createHtmlOutputFromFile('lib/crypto-js-min-js').getContent() ?>
+      }
+      catch(e) {
+        google.script.run.log_client_error(e.toString())
+      }
+    </script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div id="root"></div>
+    </div>
+    <script>
+      try {
+        var thread_id = "<?!= state.thread_id ?>"
+
+        <?!= HtmlService.createHtmlOutputFromFile('bundle-js').getContent() ?>
+      }
+      catch(e) {
+        google.script.run.log_client_error(e.toString())
+      }
+    </script>
+  </body>
+</html>

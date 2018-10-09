@@ -1,0 +1,20 @@
+{
+    "todos": [
+        {
+            "id": "a3b96f13-0562-4a6b-8163-e851e823cfda",
+            "text": "milk",
+            "completed": false
+        },
+        {
+            "id": "68f4e07e-e755-41cb-ae89-5d77096a8b06",
+            "text": "eggs",
+            "completed": true
+        },
+        {
+            "id": "177da1a5-71a8-4746-8f42-3b4f79518688",
+            "text": "cheese",
+            "completed": false
+        }
+    ],
+    "visibilityFilter": ""
+}

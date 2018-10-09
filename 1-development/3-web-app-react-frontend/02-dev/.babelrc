@@ -1,0 +1,19 @@
+{
+  "env": {
+    "development": {
+      "presets": [
+        "env",
+        "stage-0",
+        "react"
+      ]
+    },
+    "testing": {
+      "presets": [
+        "env",
+        "stage-0",
+        "react",
+        "./tests/node_modules/babel-preset-jest"
+      ]
+    }
+  }
+}

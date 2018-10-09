@@ -1,0 +1,7 @@
+https://www.generaltechnique.com/wp-content/uploads/2016/05/services-email-encryption.png
+  => images/secure_webmail_1.png
+     - size: 215x153
+
+https://www.onexte.com/wp-content/uploads/2018/03/voltage-securemail-lg-feature1.png
+  => images/secure_webmail_2.png
+     - size: 480x480

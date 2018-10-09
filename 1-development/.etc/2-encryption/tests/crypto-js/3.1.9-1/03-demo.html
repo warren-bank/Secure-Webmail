@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>crypto-js Demo: Round-Trip AES Encryption</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="lib/crypto-js.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <div>
+    <label for="clear_text">Text to encrypt:</label><br/>
+    <textarea id="clear_text" name="clear_text" style="width: 100%" rows="4">This is a test!</textarea>
+  </div>
+
+  <div>
+    <label for="cipher_text">Text to decrypt:</label><br/>
+    <textarea id="cipher_text" name="cipher_text" style="width: 100%" rows="4"></textarea>
+  </div>
+
+  <div>
+    <label for="aes_key">AES Encryption Key:</label><br/>
+    <textarea id="aes_key" name="aes_key" style="width: 100%" rows="4">Shh... Don't Tell!</textarea>
+  </div>
+
+  <div>
+    <button id="do_encrypt">Encrypt</button>
+    <button id="do_decrypt">Decrypt</button>
+  </div>
+</div>
+
+<script>
+  // https://stackoverflow.com/a/44715282
+
+  var encrypt_to_base64 = function(txt, secret) {
+    var obj = CryptoJS.AES.encrypt(txt, secret)
+    var b64 = obj.toString()
+    return b64
+  }
+
+  var decrypt_from_base64 = function(b64, secret) {
+    var obj = CryptoJS.AES.decrypt(b64, secret)
+    var txt = obj.toString(CryptoJS.enc.Utf8)
+    return txt
+  }
+
+  var do_encrypt = function() {
+    let clear_text  = $('#clear_text').val()
+    let aes_key     = $('#aes_key').val()
+    let $result     = $('#cipher_text')
+
+    if (clear_text && aes_key) {
+      let result    = encrypt_to_base64(clear_text, aes_key)
+console.log(typeof result, ' =', result)
+      $result.val(result)
+    }
+  }
+
+  var do_decrypt = function() {
+    let cipher_text = $('#cipher_text').val()
+    let aes_key     = $('#aes_key').val()
+    let $result     = $('#clear_text')
+
+    if (cipher_text && aes_key) {
+      let result   = decrypt_from_base64(cipher_text, aes_key)
+console.log(typeof result, ' =', result)
+      $result.val(result)
+    }
+  }
+
+  $(function () {
+    $('#do_encrypt').click(function(event) {
+      event.preventDefault()
+      do_encrypt()
+    })
+
+    $('#do_decrypt').click(function(event) {
+      event.preventDefault()
+      do_decrypt()
+    })
+
+    do_encrypt()
+  })
+</script>
+
+</body>
+</html>

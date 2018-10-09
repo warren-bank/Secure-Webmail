@@ -1,0 +1,151 @@
+--------------------------------------------------------------------------------
+
+https://github.com/travist/jsencrypt
+https://github.com/travist/jsencrypt/tree/master/bin
+https://github.com/travist/jsencrypt/raw/master/bin/jsencrypt.js
+https://github.com/travist/jsencrypt/raw/master/bin/jsencrypt.min.js
+https://github.com/travist/jsencrypt/blob/master/demo/index.html
+http://travistidwell.com/jsencrypt/demo/index.html
+  RSA asymmetric (public/private keypair) encryption
+  functions to: generate keys, encrypt, decrypt
+  note: PEM format is identical to (and compatible with) OpenSSL
+
+https://github.com/brix/crypto-js
+  AES symmetric encryption
+  functions to: encrypt, decrypt
+  note: any string value can be used for the key
+
+usage:
+======
+* RSA can only be used to encrypt small amounts of information
+* AES can be used to encrypt large amounts of information
+* RSA is typically used to encrypt the symmetric key used for AES
+  - this allows it to be securely shared between parties
+  - once both parties have the symmetric key, AES can be used for the exchange of all subsequent encrypted data
+
+--------------------------------------------------------------------------------
+
+libraries:
+==========
+
+https://github.com/travist/jsencrypt/releases/tag/v3.0.0-rc.1
+  06/25/2018
+https://github.com/travist/jsencrypt/blob/v3.0.0-rc.1/bin/jsencrypt.min.js
+  required
+https://github.com/travist/jsencrypt/blob/v3.0.0-rc.1/bin/jsencrypt.js
+  debug version for testing
+
+https://github.com/brix/crypto-js/releases/tag/3.1.9-1
+  02/02/2017
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js
+  required
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js
+  debug version for testing
+https://cdnjs.com/libraries/crypto-js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/aes.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/cipher-core.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/enc-base64.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/enc-hex.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/enc-latin1.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/enc-utf16.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/enc-utf8.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/evpkdf.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/format-hex.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/format-openssl.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac-md5.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac-ripemd160.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac-sha1.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac-sha224.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac-sha256.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac-sha3.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac-sha384.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac-sha512.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/index.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/lib-typedarrays.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/mode-cfb.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/mode-ctr-gladman.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/mode-ctr.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/mode-ecb.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/mode-ofb.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/pad-ansix923.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/pad-iso10126.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/pad-iso97971.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/pad-nopadding.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/pad-pkcs7.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/pad-zeropadding.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/pbkdf2.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/rabbit-legacy.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/rabbit.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/rc4.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/ripemd160.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha1.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha224.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha256.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha3.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha384.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha512.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/tripledes.min.js
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/x64-core.min.js
+  optional
+
+--------------------------------------------------------------------------------
+
+how to send an encrypted message to multiple recipients:
+========================================================
+
+* the message (and all attachments) is encrypted using a (randomly generated) symmetric AES key
+* this AES key needs to be shared with all recipients
+* this AES key is included in the email,
+  but needs to be encrypted for each recipient.. using the corresponding public keys
+
+strategy #1:
+============
+
+* the message (plain text) body contains JSON:
+    {
+      ciphers: {
+        "recipient_1@gmail.com": "AES key encrypted with public key for this user",
+        "recipient_2@gmail.com": "AES key encrypted with public key for this user",
+        "recipient_3@gmail.com": "AES key encrypted with public key for this user"
+      }
+    }
+
+* the message always includes the following attachments (encrypted with AES key):
+  - "body.txt"
+      * this contains the (plain text) body of the email message
+
+* when the client reads the message:
+  - the JSON text string in the message body is parsed
+  - the user retrieves the encrypted AES key
+  - the user uses their private key to decrypt the AES key (needed to encrypt the contents of this single message)
+  - the user uses the AES key to decrypt all of the attachments
+      * attachments are stored in an Array of Object:
+          {data: string, contentType: string, name: string}
+
+attachments:
+============
+
+* "contentType" is always "text/plain"
+* "data" is always a string that contains JSON
+  - ex:
+      {
+        "filename": "hello-world.txt",
+        "data_uri": "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ%3D%3D"
+      }
+* "name" shouldn't reveal anything about the file contents
+  - ex: "1", "2", "3", ...
+
+data URIs:
+==========
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
+  format:
+    'data:[<mediatype>][;base64],<data>'
+  ex:
+    "Hello, World!" => data:text/plain;base64,SGVsbG8sIFdvcmxkIQ%3D%3D
+    "Hello, World!" == atob(decodeURIComponent('SGVsbG8sIFdvcmxkIQ%3D%3D'))
+
+--------------------------------------------------------------------------------
