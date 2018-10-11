@@ -1,0 +1,8 @@
+png to svg:
+  https://www.aconvert.com/image/png-to-svg/
+
+svg to png (resize w/ transparent background):
+  size=32
+  inkscape --without-gui --export-png=out.png --export-width=$size --export-height=$size --export-background-opacity=0 in.svg
+docs:
+  http://tavmjong.free.fr/INKSCAPE/MANUAL/html/CommandLine-Export.html

@@ -12,7 +12,9 @@ var state = {
   thread_id:     ''
 }
 
-function get_error_response(msg) {
+var helpers = {}
+
+helpers.get_error_response = function(msg) {
   return HtmlService.createHtmlOutput().setTitle(app.title).setContent(msg).setSandboxMode(HtmlService.SandboxMode.NATIVE)
 }
 
@@ -28,7 +30,7 @@ function doGet(e) {
   catch(err) {
     log_server_error(err)
 
-    html = get_error_response(err.name + ' on line: ' + err.lineNumber + ' -> ' + err.message)
+    html = helpers.get_error_response(err.name + ' on line: ' + err.lineNumber + ' -> ' + err.message)
   }
   return html
 }
@@ -112,6 +114,8 @@ function get_threads_in_folder(folder_name, body_length, start, max) {
   }
 
   try {
+    if (!folder_name || typeof folder_name !== 'string') throw new Error('ERROR [get_threads_in_folder]: Invalid input.')
+
     switch (folder_name.toLowerCase()) {
       case 'inbox':
         process_threads( GmailApp.getInboxThreads(start, max) )
@@ -132,7 +136,7 @@ function get_threads_in_folder(folder_name, body_length, start, max) {
         process_threads( GmailApp.getTrashThreads(start, max) )
         break
       default:
-        throw new Error('ERROR: Cannot find threads in unknown folder "' + folder_name + '"')
+        throw new Error('ERROR [get_threads_in_folder]: Cannot find threads in unknown folder "' + folder_name + '"')
     }
   }
   catch(err) {
@@ -246,8 +250,12 @@ function get_thread(thread_id) {
   }
 
   try {
+    if (!thread_id) throw new Error('ERROR [get_thread]: Invalid input.')
+
     var oThread = GmailApp.getThreadById(thread_id)
-    if (oThread) process_messages( oThread.getMessages() )
+    if (!oThread) throw new Error('ERROR [get_thread]: Thread not found. <"' + thread_id + '">')
+
+    process_messages( oThread.getMessages() )
   }
   catch(err) {
     log_client_error(err)
@@ -259,10 +267,15 @@ function get_thread(thread_id) {
 
 function update_thread(thread_id, options) {
   try {
+    if (!thread_id || !options || typeof options !== 'object') return false
+
     var oThread = GmailApp.getThreadById(thread_id)
     if (!oThread) return false
 
+    var updated = false
+
     if (typeof options.important === 'boolean') {
+      updated = true
       if (options.important)
         oThread.markImportant()
       else
@@ -270,6 +283,7 @@ function update_thread(thread_id, options) {
     }
 
     if (typeof options.unread === 'boolean') {
+      updated = true
       if (options.unread)
         oThread.markUnread()
       else
@@ -277,21 +291,24 @@ function update_thread(thread_id, options) {
     }
 
     if (typeof options.trash === 'boolean') {
+      updated = true
       if (options.trash)
         oThread.moveToTrash()
     }
 
     if (typeof options.spam === 'boolean') {
+      updated = true
       if (options.spam)
         oThread.moveToSpam()
     }
 
     if (typeof options.inbox === 'boolean') {
+      updated = true
       if (options.inbox)
         oThread.moveToInbox()
     }
 
-    return true
+    return updated
   }
   catch(err) {
     log_client_error(err)
@@ -302,10 +319,15 @@ function update_thread(thread_id, options) {
 
 function update_message(message_id, options) {
   try {
+    if (!message_id || !options || typeof options !== 'object') return false
+
     var oMessage = GmailApp.getMessageById(message_id)
     if (!oMessage) return false
 
+    var updated = false
+
     if (typeof options.star === 'boolean') {
+      updated = true
       if (options.star)
         oMessage.star()
       else
@@ -313,6 +335,7 @@ function update_message(message_id, options) {
     }
 
     if (typeof options.unread === 'boolean') {
+      updated = true
       if (options.unread)
         oMessage.markUnread()
       else
@@ -320,11 +343,12 @@ function update_message(message_id, options) {
     }
 
     if (typeof options.trash === 'boolean') {
+      updated = true
       if (options.trash)
         oMessage.moveToTrash()
     }
 
-    return true
+    return updated
   }
   catch(err) {
     log_client_error(err)
@@ -357,8 +381,33 @@ function get_public_keys(emails) {
   return keys
 }
 
+helpers.get_compose_email_options = function(cc, attachments) {
+  var options = {}
+
+  if (cc) {
+    if (typeof cc === 'string') options.cc = cc
+    else if (Array.isArray(cc)) options.cc = cc.join(',')
+  }
+
+  if (attachments && Array.isArray(attachments) && attachments.length) {
+    var process_attachment = function(attachment) {
+      var data        = attachment.data         // String => ex: 'data:[<mediatype>][;base64],<data>' URI
+      var contentType = attachment.contentType  // String => ex: 'text/plain'
+      var name        = attachment.name         // String => ex: 'body.txt'
+
+      var blob = Utilities.newBlob(data, contentType, name)
+      return blob
+    }
+    options.attachments = attachments.map(function(attachment){ return process_attachment(attachment) })
+  }
+
+  return options
+}
+
 function send_reply_to_thread(thread_id, body, cc, attachments) {
   try {
+    if (!thread_id || !body) return false
+
     var oThread = GmailApp.getThreadById(thread_id)
     if (!oThread) return false
 
@@ -366,25 +415,31 @@ function send_reply_to_thread(thread_id, body, cc, attachments) {
       oThread.reply(body)
     }
     else {
-      var options = {}
+      var options = helpers.get_compose_email_options(cc, attachments)
 
-      if (cc) {
-        if (typeof cc === 'string') options.cc = cc
-        else if (Array.isArray(cc)) options.cc = cc.join(',')
-      }
-
-      if (attachments && Array.isArray(attachments) && attachments.length) {
-        var process_attachment = function(attachment) {
-          var data        = attachment.data         // String => ex: 'data:[<mediatype>][;base64],<data>' URI
-          var contentType = attachment.contentType  // String => ex: 'text/plain'
-          var name        = attachment.name         // String => ex: 'body.txt'
-
-          var blob = Utilities.newBlob(data, contentType, name)
-          return blob
-        }
-        options.attachments = attachments.map(function(attachment){ return process_attachment(attachment) })
-      }
       oThread.reply(body, options)
+    }
+
+    return true
+  }
+  catch(err) {
+    log_client_error(err)
+
+    return false
+  }
+}
+
+function send_new_email(recipient, subject, body, cc, attachments) {
+  try {
+    if (!recipient || !subject || !body) return false
+
+    if (!cc && !attachments) {
+      GmailApp.sendEmail(recipient, subject, body)
+    }
+    else {
+      var options = helpers.get_compose_email_options(cc, attachments)
+
+      GmailApp.sendEmail(recipient, subject, body, options)
     }
 
     return true

@@ -1,6 +1,6 @@
 function log_error(ss, e) {
-  var range = ss.getRange(ss.getLastRow()+1, 1, 1, 2)
-  var values = [[new Date(), e]]
+  var range = ss.getRange(ss.getLastRow()+1, 1, 1, 3)
+  var values = [[new Date(), state.email_address, e]]
   range.setValues(values)
 }
 
