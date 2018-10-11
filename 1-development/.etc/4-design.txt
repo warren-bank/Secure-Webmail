@@ -59,8 +59,8 @@ Redux state:
 
 {
   folders: [{
-    name,							// String
-    unread							// Number
+    folder_name,					// String
+    unread_count					// Number
   }],
   threads_in_folder: {
     $folder_name: [
@@ -128,7 +128,12 @@ React component hierarchy:
 ==========================
 
 <App state={state} >
-  <Sidebar folders={state.folders} />
+  <Sidebar folders={state.folders} >
+    [
+      <Folder_Select_Button {...folder} />
+    ]
+    <Compose_New_Email_Button />
+  </Sidebar>
   <Folder name={state.ui.folder_name} threads={state.threads} thread_ids={state.threads_in_folder[ state.ui.folder_name ]} start={state.ui.start_threads_index} max={state.ui.max_threads_per_page} >
     [
       <Thread_Summary key={thread_id} thread_id={thread_id} summary={thread.summary} settings={thread.settings} />

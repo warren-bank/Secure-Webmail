@@ -38,28 +38,28 @@ function doGet(e) {
 function get_folders() {
   var folders = [
     {
-      name:   "Inbox",
-      unread: GmailApp.getInboxUnreadCount()
+      folder_name:  "Inbox",
+      unread_count: GmailApp.getInboxUnreadCount()
     },
     {
-      name:   "Priority Inbox",
-      unread: GmailApp.getPriorityInboxUnreadCount()
+      folder_name:  "Priority Inbox",
+      unread_count: GmailApp.getPriorityInboxUnreadCount()
     },
     {
-      name:   "Starred",
-      unread: GmailApp.getStarredUnreadCount()
+      folder_name:  "Starred",
+      unread_count: GmailApp.getStarredUnreadCount()
     },
     {
-      name:   "Chat",
-      unread: 0
+      folder_name:  "Chat",
+      unread_count: 0
     },
     {
-      name:   "Spam",
-      unread: GmailApp.getSpamUnreadCount()
+      folder_name:  "Spam",
+      unread_count: GmailApp.getSpamUnreadCount()
     },
     {
-      name:   "Trash",
-      unread: 0
+      folder_name:  "Trash",
+      unread_count: 0
     }
   ]
 
@@ -398,6 +398,7 @@ helpers.get_compose_email_options = function(cc, attachments) {
       var blob = Utilities.newBlob(data, contentType, name)
       return blob
     }
+
     options.attachments = attachments.map(function(attachment){ return process_attachment(attachment) })
   }
 
