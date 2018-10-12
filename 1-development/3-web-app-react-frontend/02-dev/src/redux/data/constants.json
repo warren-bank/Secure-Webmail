@@ -1,10 +1,11 @@
 {
     "actions": {
-        "ADD_TODO": "ADD_TODO",
-        "TOGGLE_TODO": "TOGGLE_TODO",
-        "SET_VISIBILITY_FILTER": "SET_VISIBILITY_FILTER"
+        "GET_THREADS_IN_FOLDER":    "GET_THREADS_IN_FOLDER",
+        "APPEND_THREADS_TO_FOLDER": "APPEND_THREADS_TO_FOLDER",
+        "SAVE_THREADS":             "SAVE_THREADS"
     },
     "middleware": {
-        "LOCAL_STORAGE": "react-redux-bindings-todo-list-app"
+        "LOCAL_STORAGE":   "private_key",
+        "SESSION_STORAGE": "private_key"
     }
 }

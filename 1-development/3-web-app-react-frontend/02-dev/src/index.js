@@ -8,6 +8,7 @@ import Router       from 'react/components/container/stateless-functions/Router'
 import Context      from 'react/components/container/class/Context'
 
 window.React = React
+window.store = store
 
 {
   let props = {
@@ -17,8 +18,24 @@ window.React = React
     component: Router
   }
 
-  ReactDOM.render(
-    <Context {...props}  />,
-    document.getElementById("root")
-  )
+  let render = () => {
+    ReactDOM.render(
+      <Context {...props}  />,
+      document.getElementById('root')
+    )
+  }
+
+  switch(document.readyState) {
+    case 'complete':
+    case 'interactive':
+    case 'loaded':
+      render()
+      break
+
+    case 'loading':
+    default:
+      document.addEventListener('DOMContentLoaded', render, false)
+      break
+  }
+
 }

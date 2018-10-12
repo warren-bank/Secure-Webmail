@@ -1,19 +1,13 @@
 import { createStore, applyMiddleware } from 'redux'
 
-import constants    from 'redux/data/constants'
 import initialState from 'redux/data/initial_state'
-import logger       from 'redux/middleware/logger'
-import saver        from 'redux/middleware/saver'
+import server_API   from 'redux/middleware/server_API'
 import rootReducer  from 'redux/reducers'
 
-const C = constants.middleware
-
 export const storeFactory = (stateData=initialState) =>
-    applyMiddleware(logger, saver)(createStore)(
+    applyMiddleware(server_API)(createStore)(
         rootReducer,
-        (window.localStorage[C.LOCAL_STORAGE]) ?
-            JSON.parse(window.localStorage[C.LOCAL_STORAGE]) :
-            stateData
+        stateData
     )
 
 const store = storeFactory()

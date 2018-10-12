@@ -116,8 +116,8 @@ Redux state:
   },
   ui: {
     folder_name,					// String
-    start_threads_index,            // Number
-    max_threads_per_page,           // Number
+    start_threads_index,			// Number
+    max_threads_per_page,			// Number
     thread_id						// String
   }
 }
