@@ -189,10 +189,11 @@ actions['SAVE_MESSAGE_UPDATE'] = (message_id, options) => {
 
 // -----------------------------------------------------------------------------
 
-actions['SET_RSA_PUBLIC_KEY'] = (public_key) => {
+actions['SET_RSA_PUBLIC_KEY'] = (public_key, allow_update) => {
   return {
     type: C.SET_RSA_PUBLIC_KEY,
-    public_key
+    public_key,
+    allow_update
   }
 }
 
@@ -272,9 +273,10 @@ actions['CRYPTO'] = {
   AES: {}
 }
 
-actions['CRYPTO']['RSA']['GENERATE_KEYPAIR'] = () => {
+actions['CRYPTO']['RSA']['GENERATE_KEYPAIR'] = (allow_update) => {
   return {
-    type: C.CRYPTO.RSA.GENERATE_KEYPAIR
+    type: C.CRYPTO.RSA.GENERATE_KEYPAIR,
+    allow_update
   }
 }
 

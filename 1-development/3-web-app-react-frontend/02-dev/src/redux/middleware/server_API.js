@@ -115,12 +115,14 @@ API['UPDATE_MESSAGE'] = ({getState, dispatch, next, action}) => {
 // -----------------------------------------------------------------------------
 
 API['SET_RSA_PUBLIC_KEY'] = ({getState, dispatch, next, action}) => {
-  const {public_key} = action
+  const {public_key, allow_update} = action
 
   if (!public_key || typeof public_key !== 'string') throw new Error('ERROR: Redux action "SET_RSA_PUBLIC_KEY" references an invalid public key.')
 
+  allow_update = !!allow_update  // cast to a boolean
+
   const onFailure = () => {
-    let msg = 'WARNING: Redux action "SET_RSA_PUBLIC_KEY" failed on the server. The most likely reason is that a "public_key" is already associated with the current Google user account.'
+    let msg = 'WARNING: Redux action "SET_RSA_PUBLIC_KEY" failed on the server. The most likely reason is that a "public_key" is already associated with the current Google user account. This association is permanent; keypairs cannot be changed, otherwise all previously encrypted messages would become unrecoverable.'
 
     console.log(msg)
     alert(msg)
@@ -132,7 +134,7 @@ API['SET_RSA_PUBLIC_KEY'] = ({getState, dispatch, next, action}) => {
     if (!result) onFailure()
   }
 
-  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).set_public_key(public_key)
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).set_public_key(public_key, allow_update)
 }
 
 API['GET_RSA_PUBLIC_KEYS'] = ({getState, dispatch, next, action}) => {
