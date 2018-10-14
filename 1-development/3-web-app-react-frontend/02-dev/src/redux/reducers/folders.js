@@ -1,8 +1,8 @@
-import constants from 'redux/data/constants'
+const constants  = require('redux/data/constants')
 
 const C = constants.actions
 
-const todos = (state = [], action) => {
+const folders = (state = [], action) => {
   switch (action.type) {
     case C.ADD_TODO:
       return [
@@ -24,4 +24,4 @@ const todos = (state = [], action) => {
   }
 }
 
-export default todos
+module.exports = folders

@@ -1,24 +1,24 @@
-import React        from 'react'
-import ReactDOM     from 'react-dom'
+const React        = require('react')
+const ReactDOM     = require('react-dom')
 
-import store        from 'redux/store'
-import actions      from 'redux/actions'
-import constants    from 'react/data/constants'
-import Router       from 'react/components/container/stateless-functions/Router'
-import Context      from 'react/components/container/class/Context'
+const store        = require('redux/store').store
+const actions      = require('redux/actions')
+const constants    = require('react/data/constants')
+const Router       = require('react/components/container/stateless-functions/Router')
+const Context      = require('react/components/container/class/Context')
 
 window.React = React
 window.store = store
 
 {
-  let props = {
-    store,
-    actions,
-    constants,
-    component: Router
-  }
+  let startApp = () => {
+    let props = {
+      store,
+      actions,
+      constants,
+      component: Router
+    }
 
-  let render = () => {
     ReactDOM.render(
       <Context {...props}  />,
       document.getElementById('root')
@@ -29,13 +29,12 @@ window.store = store
     case 'complete':
     case 'interactive':
     case 'loaded':
-      render()
+      startApp()
       break
 
     case 'loading':
     default:
-      document.addEventListener('DOMContentLoaded', render, false)
+      document.addEventListener('DOMContentLoaded', startApp, false)
       break
   }
-
 }

@@ -1,16 +1,16 @@
 // utils
-import deepFreeze               from 'deep-freeze'
-import toJSON                   from 'enzyme-to-json'
+const deepFreeze                = require('deep-freeze')
+const toJSON                    = require('enzyme-to-json')
 
 // React
-import React                    from 'react'
-import {shallow, mount, render} from 'enzyme'
+const React                     = require('react')
+const {shallow, mount, render}  = require('enzyme')
 
 // Redux
-import {compose}                from 'redux'
-import {storeFactory}           from 'redux/store'
-import initialState             from 'redux/data/initial_state'
-import actions                  from 'redux/actions'
+const {compose}                 = require('redux')
+const {storeFactory}            = require('redux/store')
+const initialState              = require('redux/data/initial_state')
+const actions                   = require('redux/actions')
 
 Object.assign(global, {
   deepFreeze,

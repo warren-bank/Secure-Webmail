@@ -61,10 +61,13 @@ const initialState = {
   },
   "ui": {
     "folder_name":					"",					// String
+    "thread_id":					"",					// String
     "start_threads_index":			0,					// Number
-    "max_threads_per_page":			25,					// Number
-    "thread_id":					""					// String
+    "settings": {
+      "max_threads_per_page":		25,					// Number
+      "private_key_storage":		0					// Number (enumeration: [0:none, 1:sessionStorage, 2:localStorage])
+    }
   }
 }
 
-export default initialState
+module.exports = initialState

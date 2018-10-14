@@ -1,7 +1,7 @@
-import React      from 'react'
-import PropTypes  from 'prop-types'
+const React      = require('react')
+const PropTypes  = require('prop-types')
 
-import purify     from 'react/components/higher-order/purify'
+const purify     = require('react/components/higher-order/purify')
 
 const AddTodo = (props, {actions}) => {
   let input
@@ -35,4 +35,4 @@ AddTodo.requireActions = ['addTodo']
 
 AddTodo.displayName = 'AddTodo'
 
-export default purify(AddTodo)
+module.exports = purify(AddTodo)

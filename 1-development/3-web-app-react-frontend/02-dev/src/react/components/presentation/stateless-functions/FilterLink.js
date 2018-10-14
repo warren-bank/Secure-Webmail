@@ -1,8 +1,8 @@
-import React      from 'react'
-import PropTypes  from 'prop-types'
+const React      = require('react')
+const PropTypes  = require('prop-types')
 
-import purify     from 'react/components/higher-order/purify'
-import Link       from './Link'
+const purify     = require('react/components/higher-order/purify')
+const Link       = require('./Link')
 
 const FilterLink = ({activeFilter, filter, children}, {actions}) => {
   let active  = (activeFilter === filter)
@@ -23,4 +23,4 @@ FilterLink.requireActions = ['setVisibilityFilter']
 
 FilterLink.displayName = 'FilterLink'
 
-export default purify(FilterLink)
+module.exports = purify(FilterLink)

@@ -1,7 +1,7 @@
-import React      from 'react'
-import PropTypes  from 'prop-types'
+const React      = require('react')
+const PropTypes  = require('prop-types')
 
-import purify     from 'react/components/higher-order/purify'
+const purify     = require('react/components/higher-order/purify')
 
 const Todo = ({onClick, completed, text}, context) => (
   <li
@@ -22,4 +22,4 @@ Todo.propTypes = {
 
 Todo.displayName = 'Todo'
 
-export default purify(Todo)
+module.exports = purify(Todo)

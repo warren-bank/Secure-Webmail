@@ -1,8 +1,8 @@
-import React      from 'react'
-import PropTypes  from 'prop-types'
+const React      = require('react')
+const PropTypes  = require('prop-types')
 
-import purify     from 'react/components/higher-order/purify'
-import FilterLink from './FilterLink'
+const purify     = require('react/components/higher-order/purify')
+const FilterLink = require('./FilterLink')
 
 const Footer = ({visibilityFilter}, {constants}) => {
   let C = constants.filter.values
@@ -32,4 +32,4 @@ Footer.propTypes = {
 
 Footer.displayName = 'Footer'
 
-export default purify(Footer)
+module.exports = purify(Footer)

@@ -1,5 +1,5 @@
-const {storeFactory, initialState} = redux
-const {toggleTodo}                 = redux.actions
+const {storeFactory, initialState}  = redux
+const {toggleTodo}                  = redux.actions
 
 describe('Redux store: dispatch action "toggleTodo"', function() {
 

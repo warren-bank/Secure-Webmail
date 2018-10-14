@@ -1,10 +1,10 @@
-import React      from 'react'
-import PropTypes  from 'prop-types'
+const React      = require('react')
+const PropTypes  = require('prop-types')
 
-import purify     from 'react/components/higher-order/purify'
-import AddTodo    from './AddTodo'
-import TodoList   from './TodoList'
-import Footer     from './Footer'
+const purify     = require('react/components/higher-order/purify')
+const AddTodo    = require('./AddTodo')
+const TodoList   = require('./TodoList')
+const Footer     = require('./Footer')
 
 const getVisibleTodos = (todos, filter, C) => {
   switch (filter) {
@@ -37,4 +37,4 @@ App.propTypes = {
 
 App.displayName = 'App'
 
-export default purify(App)
+module.exports = purify(App)

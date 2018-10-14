@@ -1,7 +1,7 @@
-import React      from 'react'
-import PropTypes  from 'prop-types'
+const React      = require('react')
+const PropTypes  = require('prop-types')
 
-import purify     from 'react/components/higher-order/purify'
+const purify     = require('react/components/higher-order/purify')
 
 const Link = ({active, children, onClick}, context) => {
   if (active) {
@@ -29,4 +29,4 @@ Link.propTypes = {
 
 Link.displayName = 'Link'
 
-export default purify(Link)
+module.exports = purify(Link)

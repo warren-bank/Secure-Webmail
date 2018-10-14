@@ -1,6 +1,6 @@
-import reducer from 'redux/reducers/todos'
+const reducer  = require('redux/reducers/todos')
 
-const {addTodo, toggleTodo} = redux.actions
+const {addTodo, toggleTodo}  = redux.actions
 
 const reduce_addTodo = (todo, mutable_state=[]) => {
   let state  = [...mutable_state]

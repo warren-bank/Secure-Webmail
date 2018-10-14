@@ -360,6 +360,7 @@ function update_message(message_id, options) {
 // throws
 function set_public_key(public_key) {
   dataStore.set_public_key(state.email_address, public_key)
+  return true
 }
 
 // throws

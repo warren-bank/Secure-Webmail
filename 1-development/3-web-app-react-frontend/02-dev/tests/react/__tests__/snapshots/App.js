@@ -1,8 +1,8 @@
-import App       from 'App'
-import constants from 'react/data/constants'
+const App        = require('App')
+const constants  = require('react/data/constants')
 
-const {initialState} = redux
-const {expectJSX}    = enzyme
+const {initialState}  = redux
+const {expectJSX}     = enzyme
 
 describe('[snapshot] React stateless presentation component: App', function() {
 

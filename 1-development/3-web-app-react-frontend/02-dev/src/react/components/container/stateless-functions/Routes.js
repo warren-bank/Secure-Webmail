@@ -1,9 +1,9 @@
-import React      from 'react'
-import PropTypes  from 'prop-types'
+const React      = require('react')
+const PropTypes  = require('prop-types')
 
 // ---------------------------------------------------------
 
-export const SetVisibilityFilter = ({history, dispatch_setVisibilityFilter, component: Component, state, visibilityFilter, activeFilter=""}, {actions}) => {
+const SetVisibilityFilter = ({history, dispatch_setVisibilityFilter, component: Component, state, visibilityFilter, activeFilter=""}, {actions}) => {
   if (activeFilter !== visibilityFilter) {
     // the requested route is valid, and specifies a filter different from that previously viewed.
     // dispatch an event to the Redux store that causes the state to be updated.
@@ -26,7 +26,7 @@ SetVisibilityFilter.contextTypes = {
 
 // ---------------------------------------------------------
 
-export const SetVisibilityRoute = ({history, dispatch_setVisibilityFilter, defaultFilter, activeFilter=""}) => {
+const SetVisibilityRoute = ({history, dispatch_setVisibilityFilter, defaultFilter, activeFilter=""}) => {
   if (activeFilter) {
     // the Redux store contains the previously viewed filter.
     // cause the React Router to change route, and return to this view.
@@ -42,3 +42,5 @@ export const SetVisibilityRoute = ({history, dispatch_setVisibilityFilter, defau
 }
 
 // ---------------------------------------------------------
+
+module.exports = {SetVisibilityFilter, SetVisibilityRoute}

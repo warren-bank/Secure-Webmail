@@ -1,5 +1,5 @@
-import React     from 'react'
-import PropTypes from 'prop-types'
+const React      = require('react')
+const PropTypes  = require('prop-types')
 
 const purify = function(stateless_func) {
     class PureComponentWrap extends React.PureComponent {
@@ -57,7 +57,7 @@ const purify = function(stateless_func) {
     return PureComponentWrap
 }
 
-export default purify
+module.exports = purify
 
 /* ---------------------------------------------------------
  * usage:

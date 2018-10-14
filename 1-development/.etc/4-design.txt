@@ -5,7 +5,10 @@ React routes:
 
 #/
   redirects to default route:
-    #/inbox
+    if (window.thread_id)
+      `#/thread/${window.thread_id}`
+    else
+      '#/folder/inbox'
 
 #/inbox
 #/priority-inbox
@@ -13,6 +16,10 @@ React routes:
 #/chat
 #/spam
 #/trash
+  redirects to abstract route:
+    #/folder/:folder_name
+
+#/folder/:folder_name
   display a paginated list of all threads in folder
   - ex: 25 threads per page with prev/next arrows
   - each thread is labeled by the subject of its first message
@@ -34,6 +41,23 @@ React routes:
     * toggle: star
     * toggle: unread
     * move to: trash
+
+#/settings
+  displays a form to change values in: state.ui.settings
+
+#/about
+  displays descriptive information:
+  - about AES and RSA encryption
+    * usage
+    * limitations
+    * how RSA public keys are managed by the app
+    * why the RSA private key MUST be retained and stored safely
+  - how RSA is used to bootstrap AES
+    * how a unique AES key is generated for each message
+    * how it is encrypted with the public key belonging to the recipient, and the encrypted value is included with the message
+    * how it can only be decrypted with the private key belonging to the recipient
+  - privacy policy
+  - about the author
 
 React components:
 =================
@@ -116,9 +140,12 @@ Redux state:
   },
   ui: {
     folder_name,					// String
+    thread_id,						// String
     start_threads_index,			// Number
-    max_threads_per_page,			// Number
-    thread_id						// String
+    settings: {
+      max_threads_per_page,			// Number
+      storage						// Number (enumeration: [0:none, 1:sessionStorage, 2:localStorage])
+    }
   }
 }
 
@@ -127,6 +154,8 @@ Redux state:
 React component hierarchy:
 ==========================
 
+#/folder/:folder_name
+=====================
 <App state={state} >
   <Sidebar folders={state.folders} >
     [
@@ -134,13 +163,15 @@ React component hierarchy:
     ]
     <Compose_New_Email_Button />
   </Sidebar>
-  <Folder name={state.ui.folder_name} threads={state.threads} thread_ids={state.threads_in_folder[ state.ui.folder_name ]} start={state.ui.start_threads_index} max={state.ui.max_threads_per_page} >
+  <Folder name={state.ui.folder_name} threads={state.threads} thread_ids={state.threads_in_folder[ state.ui.folder_name ]} start={state.ui.start_threads_index} max={state.ui.settings.max_threads_per_page} >
     [
       <Thread_Summary key={thread_id} thread_id={thread_id} summary={thread.summary} settings={thread.settings} />
     ]
   </ Folder>
 </ App>
 
+#/thread/:thread_id
+===================
 <App state={state}>
   <Thread thread_id={state.ui.thread_id} {...state.threads[ state.ui.thread_id ]} public_keys={state.public_keys} private_key={state.user.private_key} >
     [
@@ -170,6 +201,12 @@ React component hierarchy:
 
     </ Thread_Reply>
   </ Thread>
+</ App>
+
+#/settings
+==========
+<App state={state}>
+  <App_Settings settings={state.ui.settings} />
 </ App>
 
 --------------------------------------------------------------------------------
@@ -227,7 +264,7 @@ const get_threads_in_folder = function({getState, dispatch, next, action}) {
     const thread_ids = threads.map(thread => thread.thread_id)
 
     dispatch(
-      actions.APPEND_THREADS_TO_FOLDER(thread_ids)
+      actions.APPEND_THREADS_TO_FOLDER(folder_name, thread_ids)
     )
     dispatch(
       actions.SAVE_THREADS(threads)

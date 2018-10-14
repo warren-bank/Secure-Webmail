@@ -1,11 +1,11 @@
-import { combineReducers } from 'redux'
+const {combineReducers}  = require('redux')
 
-import folders           from './folders'
-import threads_in_folder from './threads_in_folder'
-import threads           from './threads'
-import user              from './user'
-import public_keys       from './public_keys'
-import ui                from './ui'
+const folders            = require('./folders')
+const threads_in_folder  = require('./threads_in_folder')
+const threads            = require('./threads')
+const user               = require('./user')
+const public_keys        = require('./public_keys')
+const ui                 = require('./ui')
 
 const rootReducer = combineReducers({
   folders,
@@ -16,4 +16,4 @@ const rootReducer = combineReducers({
   ui
 })
 
-export default rootReducer
+module.exports = rootReducer

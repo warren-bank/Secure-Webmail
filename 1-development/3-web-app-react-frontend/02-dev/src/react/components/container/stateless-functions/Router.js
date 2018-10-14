@@ -1,9 +1,9 @@
-import React                       from 'react'
-import PropTypes                   from 'prop-types'
-import {HashRouter, Switch, Route} from 'react-router-dom'
+const React                        = require('react')
+const PropTypes                    = require('prop-types')
+const {HashRouter, Switch, Route}  = require('react-router-dom')
 
-import App                         from 'react/components/presentation/stateless-functions/App'
-import * as Routes                 from './Routes'
+const App                          = require('react/components/presentation/stateless-functions/App')
+const Routes                       = require('./Routes')
 
 const {SetVisibilityFilter, SetVisibilityRoute} = Routes
 
@@ -51,4 +51,4 @@ Router.contextTypes = {
 
 Router.displayName = 'Router'
 
-export default Router
+module.exports = Router

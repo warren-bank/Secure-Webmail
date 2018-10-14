@@ -1,11 +1,31 @@
 {
     "actions": {
+        "GET_FOLDERS":              "GET_FOLDERS",
+        "SAVE_FOLDERS":             "SAVE_FOLDERS",
+
         "GET_THREADS_IN_FOLDER":    "GET_THREADS_IN_FOLDER",
-        "APPEND_THREADS_TO_FOLDER": "APPEND_THREADS_TO_FOLDER",
-        "SAVE_THREADS":             "SAVE_THREADS"
+        "SAVE_THREADS_TO_FOLDER": {
+            "PREPEND":              "SAVE_THREADS_TO_FOLDER_PREPEND",
+            "APPEND":               "SAVE_THREADS_TO_FOLDER_APPEND"
+        },
+        "SAVE_THREADS":             "SAVE_THREADS",
+
+        "GET_THREAD":               "GET_THREAD",
+        "SAVE_THREAD":              "SAVE_THREAD",
+
+        "UPDATE_THREAD":            "UPDATE_THREAD",
+        "SAVE_THREAD_UPDATE":       "SAVE_THREAD_UPDATE",
+
+        "UPDATE_MESSAGE":           "UPDATE_MESSAGE",
+        "SAVE_MESSAGE_UPDATE":      "SAVE_MESSAGE_UPDATE",
+
+        "SET_RSA_PUBLIC_KEY":       "SET_RSA_PUBLIC_KEY",
+        "GET_RSA_PUBLIC_KEYS":      "GET_RSA_PUBLIC_KEYS",
+        "SAVE_RSA_PUBLIC_KEYS":     "SAVE_RSA_PUBLIC_KEYS",
     },
     "middleware": {
-        "LOCAL_STORAGE":   "private_key",
-        "SESSION_STORAGE": "private_key"
+        "STORAGE": {
+          "PRIVATE_KEY":            "PRIVATE_KEY"
+        }
     }
 }

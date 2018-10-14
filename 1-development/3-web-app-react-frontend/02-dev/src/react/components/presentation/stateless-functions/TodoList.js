@@ -1,8 +1,8 @@
-import React      from 'react'
-import PropTypes  from 'prop-types'
+const React      = require('react')
+const PropTypes  = require('prop-types')
 
-import purify     from 'react/components/higher-order/purify'
-import Todo       from './Todo'
+const purify     = require('react/components/higher-order/purify')
+const Todo       = require('./Todo')
 
 const TodoList = ({todos}, {actions}) => (
   <ul>
@@ -26,4 +26,4 @@ TodoList.requireActions = ['toggleTodo']
 
 TodoList.displayName = 'TodoList'
 
-export default purify(TodoList)
+module.exports = purify(TodoList)

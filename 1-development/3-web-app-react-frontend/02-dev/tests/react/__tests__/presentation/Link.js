@@ -1,6 +1,6 @@
-import Link from 'Link'
+const Link  = require('Link')
 
-const {shallow} = enzyme
+const {shallow}  = enzyme
 
 const get_component = active => {
     let onClick   = jest.fn().mockName('onClick')

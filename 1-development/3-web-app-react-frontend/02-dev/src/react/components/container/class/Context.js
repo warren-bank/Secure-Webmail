@@ -1,5 +1,5 @@
-import React     from 'react'
-import PropTypes from 'prop-types'
+const React      = require('react')
+const PropTypes  = require('prop-types')
 
 class Context extends React.Component {
     getChildContext() {
@@ -58,4 +58,4 @@ Context.childContextTypes = {
     constants: PropTypes.object.isRequired
 }
 
-export default Context
+module.exports = Context

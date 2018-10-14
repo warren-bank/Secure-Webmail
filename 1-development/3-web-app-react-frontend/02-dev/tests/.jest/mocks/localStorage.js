@@ -1,4 +1,5 @@
-// https://stackoverflow.com/questions/32911630
+// https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+// https://developer.mozilla.org/en-US/docs/Web/API/Storage
 
 const localStorageMock = (function() {
   let store = {}
@@ -9,11 +10,11 @@ const localStorageMock = (function() {
     setItem: function(key, value) {
       store[key] = value.toString()
     },
-    clear: function() {
-      store = {}
-    },
     removeItem: function(key) {
       delete store[key]
+    },
+    clear: function() {
+      store = {}
     }
   }
 })()
