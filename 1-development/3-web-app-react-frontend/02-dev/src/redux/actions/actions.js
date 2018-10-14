@@ -1,5 +1,3 @@
-const uuid       = require('uuid').v4
-
 const constants  = require('redux/data/constants')
 
 const C = constants.actions
