@@ -93,6 +93,17 @@ https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/x64-core.min.js
 
 --------------------------------------------------------------------------------
 
+helper libraries:
+=================
+
+https://github.com/kelektiv/node-uuid
+https://github.com/kelektiv/node-uuid/releases/tag/v3.3.2
+  06/28/2018
+https://wzrd.in/standalone/uuid%2Fv4@3.3.2
+  required
+
+--------------------------------------------------------------------------------
+
 how to send an encrypted message to multiple recipients:
 ========================================================
 

@@ -22,16 +22,25 @@ RSA['GENERATE_KEYPAIR'] = ({getState, dispatch, next, action}) => {
       let pass = true
 
       let {allow_update} = action
-      if (allow_update) return pass
+      allow_update = !!allow_update  // cast to a boolean
 
       let my_email  = state.user.email_address
       let my_pubkey = state.public_keys[my_email]
       if (my_pubkey) {
-        pass = false
+        pass = allow_update
 
-        let msg = 'WARNING: Redux action "GENERATE_KEYPAIR" was called while the global state contains a "public_key" value obtained from the server which is already associated with the current Google user account. This association is permanent; keypairs cannot be changed, otherwise all previously encrypted messages would become unrecoverable.'
+        let msg = [
+          'WARNING: Redux action "GENERATE_KEYPAIR" was called while the global state contains a "public_key" value obtained from the server which is already associated with the current Google user account.',
+          'Updating the associated keypair will cause your mailbox to diverge: (1) the previous "private_key" will be required to decrypt older messages, and (2) the updated "private_key" will be required to decrypt newer messages.',
+          'You should only consider updating your keypair if either: (1) you have lost your "private_key" and are no-longer able to read your encrypted messages, or (2) an untrusted 3rd party has gained access to your "private_key".'
+        ].join(' ')
+
         console.log(msg)
-        alert(msg)
+
+        if (allow_update)
+          pass = window.confirm(msg + ' Proceed with creation of new keypair?')
+        else
+          window.alert(msg)
       }
 
       if (pass && state.ui.settings.private_key)

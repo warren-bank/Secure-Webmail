@@ -11,9 +11,18 @@
     </style>
     <script>
       try {
+        var loading_data = {
+          email_address: "<?!= state.email_address ?>",
+          thread_id:     "<?!= state.thread_id ?>"
+        }
+
         <?!= HtmlService.createHtmlOutputFromFile('lib/jsencrypt-min-js').getContent() ?>
 
         <?!= HtmlService.createHtmlOutputFromFile('lib/crypto-js-min-js').getContent() ?>
+
+        <?!= HtmlService.createHtmlOutputFromFile('lib/uuidv4-min-js').getContent() ?>
+
+        <?!= HtmlService.createHtmlOutputFromFile('bundle-js').getContent() ?>
       }
       catch(e) {
         google.script.run.log_client_error(e.toString())
@@ -24,15 +33,5 @@
     <div class="wrapper">
       <div id="root"></div>
     </div>
-    <script>
-      try {
-        var thread_id = "<?!= state.thread_id ?>"
-
-        <?!= HtmlService.createHtmlOutputFromFile('bundle-js').getContent() ?>
-      }
-      catch(e) {
-        google.script.run.log_client_error(e.toString())
-      }
-    </script>
   </body>
 </html>
