@@ -119,23 +119,35 @@ API['SET_RSA_PUBLIC_KEY'] = ({getState, dispatch, next, action}) => {
 
   if (!public_key || typeof public_key !== 'string') throw new Error('ERROR: Redux action "SET_RSA_PUBLIC_KEY" references an invalid public key.')
 
+  const onFailure = () => {
+    let msg = 'WARNING: Redux action "SET_RSA_PUBLIC_KEY" failed on the server. The most likely reason is that a "public_key" is already associated with the current Google user account.'
+
+    console.log(msg)
+    alert(msg)
+  }
+
   const onSuccess = result => {
     if (typeof result !== 'boolean') return
 
-    if (result) {
-    }
-    else {
-      console.log('WARNING: Redux action "SET_RSA_PUBLIC_KEY" failed on the server.')
-    }
+    if (!result) onFailure()
   }
 
-  google.script.run.withSuccessHandler(onSuccess).set_public_key(public_key)
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).set_public_key(public_key)
 }
 
 API['GET_RSA_PUBLIC_KEYS'] = ({getState, dispatch, next, action}) => {
   const {emails} = action
 
   if (!emails || !Array.isArray(emails) || !emails.length) throw new Error('ERROR: Redux action "GET_RSA_PUBLIC_KEYS" references an invalid list of email addresses.')
+
+  const inject_self = () => {
+    let state     = getState()
+    let my_email  = state.user.email_address
+    let my_pubkey = state.public_keys[my_email]
+
+    if (!my_pubkey) emails.push(my_email)
+  }
+  inject_self()
 
   const onSuccess = keys => {
     if (!keys || typeof keys !== 'object') return

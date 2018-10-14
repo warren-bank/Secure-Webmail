@@ -53,8 +53,7 @@ const initialState = {
     }
   },
   "user": {
-    "email_address":				"",					// String
-    "private_key":					""					// String
+    "email_address":				""					// String
   },
   "public_keys": {
     "$email_address":				""					// String
@@ -65,6 +64,7 @@ const initialState = {
     "start_threads_index":			0,					// Number
     "settings": {
       "max_threads_per_page":		25,					// Number
+      "private_key":				"",					// String
       "private_key_storage":		0					// Number (enumeration: [0:none, 1:sessionStorage, 2:localStorage])
     }
   }

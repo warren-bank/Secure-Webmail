@@ -212,4 +212,72 @@ actions['SAVE_RSA_PUBLIC_KEYS'] = (public_keys) => {
 
 // -----------------------------------------------------------------------------
 
+actions['UPDATE_SETTINGS'] = (max_threads_per_page, private_key, private_key_storage) => {
+  return {
+    type: C.UPDATE_SETTINGS,
+    max_threads_per_page,
+    private_key,
+    private_key_storage
+  }
+}
+
+actions['SAVE_SETTING'] = {}
+
+actions['SAVE_SETTING']['FOLDER_NAME'] = (folder_name) => {
+  return {
+    type: C.SAVE_SETTING.FOLDER_NAME,
+    folder_name
+  }
+}
+
+actions['SAVE_SETTING']['THREAD_ID'] = (thread_id) => {
+  return {
+    type: C.SAVE_SETTING.THREAD_ID,
+    thread_id
+  }
+}
+
+actions['SAVE_SETTING']['START_THREADS_INDEX'] = (start_threads_index) => {
+  return {
+    type: C.SAVE_SETTING.START_THREADS_INDEX,
+    start_threads_index
+  }
+}
+
+actions['SAVE_SETTING']['MAX_THREADS_PER_PAGE'] = (max_threads_per_page) => {
+  return {
+    type: C.SAVE_SETTING.MAX_THREADS_PER_PAGE,
+    max_threads_per_page
+  }
+}
+
+actions['SAVE_SETTING']['PRIVATE_KEY'] = (private_key) => {
+  return {
+    type: C.SAVE_SETTING.PRIVATE_KEY,
+    private_key
+  }
+}
+
+actions['SAVE_SETTING']['PRIVATE_KEY_STORAGE'] = (private_key_storage) => {
+  return {
+    type: C.SAVE_SETTING.PRIVATE_KEY_STORAGE,
+    private_key_storage
+  }
+}
+
+// -----------------------------------------------------------------------------
+
+actions['CRYPTO'] = {
+  RSA: {},
+  AES: {}
+}
+
+actions['CRYPTO']['RSA']['GENERATE_KEYPAIR'] = () => {
+  return {
+    type: C.CRYPTO.RSA.GENERATE_KEYPAIR
+  }
+}
+
+// -----------------------------------------------------------------------------
+
 module.exports = actions

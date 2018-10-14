@@ -22,10 +22,26 @@
         "SET_RSA_PUBLIC_KEY":       "SET_RSA_PUBLIC_KEY",
         "GET_RSA_PUBLIC_KEYS":      "GET_RSA_PUBLIC_KEYS",
         "SAVE_RSA_PUBLIC_KEYS":     "SAVE_RSA_PUBLIC_KEYS",
-    },
-    "middleware": {
-        "STORAGE": {
-          "PRIVATE_KEY":            "PRIVATE_KEY"
+
+        "UPDATE_SETTINGS":          "UPDATE_SETTINGS",
+        "SAVE_SETTING": {
+            "FOLDER_NAME":          "SAVE_SETTING_FOLDER_NAME",
+            "THREAD_ID":            "SAVE_SETTING_THREAD_ID",
+            "START_THREADS_INDEX":  "SAVE_SETTING_START_THREADS_INDEX",
+            "MAX_THREADS_PER_PAGE": "SAVE_SETTING_MAX_THREADS_PER_PAGE",
+            "PRIVATE_KEY":          "SAVE_SETTING_PRIVATE_KEY",
+            "PRIVATE_KEY_STORAGE":  "SAVE_SETTING_PRIVATE_KEY_STORAGE"
+        },
+
+        "CRYPTO": {
+            "RSA": {
+                "GENERATE_KEYPAIR": "CRYPTO_RSA_GENERATE_KEYPAIR"
+            },
+            "AES": {
+            }
         }
+    },
+    "storage": {
+        "PRIVATE_KEY":              "PRIVATE_KEY"
     }
 }
