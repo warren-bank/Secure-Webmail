@@ -7,18 +7,24 @@ const RDCR = {}
 // -----------------------------------------------------------------------------
 
 RDCR['INSERT_MANY'] = (state, {threads}) => {
+  let insert_counter = 0
+
   const new_state = {...state}
 
   threads.forEach(thread => {
     let {thread_id, summary, settings} = thread
 
-    new_state[thread_id] = {
-      summary:  {...summary},
-      settings: {...settings}
+    if (new_state[thread_id] === undefined) {
+      insert_counter++
+
+      new_state[thread_id] = {
+        summary:  {...summary},
+        settings: {...settings}
+      }
     }
   })
 
-  return new_state
+  return insert_counter ? new_state : state
 }
 
 // -----------------------------------------------------------------------------

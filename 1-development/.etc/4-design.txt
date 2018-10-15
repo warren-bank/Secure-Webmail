@@ -296,6 +296,32 @@ export default server_API
 
 --------------------------------------------------------------------------------
 
+strategy #1:
+============
+  * `state.threads_in_folder[folder_name]`
+    - each time a folder in the sidebar is clicked:
+      * this array is emptied
+        - triggers a call to the server:
+              get_threads_in_folder(folder_name, body_length=0, start=0, max=25)
+        - shows a refreshed list of threads
+        - `state.threads` is only modified if any new thread summaries are received
+
+strategy #2:
+============
+  * `state.threads_in_folder[folder_name]`
+    - each time a folder in the sidebar is clicked:
+      * triggers a call to the server:
+            get_folders()
+      * compares `unread_count`: previous value vs. updated value
+          - if changed:
+            * the array `state.threads_in_folder[folder_name]` is emptied
+              - triggers a call to the server:
+                    get_threads_in_folder(folder_name, body_length=0, start=0, max=25)
+              - shows a refreshed list of threads
+              - `state.threads` is only modified if any new thread summaries are received
+
+--------------------------------------------------------------------------------
+
 React router:
 =============
 

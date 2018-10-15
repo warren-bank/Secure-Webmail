@@ -66,10 +66,8 @@ RSA['GENERATE_KEYPAIR'] = ({getState, dispatch, next, action}) => {
 // -----------------------------------------------------------------------------
 
 FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
-  if (action && action.thread && action.thread.messages && action.thread.messages.length && action.thread.participants && action.thread.participants.length) {
+  if (action && action.thread && action.thread.messages && action.thread.messages.length) {
     const messages     = action.thread.messages
-    const participants = action.thread.participants
-
     const filename     = {...constants.encryption.RESERVED_ATTACHMENT_NAME}
 
     const state        = getState()
@@ -127,11 +125,6 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
         }
       }
     }
-
-    // retrieve all public keys necessary to reply to every participant in thread
-    dispatch(
-      actions.GET_RSA_PUBLIC_KEYS([...participants])
-    )
   }
 
   next(action)

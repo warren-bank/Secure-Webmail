@@ -57,8 +57,8 @@ API['GET_THREAD'] = ({getState, dispatch, next, action}) => {
     ) return
 
     dispatch(
-      // "CRYPTO_middleware" will modify the action payload: decrypt all messages in thread
-      // "CRYPTO_middleware" will dispatch: actions.GET_RSA_PUBLIC_KEYS(thread.participants)
+      // "TRIGGERS_middleware" will dispatch: actions.GET_RSA_PUBLIC_KEYS(thread.participants)
+      // "CRYPTO_middleware"   will modify the action payload: decrypt all messages in thread
       actions.SAVE_THREAD(thread_id, thread)
     )
   }
@@ -150,14 +150,18 @@ API['GET_RSA_PUBLIC_KEYS'] = ({getState, dispatch, next, action}) => {
 
   if (!emails || !Array.isArray(emails) || !emails.length) throw new Error('ERROR: Redux action "GET_RSA_PUBLIC_KEYS" references an invalid list of email addresses.')
 
-  const inject_self = () => {
-    let state     = getState()
-    let my_email  = state.user.email_address
-    let my_pubkey = state.public_keys[my_email]
+  const filtered_emails = (() => {
+    const state = getState()
 
-    if (!my_pubkey) emails.push(my_email)
-  }
-  inject_self()
+    // add current user
+    const all_emails = [...emails, state.user.email_address]
+
+    // only keep emails for which the public key is NOT already known
+    return all_emails.filter(email => (state.public_keys[email] === undefined))
+  })()
+
+  // short-circuit if no new data is needed
+  if (!filtered_emails.length) return
 
   const onSuccess = keys => {
     if (!keys || (typeof keys !== 'object')) return
@@ -167,7 +171,7 @@ API['GET_RSA_PUBLIC_KEYS'] = ({getState, dispatch, next, action}) => {
     )
   }
 
-  google.script.run.withSuccessHandler(onSuccess).get_public_keys(emails)
+  google.script.run.withSuccessHandler(onSuccess).get_public_keys(filtered_emails)
 }
 
 // -----------------------------------------------------------------------------
@@ -241,11 +245,7 @@ const API_middleware = ({getState, dispatch}) => next => action => {
       break
 
     case C.SEND_EMAIL.REPLY:
-      // "API_middleware" must run BEFORE "CRYPTO_middleware"
-      dispatch(
-        actions.SAVE_REPLY_TO_THREAD(action)
-      )
-
+      // "TRIGGERS_middleware" will dispatch: actions.SAVE_REPLY_TO_THREAD(action) and must run before "CRYPTO_middleware"
       // "CRYPTO_middleware" will modify the action payload: encrypt message
       next(action)
 
@@ -266,6 +266,7 @@ const API_middleware = ({getState, dispatch}) => next => action => {
     case C.SAVE_THREADS_TO_FOLDER.APPEND:
     case C.SAVE_THREADS:
 
+    // "TRIGGERS_middleware" will dispatch: actions.GET_RSA_PUBLIC_KEYS(action.thread.participants)
     // "CRYPTO_middleware" will modify the action payload: decrypt all messages in thread
     case C.SAVE_THREAD:
 
