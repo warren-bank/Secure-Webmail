@@ -8,6 +8,8 @@ const C = constants.actions
 const RSA = {}
 const AES = {}
 
+const FILTER = {}
+
 // -----------------------------------------------------------------------------
 
 RSA['GENERATE_KEYPAIR'] = ({getState, dispatch, next, action}) => {
@@ -62,12 +64,94 @@ RSA['GENERATE_KEYPAIR'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
+FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
+  if (action && action.thread && action.thread.messages && action.thread.messages.length && action.thread.participants && action.thread.participants.length) {
+    const messages     = action.thread.messages
+    const participants = action.thread.participants
+
+    const filename     = {...constants.encryption.RESERVED_ATTACHMENT_NAME}
+
+    const state        = getState()
+    const my_email     = state.user.email_address
+    const my_pvtkey    = state.ui.settings.private_key
+
+    // sanity checks:
+    if (!my_email)  throw new Error('ERROR: Redux action "DECRYPT_MESSAGES_IN_THREAD" requires that the global state contain the email address associated with the current Google user account.')
+    if (!my_pvtkey) throw new Error('ERROR: Redux action "DECRYPT_MESSAGES_IN_THREAD" requires that the global state contain the private RSA encryption key associated with the current Google user account.')
+
+    for (let i=0; i < messages.length; i++) {
+      let contents = messages[i].contents
+
+      if (contents.attachments && contents.attachments.length) {
+        let index_ciphers = contents.attachments.find(attachment => attachment.name === filename.CIPHERS)
+        if ((typeof index_ciphers !== 'number') || (index_ciphers < 0)) continue  // next message
+
+        try {
+          const new_contents = {body: '', attachments: []}
+
+          const ciphers = JSON.parse( contents.attachments[index_ciphers]['data'] )
+          if (!ciphers || (typeof ciphers !== 'object')) throw ''
+
+          const cipher = ciphers[my_email]
+          if (!cipher || (typeof cipher !== 'string')) throw ''
+
+          const secret = crypto.RSA.decrypt(cipher, my_pvtkey)
+          if (!secret || (typeof secret !== 'string') || (secret.length !== 256)) throw ''
+
+          for (let j=0; j < contents.attachments.length; j++) {
+            if (j === index_ciphers) continue  // next attachment
+
+            let attachment   = contents.attachments[j]
+            let {data, name} = attachment
+
+            let cleartext = crypto.AES.decrypt(data, secret)
+
+            if (name === filename.BODY) {
+              new_contents.body = cleartext
+            }
+            else {
+              const new_attachment = {
+                data:        cleartext,                                      // data URI format: 'data:[<mediatype>][;base64],<data>'
+                contentType: cleartext.substring(5, cleartext.indexOf(';')),
+                name
+              }
+              new_contents.attachments.push(new_attachment)
+            }
+          }
+
+          messages[i].contents = new_contents
+        }
+        catch() {
+          continue  // next message
+        }
+      }
+    }
+
+    // retrieve all public keys necessary to reply to every participant in thread
+    dispatch(
+      actions.GET_RSA_PUBLIC_KEYS([...participants])
+    )
+  }
+
+  next(action)
+}
+
+// -----------------------------------------------------------------------------
+
 const CRYPTO_middleware = ({getState, dispatch}) => next => action => {
   switch (action.type) {
 
     case C.CRYPTO.RSA.GENERATE_KEYPAIR:
       RSA.GENERATE_KEYPAIR({getState, dispatch, next, action})
       break
+
+    case C.SAVE_THREAD:
+      FILTER.DECRYPT_MESSAGES_IN_THREAD({getState, dispatch, next, action})
+      break
+
+    case C.SEND_EMAIL.REPLY:
+    case C.SEND_EMAIL.NEW_MESSAGE:
+      // modify action payload: encrypt message
 
     default:
       next(action)

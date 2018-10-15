@@ -50,5 +50,11 @@
     },
     "storage": {
         "PRIVATE_KEY":              "PRIVATE_KEY"
+    },
+    "encryption": {
+        "RESERVED_ATTACHMENT_NAME": {
+            "CIPHERS":              "CIPHERS",
+            "BODY":                 "BODY"
+        }
     }
 }

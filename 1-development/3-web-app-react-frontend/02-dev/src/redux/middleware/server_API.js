@@ -24,7 +24,7 @@ API['GET_FOLDERS'] = ({getState, dispatch, next, action}) => {
 API['GET_THREADS_IN_FOLDER'] = ({getState, dispatch, next, action}) => {
   const {folder_name, body_length, start, max} = action
 
-  if (!folder_name || typeof folder_name !== 'string') throw new Error('ERROR: Redux action "GET_THREADS_IN_FOLDER" references an invalid folder name.')
+  if (!folder_name || (typeof folder_name !== 'string')) throw new Error('ERROR: Redux action "GET_THREADS_IN_FOLDER" references an invalid folder name.')
 
   const onSuccess = threads => {
     if (!threads || !Array.isArray(threads) || !threads.length) return
@@ -47,12 +47,12 @@ API['GET_THREADS_IN_FOLDER'] = ({getState, dispatch, next, action}) => {
 API['GET_THREAD'] = ({getState, dispatch, next, action}) => {
   const {thread_id} = action
 
-  if (!thread_id || typeof thread_id !== 'string') throw new Error('ERROR: Redux action "GET_THREAD" references an invalid thread ID.')
+  if (!thread_id || (typeof thread_id !== 'string')) throw new Error('ERROR: Redux action "GET_THREAD" references an invalid thread ID.')
 
   const onSuccess = thread => {
     if (
-      !thread || (typeof thread !== 'object') ||
-      !thread.messages || !Array.isArray(thread.messages) || !thread.messages.length ||
+      !thread              || (typeof thread !== 'object')                                       ||
+      !thread.messages     || !Array.isArray(thread.messages)     || !thread.messages.length     ||
       !thread.participants || !Array.isArray(thread.participants) || !thread.participants.length
     ) return
 
@@ -69,8 +69,8 @@ API['GET_THREAD'] = ({getState, dispatch, next, action}) => {
 API['UPDATE_THREAD'] = ({getState, dispatch, next, action}) => {
   const {thread_id, options} = action
 
-  if (!thread_id || typeof thread_id !== 'string') throw new Error('ERROR: Redux action "UPDATE_THREAD" references an invalid thread ID.')
-  if (!options || typeof options !== 'object')     throw new Error('ERROR: Redux action "UPDATE_THREAD" references invalid update options.')
+  if (!thread_id || (typeof thread_id !== 'string')) throw new Error('ERROR: Redux action "UPDATE_THREAD" references an invalid thread ID.')
+  if (!options   || (typeof options   !== 'object')) throw new Error('ERROR: Redux action "UPDATE_THREAD" references invalid update options.')
 
   const onSuccess = result => {
     if (typeof result !== 'boolean') return
@@ -93,9 +93,9 @@ API['UPDATE_THREAD'] = ({getState, dispatch, next, action}) => {
 API['UPDATE_MESSAGE'] = ({getState, dispatch, next, action}) => {
   const {thread_id, message_id, options} = action
 
-  if (!thread_id  || typeof thread_id !== 'string')  throw new Error('ERROR: Redux action "UPDATE_MESSAGE" references an invalid thread ID.')
-  if (!message_id || typeof message_id !== 'string') throw new Error('ERROR: Redux action "UPDATE_MESSAGE" references an invalid message ID.')
-  if (!options || typeof options !== 'object')       throw new Error('ERROR: Redux action "UPDATE_MESSAGE" references invalid update options.')
+  if (!thread_id  || (typeof thread_id  !== 'string')) throw new Error('ERROR: Redux action "UPDATE_MESSAGE" references an invalid thread ID.')
+  if (!message_id || (typeof message_id !== 'string')) throw new Error('ERROR: Redux action "UPDATE_MESSAGE" references an invalid message ID.')
+  if (!options    || (typeof options    !== 'object')) throw new Error('ERROR: Redux action "UPDATE_MESSAGE" references invalid update options.')
 
   const onSuccess = result => {
     if (typeof result !== 'boolean') return
@@ -118,7 +118,7 @@ API['UPDATE_MESSAGE'] = ({getState, dispatch, next, action}) => {
 API['SET_RSA_PUBLIC_KEY'] = ({getState, dispatch, next, action}) => {
   const {public_key, allow_update} = action
 
-  if (!public_key || typeof public_key !== 'string') throw new Error('ERROR: Redux action "SET_RSA_PUBLIC_KEY" references an invalid public key.')
+  if (!public_key || (typeof public_key !== 'string')) throw new Error('ERROR: Redux action "SET_RSA_PUBLIC_KEY" references an invalid public key.')
 
   allow_update = !!allow_update  // cast to a boolean
 
@@ -158,7 +158,7 @@ API['GET_RSA_PUBLIC_KEYS'] = ({getState, dispatch, next, action}) => {
   inject_self()
 
   const onSuccess = keys => {
-    if (!keys || typeof keys !== 'object') return
+    if (!keys || (typeof keys !== 'object')) return
 
     dispatch(
       actions.SAVE_RSA_PUBLIC_KEYS(keys)
@@ -175,8 +175,8 @@ API['SEND_EMAIL'] = {}
 API['SEND_EMAIL']['REPLY'] = ({getState, dispatch, next, action}) => {
   const {thread_id, body, cc = null, attachments = null} = action
 
-  if (!thread_id || typeof thread_id !== 'string') throw new Error('ERROR: Redux action "SEND_EMAIL_REPLY" references an invalid thread ID.')
-  if (!body      || typeof body      !== 'string') throw new Error('ERROR: Redux action "SEND_EMAIL_REPLY" references an invalid message body.')
+  if (!thread_id || (typeof thread_id !== 'string')) throw new Error('ERROR: Redux action "SEND_EMAIL_REPLY" references an invalid thread ID.')
+  if (!body      || (typeof body      !== 'string')) throw new Error('ERROR: Redux action "SEND_EMAIL_REPLY" references an invalid message body.')
 
   const onSuccess = result => {
     if (typeof result !== 'boolean') return
@@ -191,9 +191,9 @@ API['SEND_EMAIL']['REPLY'] = ({getState, dispatch, next, action}) => {
 API['SEND_EMAIL']['NEW_MESSAGE'] = ({getState, dispatch, next, action}) => {
   const {recipient, subject, body, cc = null, attachments = null} = action
 
-  if (!recipient || typeof recipient !== 'string') throw new Error('ERROR: Redux action "SEND_EMAIL_NEW_MESSAGE" references an invalid recipient.')
-  if (!subject   || typeof subject   !== 'string') throw new Error('ERROR: Redux action "SEND_EMAIL_NEW_MESSAGE" references an invalid subject.')
-  if (!body      || typeof body      !== 'string') throw new Error('ERROR: Redux action "SEND_EMAIL_NEW_MESSAGE" references an invalid message body.')
+  if (!recipient || (typeof recipient !== 'string')) throw new Error('ERROR: Redux action "SEND_EMAIL_NEW_MESSAGE" references an invalid recipient.')
+  if (!subject   || (typeof subject   !== 'string')) throw new Error('ERROR: Redux action "SEND_EMAIL_NEW_MESSAGE" references an invalid subject.')
+  if (!body      || (typeof body      !== 'string')) throw new Error('ERROR: Redux action "SEND_EMAIL_NEW_MESSAGE" references an invalid message body.')
 
   const onSuccess = result => {
     if (typeof result !== 'boolean') return
@@ -239,10 +239,18 @@ const API_middleware = ({getState, dispatch}) => next => action => {
       break
 
     case C.SEND_EMAIL.REPLY:
+      // "CRYPTO_middleware" will modify the action payload
+      next(action)
+
+      // send the encrypted payload
       API.SEND_EMAIL.REPLY({getState, dispatch, next, action})
       break
 
     case C.SEND_EMAIL.NEW_MESSAGE:
+      // "CRYPTO_middleware" will modify the action payload
+      next(action)
+
+      // send the encrypted payload
       API.SEND_EMAIL.NEW_MESSAGE({getState, dispatch, next, action})
       break
 

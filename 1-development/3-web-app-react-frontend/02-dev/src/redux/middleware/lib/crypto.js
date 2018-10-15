@@ -36,9 +36,9 @@ crypto.RSA.get_public_key = (private_key) => {
   return public_key
 }
 
-crypto.RSA.encrypt = (cleartext, private_key) => {
+crypto.RSA.encrypt = (cleartext, public_key) => {
   let js_crypt = new JSEncrypt()
-  js_crypt.setPrivateKey(private_key)
+  js_crypt.setPublicKey(public_key)
 
   let crypted = js_crypt.encrypt(cleartext)
   return crypted

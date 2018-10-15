@@ -40,8 +40,6 @@ RDCR['UPDATE_ONE']['THREAD']['MESSAGES'] = (state, {thread_id, thread}) => {
     participants: [...thread.participants]
   }
 
-  // todo: this would be a good time to decrypt all of the messages in the thread, and cache them as cleartext in the global Redux store
-
   new_state[thread_id] = new_thread
   return new_state
 }
