@@ -67,6 +67,13 @@ actions['SAVE_THREADS_TO_FOLDER']['PREPEND'] = (folder_name, thread_ids) => {
   }
 }
 
+actions['SAVE_THREADS_TO_FOLDER']['REFRESH'] = (folder_name) => {
+  return {
+    type: C.SAVE_THREADS_TO_FOLDER.REFRESH,
+    folder_name
+  }
+}
+
 actions['SAVE_THREADS'] = (threads) => {
   return {
     type: C.SAVE_THREADS,
@@ -88,6 +95,19 @@ actions['SAVE_THREAD'] = (thread_id, thread) => {
     type: C.SAVE_THREAD,
     thread_id,
     thread
+  }
+}
+
+// -----------------------------------------------------------------------------
+
+actions['SAVE_REPLY_TO_THREAD'] = ({thread_id, recipient, body, cc, attachments} = {}) => {
+  return {
+    type: C.SAVE_REPLY_TO_THREAD,
+    thread_id,
+    recipient,
+    body,
+    cc,
+    attachments
   }
 }
 
@@ -227,10 +247,11 @@ actions['SAVE_RSA_PUBLIC_KEYS'] = (public_keys) => {
 
 actions['SEND_EMAIL'] = {}
 
-actions['SEND_EMAIL']['REPLY'] = (thread_id, body, cc, attachments) => {
+actions['SEND_EMAIL']['REPLY'] = (thread_id, recipient, body, cc, attachments) => {
   return {
     type: C.SEND_EMAIL.REPLY,
     thread_id,
+    recipient,
     body,
     cc,
     attachments

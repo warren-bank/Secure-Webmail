@@ -9,6 +9,7 @@ const RSA = {}
 const AES = {}
 
 const FILTER = {}
+const HELPER = {}
 
 // -----------------------------------------------------------------------------
 
@@ -138,9 +139,7 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
-FILTER['ENCRYPT_OUTBOUND_MESSAGE'] = {}
-
-FILTER['ENCRYPT_OUTBOUND_MESSAGE']['ABSTRACT'] = ({recipient, body, cc, attachments}, getState) => {
+HELPER['ENCRYPT_OUTBOUND_MESSAGE'] = ({recipient, body, cc, attachments}, getState) => {
   const action_update = {}
 
   if (!recipient || !body) return action_update
@@ -208,26 +207,8 @@ FILTER['ENCRYPT_OUTBOUND_MESSAGE']['ABSTRACT'] = ({recipient, body, cc, attachme
   return action_update
 }
 
-FILTER['ENCRYPT_OUTBOUND_MESSAGE']['REPLY'] = ({getState, dispatch, next, action}) => {
-  const get_recipient = () => {
-    let {thread_id} = action
-    let state       = getState()
-    let messages    = state.threads[thread_id].messages
-    let recipient   = messages[messages.length - 1].summary.from
-
-    return recipient
-  }
-
-  const recipient = get_recipient()
-  const data      = {...action, recipient}
-
-  const action_update = FILTER.ENCRYPT_OUTBOUND_MESSAGE.ABSTRACT(data, getState)
-  Object.assign(action, action_update)
-  next(action)
-}
-
-FILTER['ENCRYPT_OUTBOUND_MESSAGE']['NEW'] = ({getState, dispatch, next, action}) => {
-  const action_update = FILTER.ENCRYPT_OUTBOUND_MESSAGE.ABSTRACT(action, getState)
+FILTER['ENCRYPT_OUTBOUND_MESSAGE'] = ({getState, dispatch, next, action}) => {
+  const action_update = HELPER.ENCRYPT_OUTBOUND_MESSAGE(action, getState)
   Object.assign(action, action_update)
   next(action)
 }
@@ -246,11 +227,8 @@ const CRYPTO_middleware = ({getState, dispatch}) => next => action => {
       break
 
     case C.SEND_EMAIL.REPLY:
-      FILTER.ENCRYPT_OUTBOUND_MESSAGE.REPLY({getState, dispatch, next, action})
-      break
-
     case C.SEND_EMAIL.NEW_MESSAGE:
-      FILTER.ENCRYPT_OUTBOUND_MESSAGE.NEW({getState, dispatch, next, action})
+      FILTER.ENCRYPT_OUTBOUND_MESSAGE({getState, dispatch, next, action})
       break
 
     default:

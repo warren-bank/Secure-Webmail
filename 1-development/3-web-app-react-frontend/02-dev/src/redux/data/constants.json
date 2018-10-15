@@ -8,12 +8,15 @@
         "GET_THREADS_IN_FOLDER":    "GET_THREADS_IN_FOLDER",
         "SAVE_THREADS_TO_FOLDER": {
             "PREPEND":              "SAVE_THREADS_TO_FOLDER_PREPEND",
-            "APPEND":               "SAVE_THREADS_TO_FOLDER_APPEND"
+            "APPEND":               "SAVE_THREADS_TO_FOLDER_APPEND",
+            "REFRESH":              "SAVE_THREADS_TO_FOLDER_REFRESH"
         },
         "SAVE_THREADS":             "SAVE_THREADS",
 
         "GET_THREAD":               "GET_THREAD",
         "SAVE_THREAD":              "SAVE_THREAD",
+
+        "SAVE_REPLY_TO_THREAD":     "SAVE_REPLY_TO_THREAD",
 
         "UPDATE_THREAD":            "UPDATE_THREAD",
         "SAVE_THREAD_UPDATE":       "SAVE_THREAD_UPDATE",

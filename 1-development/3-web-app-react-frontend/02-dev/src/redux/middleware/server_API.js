@@ -241,6 +241,11 @@ const API_middleware = ({getState, dispatch}) => next => action => {
       break
 
     case C.SEND_EMAIL.REPLY:
+      // "API_middleware" must run BEFORE "CRYPTO_middleware"
+      dispatch(
+        actions.SAVE_REPLY_TO_THREAD(action)
+      )
+
       // "CRYPTO_middleware" will modify the action payload: encrypt message
       next(action)
 

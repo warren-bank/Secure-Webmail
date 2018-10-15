@@ -8,7 +8,7 @@ const middleware   = [
   require('redux/middleware/server_API')
 ]
 
-const storeFactory = (stateData=initialState) =>
+const storeFactory = (stateData = initialState) =>
     applyMiddleware(...middleware)(createStore)(
         rootReducer,
         stateData

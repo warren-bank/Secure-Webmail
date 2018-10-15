@@ -233,15 +233,20 @@ React/Redux glue for client/server communication:
         which will be added to the global redux state
     - this allows all client/server code to be stored in a single module
 
-Redux middleware:
-=================
+Redux middleware (order):
+=========================
+https://github.com/reduxjs/redux/blob/master/src/applyMiddleware.js
+https://github.com/reduxjs/redux/blob/master/src/compose.js
+  * applyMiddleware() calls: compose(...middleware)
+  * compose(a,b,c)  returns: (...args) => a(b(c(...args)))
+    - called from right to left
+
+Redux middleware (example):
+===========================
 import constants from 'redux/data/constants'
 import actions   from 'redux/actions'
 
-const C = {
-  a: constants.actions,
-  m: constants.middleware
-}
+const C = constants.actions
 
 const get_threads_in_folder = function({getState, dispatch, next, action}) {
   // -----------------------------------------------------------------------------------------------
@@ -276,12 +281,12 @@ const get_threads_in_folder = function({getState, dispatch, next, action}) {
 
 const server_API = ({getState, dispatch}) => next => action => {
   switch (action.type) {
-    case C.a.GET_THREADS_IN_FOLDER:
+    case C.GET_THREADS_IN_FOLDER:
       get_threads_in_folder({getState, dispatch, next, action})
       break
 
-    case C.a.APPEND_THREADS_TO_FOLDER:
-    case C.a.SAVE_THREADS:
+    case C.APPEND_THREADS_TO_FOLDER:
+    case C.SAVE_THREADS:
     default:
       next(action)
   }

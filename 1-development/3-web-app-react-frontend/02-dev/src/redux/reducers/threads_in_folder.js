@@ -32,6 +32,15 @@ RDCR['PREPEND_MANY'] = (state, action) => {
   return RDCR.INSERT_MANY(state, action, 'PREPEND')
 }
 
+RDCR['REFRESH'] = (state, {folder_name}) => {
+  const existing_threads = state[folder_name]
+  if (existing_threads && Array.isArray(existing_threads) && !existing_threads.length) return state  // noop
+
+  const new_state = {...state}
+  new_state[folder_name] = []
+  return new_state
+}
+
 // -----------------------------------------------------------------------------
 
 const threads_in_folder = (state = {}, action) => {
@@ -42,6 +51,9 @@ const threads_in_folder = (state = {}, action) => {
 
     case C.SAVE_THREADS_TO_FOLDER.PREPEND:
       return RDCR.PREPEND_MANY(state, action)
+
+    case C.SAVE_THREADS_TO_FOLDER.REFRESH:
+      return RDCR.REFRESH(state, action)
 
     default:
       return state
