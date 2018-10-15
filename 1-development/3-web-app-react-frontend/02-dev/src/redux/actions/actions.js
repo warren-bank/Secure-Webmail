@@ -225,6 +225,31 @@ actions['SAVE_RSA_PUBLIC_KEYS'] = (public_keys) => {
 
 // -----------------------------------------------------------------------------
 
+actions['SEND_EMAIL'] = {}
+
+actions['SEND_EMAIL']['REPLY'] = (thread_id, body, cc, attachments) => {
+  return {
+    type: C.SEND_EMAIL.REPLY,
+    thread_id,
+    body,
+    cc,
+    attachments
+  }
+}
+
+actions['SEND_EMAIL']['NEW_MESSAGE'] = (recipient, subject, body, cc, attachments) => {
+  return {
+    type: C.SEND_EMAIL.NEW_MESSAGE,
+    recipient,
+    subject,
+    body,
+    cc,
+    attachments
+  }
+}
+
+// -----------------------------------------------------------------------------
+
 actions['UPDATE_SETTINGS'] = (max_threads_per_page, private_key, private_key_storage) => {
   return {
     type: C.UPDATE_SETTINGS,

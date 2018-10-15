@@ -41,6 +41,11 @@
             },
             "AES": {
             }
+        },
+
+        "SEND_EMAIL": {
+            "REPLY":                "SEND_EMAIL_REPLY",
+            "NEW_MESSAGE":          "SEND_EMAIL_NEW_MESSAGE"
         }
     },
     "storage": {

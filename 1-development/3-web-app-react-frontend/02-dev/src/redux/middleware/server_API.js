@@ -170,6 +170,43 @@ API['GET_RSA_PUBLIC_KEYS'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
+API['SEND_EMAIL'] = {}
+
+API['SEND_EMAIL']['REPLY'] = ({getState, dispatch, next, action}) => {
+  const {thread_id, body, cc = null, attachments = null} = action
+
+  if (!thread_id || typeof thread_id !== 'string') throw new Error('ERROR: Redux action "SEND_EMAIL_REPLY" references an invalid thread ID.')
+  if (!body      || typeof body      !== 'string') throw new Error('ERROR: Redux action "SEND_EMAIL_REPLY" references an invalid message body.')
+
+  const onSuccess = result => {
+    if (typeof result !== 'boolean') return
+
+    if (!result)
+      console.log('WARNING: Redux action "SEND_EMAIL_REPLY" failed on the server.')
+  }
+
+  google.script.run.withSuccessHandler(onSuccess).send_reply_to_thread(thread_id, body, cc, attachments)
+}
+
+API['SEND_EMAIL']['NEW_MESSAGE'] = ({getState, dispatch, next, action}) => {
+  const {recipient, subject, body, cc = null, attachments = null} = action
+
+  if (!recipient || typeof recipient !== 'string') throw new Error('ERROR: Redux action "SEND_EMAIL_NEW_MESSAGE" references an invalid recipient.')
+  if (!subject   || typeof subject   !== 'string') throw new Error('ERROR: Redux action "SEND_EMAIL_NEW_MESSAGE" references an invalid subject.')
+  if (!body      || typeof body      !== 'string') throw new Error('ERROR: Redux action "SEND_EMAIL_NEW_MESSAGE" references an invalid message body.')
+
+  const onSuccess = result => {
+    if (typeof result !== 'boolean') return
+
+    if (!result)
+      console.log('WARNING: Redux action "SEND_EMAIL_NEW_MESSAGE" failed on the server.')
+  }
+
+  google.script.run.withSuccessHandler(onSuccess).send_new_email(recipient, subject, body, cc, attachments)
+}
+
+// -----------------------------------------------------------------------------
+
 const API_middleware = ({getState, dispatch}) => next => action => {
   switch (action.type) {
 
@@ -199,6 +236,14 @@ const API_middleware = ({getState, dispatch}) => next => action => {
 
     case C.GET_RSA_PUBLIC_KEYS:
       API.GET_RSA_PUBLIC_KEYS({getState, dispatch, next, action})
+      break
+
+    case C.SEND_EMAIL.REPLY:
+      API.SEND_EMAIL.REPLY({getState, dispatch, next, action})
+      break
+
+    case C.SEND_EMAIL.NEW_MESSAGE:
+      API.SEND_EMAIL.NEW_MESSAGE({getState, dispatch, next, action})
       break
 
     case C.SAVE_FOLDERS:
