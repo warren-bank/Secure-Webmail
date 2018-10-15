@@ -57,6 +57,8 @@ API['GET_THREAD'] = ({getState, dispatch, next, action}) => {
     ) return
 
     dispatch(
+      // "CRYPTO_middleware" will modify the action payload: decrypt all messages in thread
+      // "CRYPTO_middleware" will dispatch: actions.GET_RSA_PUBLIC_KEYS(thread.participants)
       actions.SAVE_THREAD(thread_id, thread)
     )
   }
@@ -239,7 +241,7 @@ const API_middleware = ({getState, dispatch}) => next => action => {
       break
 
     case C.SEND_EMAIL.REPLY:
-      // "CRYPTO_middleware" will modify the action payload
+      // "CRYPTO_middleware" will modify the action payload: encrypt message
       next(action)
 
       // send the encrypted payload
@@ -247,7 +249,7 @@ const API_middleware = ({getState, dispatch}) => next => action => {
       break
 
     case C.SEND_EMAIL.NEW_MESSAGE:
-      // "CRYPTO_middleware" will modify the action payload
+      // "CRYPTO_middleware" will modify the action payload: encrypt message
       next(action)
 
       // send the encrypted payload
@@ -258,7 +260,10 @@ const API_middleware = ({getState, dispatch}) => next => action => {
     case C.SAVE_THREADS_TO_FOLDER.PREPEND:
     case C.SAVE_THREADS_TO_FOLDER.APPEND:
     case C.SAVE_THREADS:
+
+    // "CRYPTO_middleware" will modify the action payload: decrypt all messages in thread
     case C.SAVE_THREAD:
+
     case C.SAVE_THREAD_UPDATE:
     case C.SAVE_MESSAGE_UPDATE:
     case C.SAVE_RSA_PUBLIC_KEYS:

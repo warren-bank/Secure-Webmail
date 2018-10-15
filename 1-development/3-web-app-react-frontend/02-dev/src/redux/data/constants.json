@@ -55,6 +55,9 @@
         "RESERVED_ATTACHMENT_NAME": {
             "CIPHERS":              "CIPHERS",
             "BODY":                 "BODY"
+        },
+        "CLEARTEXT_CONTENT": {
+            "BODY":                 "Encrypted by: Secure Webmail\n\nhttps://secure-webmail.github.io/"
         }
     }
 }

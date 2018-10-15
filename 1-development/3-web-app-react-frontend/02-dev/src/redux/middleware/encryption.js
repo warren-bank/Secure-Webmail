@@ -138,6 +138,102 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
+FILTER['ENCRYPT_OUTBOUND_MESSAGE'] = {}
+
+FILTER['ENCRYPT_OUTBOUND_MESSAGE']['ABSTRACT'] = ({recipient, body, cc, attachments}, getState) => {
+  const action_update = {}
+
+  if (!recipient || !body) return action_update
+
+  const new_attachments = []
+
+  const secret     = crypto.AES.generate_secret()
+  const state      = getState()
+  const filename   = {...constants.encryption.RESERVED_ATTACHMENT_NAME}
+
+  let all_emails   = [recipient, state.user.email_address]
+  if (cc) {
+    if (typeof cc === 'string')
+      all_emails.push(cc)
+    else if (Array.isArray(cc) && cc.length)
+      all_emails = [...all_emails, ...cc]
+  }
+
+  const ciphers   = {}
+  const no_pubkey = []
+  all_emails.forEach(email => {
+    let pubkey = state.public_keys[email]
+
+    if (!pubkey) {
+      no_pubkey.push(email)
+    }
+    else {
+      ciphers[email] = crypto.RSA.encrypt(secret, pubkey)
+    }
+  })
+
+  if (no_pubkey.length)
+    console.log('WARNING: Redux action "ENCRYPT_OUTBOUND_MESSAGE" cannot encrypt ciphers for the following recipient email addresses because they are not associated with a public RSA encryption key:', no_pubkey)
+
+  // attach: CIPHERS
+  new_attachments.push({
+    data:         JSON.stringify(ciphers),
+    contentType: 'text/plain',
+    name:        filename.CIPHERS
+  })
+
+  // attach: BODY
+  new_attachments.push({
+    data:         crypto.AES.encrypt(body, secret),
+    contentType: 'text/plain',
+    name:        filename.BODY
+  })
+
+  if (attachments && Array.isArray(attachments) && attachments.length) {
+    attachments.forEach(attachment => {
+      let {data, name} = attachment
+
+      // attach
+      new_attachments.push({
+        data:         crypto.AES.encrypt(data, secret),
+        contentType: 'text/plain',
+        name
+      })
+    })
+  }
+
+  action_update.body        = constants.encryption.CLEARTEXT_CONTENT.BODY
+  action_update.attachments = new_attachments
+
+  return action_update
+}
+
+FILTER['ENCRYPT_OUTBOUND_MESSAGE']['REPLY'] = ({getState, dispatch, next, action}) => {
+  const get_recipient = () => {
+    let {thread_id} = action
+    let state       = getState()
+    let messages    = state.threads[thread_id].messages
+    let recipient   = messages[messages.length - 1].summary.from
+
+    return recipient
+  }
+
+  const recipient = get_recipient()
+  const data      = {...action, recipient}
+
+  const action_update = FILTER.ENCRYPT_OUTBOUND_MESSAGE.ABSTRACT(data, getState)
+  Object.assign(action, action_update)
+  next(action)
+}
+
+FILTER['ENCRYPT_OUTBOUND_MESSAGE']['NEW'] = ({getState, dispatch, next, action}) => {
+  const action_update = FILTER.ENCRYPT_OUTBOUND_MESSAGE.ABSTRACT(action, getState)
+  Object.assign(action, action_update)
+  next(action)
+}
+
+// -----------------------------------------------------------------------------
+
 const CRYPTO_middleware = ({getState, dispatch}) => next => action => {
   switch (action.type) {
 
@@ -150,8 +246,12 @@ const CRYPTO_middleware = ({getState, dispatch}) => next => action => {
       break
 
     case C.SEND_EMAIL.REPLY:
+      FILTER.ENCRYPT_OUTBOUND_MESSAGE.REPLY({getState, dispatch, next, action})
+      break
+
     case C.SEND_EMAIL.NEW_MESSAGE:
-      // modify action payload: encrypt message
+      FILTER.ENCRYPT_OUTBOUND_MESSAGE.NEW({getState, dispatch, next, action})
+      break
 
     default:
       next(action)

@@ -57,17 +57,15 @@ crypto.RSA.decrypt = (crypted, private_key) => {
 crypto.AES = {}
 
 crypto.AES.generate_secret = () => {
-  return new Promise((resolve, reject) => {
-    const key_size = 256   // options: any multiple of 16
-                           // reading: https://en.wikipedia.org/wiki/Key_size#Symmetric_algorithm_key_lengths
-    const buffer = []
-    for (let offset=0; (offset + 16) <= key_size; offset+=16) {
-      uuidv4(null, buffer, offset)
-    }
+  const key_size = 256   // options: any multiple of 16
+                         // reading: https://en.wikipedia.org/wiki/Key_size#Symmetric_algorithm_key_lengths
+  const buffer = []
+  for (let offset=0; (offset + 16) <= key_size; offset+=16) {
+    uuidv4(null, buffer, offset)
+  }
 
-    let secret = String.fromCharCode(...buffer)
-    resolve(secret)
-  })
+  let secret = String.fromCharCode(...buffer)
+  return secret
 }
 
 crypto.AES.encrypt = (cleartext, secret) => {
