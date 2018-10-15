@@ -1,5 +1,7 @@
 {
     "actions": {
+        "STORE_INITIALIZED":        "STORE_INITIALIZED",
+
         "GET_FOLDERS":              "GET_FOLDERS",
         "SAVE_FOLDERS":             "SAVE_FOLDERS",
 

@@ -6,22 +6,25 @@ const RDCR = {}
 
 // -----------------------------------------------------------------------------
 
-RDCR['REPLACE'] = (state, {folders}) => {
-  const new_state = folders.map(folder => {return {...folder}})
+RDCR['INSERT_MANY'] = (state, {public_keys}) => {
+  const new_state = {...state}
+
+  Object.assign(new_state, public_keys)
+
   return new_state
 }
 
 // -----------------------------------------------------------------------------
 
-const folders = (state = [], action) => {
+const public_keys = (state = {}, action) => {
   switch (action.type) {
 
-    case C.SAVE_FOLDERS:
-      return RDCR.REPLACE(state, action)
+    case C.SAVE_RSA_PUBLIC_KEYS:
+      return RDCR.INSERT_MANY(state, action)
 
     default:
       return state
   }
 }
 
-module.exports = folders
+module.exports = public_keys

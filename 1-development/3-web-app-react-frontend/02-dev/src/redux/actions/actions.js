@@ -6,6 +6,16 @@ const actions = {}
 
 // -----------------------------------------------------------------------------
 
+actions['STORE_INITIALIZED'] = ({email_address, thread_id}) => {
+  return {
+    type: C.STORE_INITIALIZED,
+    email_address,
+    thread_id
+  }
+}
+
+// -----------------------------------------------------------------------------
+
 actions['GET_FOLDERS'] = () => {
   return {
     type: C.GET_FOLDERS
@@ -147,9 +157,10 @@ actions['SAVE_THREAD_UPDATE'] = (thread_id, options) => {
 
 actions['UPDATE_MESSAGE'] = {}
 
-actions['UPDATE_MESSAGE']['MARK_STAR'] = (message_id, star) => {
+actions['UPDATE_MESSAGE']['MARK_STAR'] = (thread_id, message_id, star) => {
   return {
     type: C.UPDATE_MESSAGE,
+    thread_id,
     message_id,
     options: {
       star
@@ -157,9 +168,10 @@ actions['UPDATE_MESSAGE']['MARK_STAR'] = (message_id, star) => {
   }
 }
 
-actions['UPDATE_MESSAGE']['MARK_UNREAD'] = (message_id, unread) => {
+actions['UPDATE_MESSAGE']['MARK_UNREAD'] = (thread_id, message_id, unread) => {
   return {
     type: C.UPDATE_MESSAGE,
+    thread_id,
     message_id,
     options: {
       unread
@@ -167,9 +179,10 @@ actions['UPDATE_MESSAGE']['MARK_UNREAD'] = (message_id, unread) => {
   }
 }
 
-actions['UPDATE_MESSAGE']['MOVE_TO_TRASH'] = (message_id) => {
+actions['UPDATE_MESSAGE']['MOVE_TO_TRASH'] = (thread_id, message_id) => {
   return {
     type: C.UPDATE_MESSAGE,
+    thread_id,
     message_id,
     options: {
       trash: true
@@ -177,9 +190,10 @@ actions['UPDATE_MESSAGE']['MOVE_TO_TRASH'] = (message_id) => {
   }
 }
 
-actions['SAVE_MESSAGE_UPDATE'] = (message_id, options) => {
+actions['SAVE_MESSAGE_UPDATE'] = (thread_id, message_id, options) => {
   return {
     type: C.SAVE_MESSAGE_UPDATE,
+    thread_id,
     message_id,
     options
   }

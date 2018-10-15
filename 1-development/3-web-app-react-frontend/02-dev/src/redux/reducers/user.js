@@ -6,22 +6,28 @@ const RDCR = {}
 
 // -----------------------------------------------------------------------------
 
-RDCR['REPLACE'] = (state, {folders}) => {
-  const new_state = folders.map(folder => {return {...folder}})
-  return new_state
+RDCR['INIT'] = (state, action) => {
+  let {email_address} = action
+
+  if (email_address) {
+    const new_state = {email_address}
+    return new_state
+  }
+
+  return state  // noop
 }
 
 // -----------------------------------------------------------------------------
 
-const folders = (state = [], action) => {
+const user = (state = {}, action) => {
   switch (action.type) {
 
-    case C.SAVE_FOLDERS:
-      return RDCR.REPLACE(state, action)
+    case C.STORE_INITIALIZED:
+      return RDCR.INIT(state, action)
 
     default:
       return state
   }
 }
 
-module.exports = folders
+module.exports = user

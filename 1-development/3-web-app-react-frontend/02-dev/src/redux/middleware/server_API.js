@@ -91,8 +91,9 @@ API['UPDATE_THREAD'] = ({getState, dispatch, next, action}) => {
 // -----------------------------------------------------------------------------
 
 API['UPDATE_MESSAGE'] = ({getState, dispatch, next, action}) => {
-  const {message_id, options} = action
+  const {thread_id, message_id, options} = action
 
+  if (!thread_id  || typeof thread_id !== 'string')  throw new Error('ERROR: Redux action "UPDATE_MESSAGE" references an invalid thread ID.')
   if (!message_id || typeof message_id !== 'string') throw new Error('ERROR: Redux action "UPDATE_MESSAGE" references an invalid message ID.')
   if (!options || typeof options !== 'object')       throw new Error('ERROR: Redux action "UPDATE_MESSAGE" references invalid update options.')
 
@@ -101,7 +102,7 @@ API['UPDATE_MESSAGE'] = ({getState, dispatch, next, action}) => {
 
     if (result) {
       dispatch(
-        actions.SAVE_MESSAGE_UPDATE(message_id, options)
+        actions.SAVE_MESSAGE_UPDATE(thread_id, message_id, options)
       )
     }
     else {
