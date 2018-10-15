@@ -34,6 +34,10 @@ https://developers.google.com/apps-script/guides/html/communication
 --------------------------------------------------------------------------------
 
 https://ctrlq.org/code/19747-google-forms-upload-files
+
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
+
 https://developer.mozilla.org/en-US/docs/Web/API/FileReader
 https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
   example: how to pick a file, read its data into a "data:" URI, and upload (as a String) from client to server
@@ -43,6 +47,12 @@ https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
 
 client:
 =======
+<form onsubmit="submitForm()">
+  <input id="file" type="file" />
+</form>
+
+<script>
+
 var file
 var reader = new FileReader()
 
@@ -59,6 +69,8 @@ function submitForm() {
   file = $('#file')[0].files[0]
   reader.readAsDataURL(file)
 }
+
+</script>
 
 server:
 =======
