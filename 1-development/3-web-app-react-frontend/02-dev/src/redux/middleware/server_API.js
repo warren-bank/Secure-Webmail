@@ -57,7 +57,7 @@ API['GET_THREAD'] = ({getState, dispatch, next, action}) => {
     ) return
 
     dispatch(
-      // "TRIGGERS_middleware" will dispatch: actions.GET_RSA_PUBLIC_KEYS(thread.participants)
+      // "TRIGGERS_middleware" will dispatch: `actions.GET_RSA_PUBLIC_KEYS(thread.participants)`
       // "CRYPTO_middleware"   will modify the action payload: decrypt all messages in thread
       actions.SAVE_THREAD(thread_id, thread)
     )
@@ -245,7 +245,7 @@ const API_middleware = ({getState, dispatch}) => next => action => {
       break
 
     case C.SEND_EMAIL.REPLY:
-      // "TRIGGERS_middleware" will dispatch: actions.SAVE_REPLY_TO_THREAD(action) and must run before "CRYPTO_middleware"
+      // "TRIGGERS_middleware" will dispatch: `actions.SAVE_REPLY_TO_THREAD(action)` and must run before "CRYPTO_middleware"
       // "CRYPTO_middleware" will modify the action payload: encrypt message
       next(action)
 
@@ -261,12 +261,14 @@ const API_middleware = ({getState, dispatch}) => next => action => {
       API.SEND_EMAIL.NEW_MESSAGE({getState, dispatch, next, action})
       break
 
+    // "TRIGGERS_middleware" will dispatch: `actions.SAVE_THREADS_TO_FOLDER.REFRESH(folder_name)` when `unread_count` has changed
     case C.SAVE_FOLDERS:
+
     case C.SAVE_THREADS_TO_FOLDER.PREPEND:
     case C.SAVE_THREADS_TO_FOLDER.APPEND:
     case C.SAVE_THREADS:
 
-    // "TRIGGERS_middleware" will dispatch: actions.GET_RSA_PUBLIC_KEYS(action.thread.participants)
+    // "TRIGGERS_middleware" will dispatch: `actions.GET_RSA_PUBLIC_KEYS(action.thread.participants)`
     // "CRYPTO_middleware" will modify the action payload: decrypt all messages in thread
     case C.SAVE_THREAD:
 
