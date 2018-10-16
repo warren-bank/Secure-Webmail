@@ -147,7 +147,7 @@ function get_threads_in_folder(folder_name, body_length, start, max) {
   return threads
 }
 
-function get_thread(thread_id) {
+function get_thread(thread_id, current_message_count) {
   var thread = {
     messages: [],
     participants: []
@@ -161,6 +161,8 @@ function get_thread(thread_id) {
 
   var process_messages = function(oMessages) {
     if (!oMessages || !oMessages.length) return
+
+    if (current_message_count && (current_message_count === oMessages.length)) return
 
     var participants = {}
 

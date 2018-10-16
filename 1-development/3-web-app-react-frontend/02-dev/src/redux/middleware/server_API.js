@@ -63,7 +63,14 @@ API['GET_THREAD'] = ({getState, dispatch, next, action}) => {
     )
   }
 
-  google.script.run.withSuccessHandler(onSuccess).get_thread(thread_id)
+  const current_message_count = (() => {
+    const state  = getState()
+    const thread = state.threads[thread_id]
+
+    return (!thread || !thread.messages) ? 0 : thread.messages.length
+  })()
+
+  google.script.run.withSuccessHandler(onSuccess).get_thread(thread_id, current_message_count)
 }
 
 // -----------------------------------------------------------------------------
