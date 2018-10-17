@@ -84,6 +84,7 @@ Redux state:
 {
   folders: [{
     folder_name,					// String
+    title,							// String
     unread_count					// Number
   }],
   threads_in_folder: {

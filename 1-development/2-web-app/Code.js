@@ -38,27 +38,33 @@ function doGet(e) {
 function get_folders() {
   var folders = [
     {
-      folder_name:  "Inbox",
+      folder_name:  "inbox",
+      title:        "Inbox",
       unread_count: GmailApp.getInboxUnreadCount()
     },
     {
-      folder_name:  "Priority Inbox",
+      folder_name:  "priority-inbox",
+      title:        "Priority Inbox",
       unread_count: GmailApp.getPriorityInboxUnreadCount()
     },
     {
-      folder_name:  "Starred",
+      folder_name:  "starred",
+      title:        "Starred",
       unread_count: GmailApp.getStarredUnreadCount()
     },
     {
-      folder_name:  "Chat",
+      folder_name:  "chat",
+      title:        "Chat",
       unread_count: 0
     },
     {
-      folder_name:  "Spam",
+      folder_name:  "spam",
+      title:        "Spam",
       unread_count: GmailApp.getSpamUnreadCount()
     },
     {
-      folder_name:  "Trash",
+      folder_name:  "trash",
+      title:        "Trash",
       unread_count: 0
     }
   ]
@@ -120,7 +126,7 @@ function get_threads_in_folder(folder_name, body_length, start, max) {
       case 'inbox':
         process_threads( GmailApp.getInboxThreads(start, max) )
         break
-      case 'priority inbox':
+      case 'priority-inbox':
         process_threads( GmailApp.getPriorityInboxThreads(start, max) )
         break
       case 'starred':

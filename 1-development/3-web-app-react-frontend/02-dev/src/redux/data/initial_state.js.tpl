@@ -1,6 +1,7 @@
 const initialState = {
   "folders": [{
     "folder_name":					"",					// String
+    "title":						"",					// String
     "unread_count":					0					// Number
   }],
   "threads_in_folder": {
