@@ -1,7 +1,7 @@
 const constants  = require('redux/data/constants')
 const actions    = require('redux/actions')
 
-const namespace  = '@@react_router'
+const namespace  = constants.namespaces.REACT_ROUTER
 
 const C = constants.actions[namespace]
 
@@ -42,7 +42,11 @@ const ROUTER_middleware = ({getState, dispatch}) => next => action => {
       break
 
     case C.OPEN_THREAD:
+    case C.OPEN_COMPOSE_REPLY:
       ROUTER.OPEN_THREAD({getState, dispatch, next, action})
+      break
+
+    case C.OPEN_COMPOSE_MESSAGE:
       break
 
     default:

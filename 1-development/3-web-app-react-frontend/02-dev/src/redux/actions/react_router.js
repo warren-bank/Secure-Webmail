@@ -1,6 +1,6 @@
 const constants  = require('redux/data/constants')
 
-const namespace = '@@react_router'
+const namespace = constants.namespaces.REACT_ROUTER
 
 const C = constants.actions[namespace]
 

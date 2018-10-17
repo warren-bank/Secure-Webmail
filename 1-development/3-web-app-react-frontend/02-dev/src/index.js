@@ -2,7 +2,8 @@ const React        = require('react')
 const ReactDOM     = require('react-dom')
 
 const store        = require('redux/store').store
-const actions      = require('redux/actions')
+const namespace    = require('redux/data/constants').namespaces.REACT_ROUTER
+const actions      = require('redux/actions')[namespace]
 
 const constants    = require('react/data/constants')
 const Router       = require('react/components/container/stateless-functions/Router')
@@ -15,7 +16,7 @@ window.store = store
   let startApp = () => {
     let props = {
       store,
-      actions: actions['@@react_router'],
+      actions,
       constants,
       component: Router
     }

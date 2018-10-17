@@ -58,6 +58,9 @@
             "OPEN_COMPOSE_REPLY":   "REACT_ROUTER_OPEN_COMPOSE_REPLY"
         }
     },
+    "namespaces": {
+        "REACT_ROUTER":             "@@react_router"
+    },
     "storage": {
         "PRIVATE_KEY":              "PRIVATE_KEY"
     },
