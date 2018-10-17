@@ -10,7 +10,7 @@ class Context extends React.Component {
         const entries = (obj) => Object.keys(obj).map(key => [key, obj[key]])
 
         // recursive (if needed)
-        const auto_dispatch_actions_object_container = (obj_in, obj_out) => {
+        const get_auto_dispatch_actions = (obj_in, obj_out) => {
             const arr_in = entries(obj_in)
             arr_in.forEach(([key, action]) => {
                 if (typeof action === 'function') {
@@ -18,12 +18,12 @@ class Context extends React.Component {
                 }
                 else if ((typeof action === 'object') && (action !== null)) {
                     obj_out[key] = {}
-                    auto_dispatch_actions_object_container(action, obj_out[key])
+                    get_auto_dispatch_actions(action, obj_out[key])
                 }
             })
         }
 
-        auto_dispatch_actions_object_container(this.props.actions, actions)
+        get_auto_dispatch_actions(this.props.actions, actions)
 
         return {
             store,
