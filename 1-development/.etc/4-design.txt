@@ -328,4 +328,13 @@ React router:
 https://medium.com/@pshrmn/a-simple-react-router-v4-tutorial-7f23ff27adf
   good summary
 
+https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom/docs/api
+https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/api/HashRouter.md
+https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/api/Route.md
+
+https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/Route.md
+https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/history.md
+https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/match.md
+https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/location.md
+
 --------------------------------------------------------------------------------

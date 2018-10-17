@@ -6,7 +6,8 @@ const middleware   = [
   require('redux/middleware/encryption'),
   require('redux/middleware/settings'),
   require('redux/middleware/triggers'),
-  require('redux/middleware/server_API')
+  require('redux/middleware/server_API'),
+  require('redux/middleware/react_router')
 ]
 
 const storeFactory = (stateData = initialState) =>

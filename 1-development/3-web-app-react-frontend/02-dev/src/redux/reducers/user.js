@@ -9,12 +9,10 @@ const RDCR = {}
 RDCR['INIT'] = (state, action) => {
   let {email_address} = action
 
-  if (email_address) {
-    const new_state = {email_address}
-    return new_state
-  }
+  if (!email_address) return state  // noop
 
-  return state  // noop
+  const new_state = {email_address}
+  return new_state
 }
 
 // -----------------------------------------------------------------------------

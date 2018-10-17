@@ -7,6 +7,8 @@ const RDCR = {}
 // -----------------------------------------------------------------------------
 
 RDCR['REPLACE'] = (state, {folders}) => {
+  if (!folders || !Array.isArray(folders) || !folders.length) return state  // noop
+
   const new_state = folders.map(folder => {return {...folder}})
   return new_state
 }

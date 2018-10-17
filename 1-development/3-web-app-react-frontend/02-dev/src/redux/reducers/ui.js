@@ -7,36 +7,48 @@ const RDCR = {}
 // -----------------------------------------------------------------------------
 
 RDCR['FOLDER_NAME'] = (state, {folder_name}) => {
+  if (state.folder_name === folder_name) return state  // noop
+
   const new_state = {...state}
   Object.assign(new_state, {folder_name})
   return new_state
 }
 
 RDCR['THREAD_ID'] = (state, {thread_id}) => {
+  if (state.thread_id === thread_id) return state  // noop
+
   const new_state = {...state}
   Object.assign(new_state, {thread_id})
   return new_state
 }
 
 RDCR['START_THREADS_INDEX'] = (state, {start_threads_index}) => {
+  if (state.start_threads_index === start_threads_index) return state  // noop
+
   const new_state = {...state}
   Object.assign(new_state, {start_threads_index})
   return new_state
 }
 
 RDCR['MAX_THREADS_PER_PAGE'] = (state, {max_threads_per_page}) => {
+  if (state.settings.max_threads_per_page === max_threads_per_page) return state  // noop
+
   const new_state = {...state, settings: {...state.settings}}
   Object.assign(new_state.settings, {max_threads_per_page})
   return new_state
 }
 
 RDCR['PRIVATE_KEY'] = (state, {private_key}) => {
+  if (state.settings.private_key === private_key) return state  // noop
+
   const new_state = {...state, settings: {...state.settings}}
   Object.assign(new_state.settings, {private_key})
   return new_state
 }
 
 RDCR['PRIVATE_KEY_STORAGE'] = (state, {private_key_storage}) => {
+  if (state.settings.private_key_storage === private_key_storage) return state  // noop
+
   const new_state = {...state, settings: {...state.settings}}
   Object.assign(new_state.settings, {private_key_storage})
   return new_state
@@ -47,12 +59,10 @@ RDCR['PRIVATE_KEY_STORAGE'] = (state, {private_key_storage}) => {
 RDCR['INIT'] = (state, action) => {
   let {thread_id} = action
 
-  if (thread_id) {
-    const new_state = RDCR.THREAD_ID(state, {thread_id})
-    return new_state
-  }
+  if (!thread_id) return state  // noop
 
-  return state  // noop
+  const new_state = RDCR.THREAD_ID(state, {thread_id})
+  return new_state
 }
 
 // -----------------------------------------------------------------------------

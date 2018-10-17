@@ -7,10 +7,10 @@ const RDCR = {}
 // -----------------------------------------------------------------------------
 
 RDCR['INSERT_MANY'] = (state, {public_keys}) => {
+  if (!public_keys || (typeof public_keys !== 'object')) return state  // noop
+
   const new_state = {...state}
-
   Object.assign(new_state, public_keys)
-
   return new_state
 }
 

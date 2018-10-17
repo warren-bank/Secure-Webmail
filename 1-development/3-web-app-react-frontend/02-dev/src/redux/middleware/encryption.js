@@ -66,68 +66,66 @@ RSA['GENERATE_KEYPAIR'] = ({getState, dispatch, next, action}) => {
 // -----------------------------------------------------------------------------
 
 FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
-  if (action && action.thread && action.thread.messages && action.thread.messages.length) {
-    const messages     = action.thread.messages
-    const filename     = {...constants.encryption.RESERVED_ATTACHMENT_NAME}
+  if (!action.thread || !Array.isArray(action.thread.messages) || !action.thread.messages.length) return
 
-    const state        = getState()
-    const my_email     = state.user.email_address
-    const my_pvtkey    = state.ui.settings.private_key
+  const messages     = action.thread.messages
+  const filename     = {...constants.encryption.RESERVED_ATTACHMENT_NAME}
 
-    // sanity checks:
-    if (!my_email)  throw new Error('ERROR: Redux action "DECRYPT_MESSAGES_IN_THREAD" requires that the global state contain the email address associated with the current Google user account.')
-    if (!my_pvtkey) throw new Error('ERROR: Redux action "DECRYPT_MESSAGES_IN_THREAD" requires that the global state contain the private RSA encryption key associated with the current Google user account.')
+  const state        = getState()
+  const my_email     = state.user.email_address
+  const my_pvtkey    = state.ui.settings.private_key
 
-    for (let i=0; i < messages.length; i++) {
-      let contents = messages[i].contents
+  // sanity checks:
+  if (!my_email)  throw new Error('ERROR: Redux action "DECRYPT_MESSAGES_IN_THREAD" requires that the global state contain the email address associated with the current Google user account.')
+  if (!my_pvtkey) throw new Error('ERROR: Redux action "DECRYPT_MESSAGES_IN_THREAD" requires that the global state contain the private RSA encryption key associated with the current Google user account.')
 
-      if (contents.attachments && contents.attachments.length) {
-        let index_ciphers = contents.attachments.find(attachment => attachment.name === filename.CIPHERS)
-        if ((typeof index_ciphers !== 'number') || (index_ciphers < 0)) continue  // next message
+  for (let i=0; i < messages.length; i++) {
+    let contents = messages[i].contents
 
-        try {
-          const new_contents = {body: '', attachments: []}
+    if (!contents.attachments || !Array.isArray(contents.attachments) || !contents.attachments.length) continue  // next message
 
-          const ciphers = JSON.parse( contents.attachments[index_ciphers]['data'] )
-          if (!ciphers || (typeof ciphers !== 'object')) throw ''
+    let index_ciphers = contents.attachments.find(attachment => attachment.name === filename.CIPHERS)
+    if ((typeof index_ciphers !== 'number') || (index_ciphers < 0)) continue  // next message
 
-          const cipher = ciphers[my_email]
-          if (!cipher || (typeof cipher !== 'string')) throw ''
+    try {
+      const new_contents = {body: '', attachments: []}
 
-          const secret = crypto.RSA.decrypt(cipher, my_pvtkey)
-          if (!secret || (typeof secret !== 'string') || (secret.length !== 256)) throw ''
+      const ciphers = JSON.parse( contents.attachments[index_ciphers]['data'] )
+      if (!ciphers || (typeof ciphers !== 'object')) throw ''
 
-          for (let j=0; j < contents.attachments.length; j++) {
-            if (j === index_ciphers) continue  // next attachment
+      const cipher = ciphers[my_email]
+      if (!cipher || (typeof cipher !== 'string')) throw ''
 
-            let attachment   = contents.attachments[j]
-            let {data, name} = attachment
+      const secret = crypto.RSA.decrypt(cipher, my_pvtkey)
+      if (!secret || (typeof secret !== 'string') || (secret.length !== 256)) throw ''
 
-            let cleartext = crypto.AES.decrypt(data, secret)
+      for (let j=0; j < contents.attachments.length; j++) {
+        if (j === index_ciphers) continue  // next attachment
 
-            if (name === filename.BODY) {
-              new_contents.body = cleartext
-            }
-            else {
-              const new_attachment = {
-                data:        cleartext,                                      // data URI format: 'data:[<mediatype>][;base64],<data>'
-                contentType: cleartext.substring(5, cleartext.indexOf(';')),
-                name
-              }
-              new_contents.attachments.push(new_attachment)
-            }
-          }
+        let attachment   = contents.attachments[j]
+        let {data, name} = attachment
 
-          messages[i].contents = new_contents
+        let cleartext = crypto.AES.decrypt(data, secret)
+
+        if (name === filename.BODY) {
+          new_contents.body = cleartext
         }
-        catch() {
-          continue  // next message
+        else {
+          const new_attachment = {
+            data:        cleartext,                                      // data URI format: 'data:[<mediatype>][;base64],<data>'
+            contentType: cleartext.substring(5, cleartext.indexOf(';')),
+            name
+          }
+          new_contents.attachments.push(new_attachment)
         }
       }
+
+      messages[i].contents = new_contents
+    }
+    catch() {
+      continue  // next message
     }
   }
-
-  next(action)
 }
 
 // -----------------------------------------------------------------------------
@@ -203,7 +201,6 @@ HELPER['ENCRYPT_OUTBOUND_MESSAGE'] = ({recipient, body, cc, attachments}, getSta
 FILTER['ENCRYPT_OUTBOUND_MESSAGE'] = ({getState, dispatch, next, action}) => {
   const action_update = HELPER.ENCRYPT_OUTBOUND_MESSAGE(action, getState)
   Object.assign(action, action_update)
-  next(action)
 }
 
 // -----------------------------------------------------------------------------
@@ -217,11 +214,13 @@ const CRYPTO_middleware = ({getState, dispatch}) => next => action => {
 
     case C.SAVE_THREAD:
       FILTER.DECRYPT_MESSAGES_IN_THREAD({getState, dispatch, next, action})
+      next(action)
       break
 
     case C.SEND_EMAIL.REPLY:
     case C.SEND_EMAIL.NEW_MESSAGE:
       FILTER.ENCRYPT_OUTBOUND_MESSAGE({getState, dispatch, next, action})
+      next(action)
       break
 
     default:

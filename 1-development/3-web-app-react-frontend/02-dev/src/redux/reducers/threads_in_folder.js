@@ -7,6 +7,8 @@ const RDCR = {}
 // -----------------------------------------------------------------------------
 
 RDCR['INSERT_MANY'] = (state, {folder_name, thread_ids, method='APPEND'}) => {
+  if (!folder_name || !thread_ids || !Array.isArray(thread_ids) || !thread_ids.length) return state  // noop
+
   const new_state = {...state}
   const existing_threads = state[folder_name]
 
@@ -33,6 +35,8 @@ RDCR['PREPEND_MANY'] = (state, action) => {
 }
 
 RDCR['REFRESH'] = (state, {folder_name}) => {
+  if (!folder_name) return state  // noop
+
   const existing_threads = state[folder_name]
   if (existing_threads && Array.isArray(existing_threads) && !existing_threads.length) return state  // noop
 

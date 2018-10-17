@@ -49,6 +49,13 @@
         "SEND_EMAIL": {
             "REPLY":                "SEND_EMAIL_REPLY",
             "NEW_MESSAGE":          "SEND_EMAIL_NEW_MESSAGE"
+        },
+
+        "@@react_router": {
+            "OPEN_FOLDER":          "REACT_ROUTER_OPEN_FOLDER",
+            "OPEN_THREAD":          "REACT_ROUTER_OPEN_THREAD",
+            "OPEN_COMPOSE_MESSAGE": "REACT_ROUTER_OPEN_COMPOSE_MESSAGE",
+            "OPEN_COMPOSE_REPLY":   "REACT_ROUTER_OPEN_COMPOSE_REPLY"
         }
     },
     "storage": {

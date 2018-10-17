@@ -9,9 +9,21 @@ class Context extends React.Component {
         // helper: in={key:val} out=[[key,val]]
         const entries = (obj) => Object.keys(obj).map(key => [key, obj[key]])
 
-        entries(this.props.actions).map(([key, action]) => {
-            actions[key] = (...args) => store.dispatch(action(...args))
-        })
+        // recursive (if needed)
+        const auto_dispatch_actions_object_container = (obj_in, obj_out) => {
+            const arr_in = entries(obj_in)
+            arr_in.forEach(([key, action]) => {
+                if (typeof action === 'function') {
+                    obj_out[key] = (...args) => store.dispatch(action(...args))
+                }
+                else if ((typeof action === 'object') && (action !== null)) {
+                    obj_out[key] = {}
+                    auto_dispatch_actions_object_container(action, obj_out[key])
+                }
+            })
+        }
+
+        auto_dispatch_actions_object_container(this.props.actions, actions)
 
         return {
             store,
