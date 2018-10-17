@@ -1,10 +1,6 @@
 {
-    "filter": {
-        "values":  {
-            "SHOW_ALL": "SHOW_ALL",
-            "SHOW_ACTIVE": "SHOW_ACTIVE",
-            "SHOW_COMPLETED": "SHOW_COMPLETED"
-        },
-        "default": "SHOW_ALL"
+    "folders": {
+        "names":  ["inbox", "priority-inbox", "starred", "chat", "spam", "trash"],
+        "default": "inbox"
     }
 }

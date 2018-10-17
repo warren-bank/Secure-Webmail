@@ -20,6 +20,22 @@ HELPER['NOOP']['SETTINGS'] = (old_settings, new_settings) => {
 
 // -----------------------------------------------------------------------------
 
+HELPER['UPDATE_THREAD_SUMMARY_FROM_LAST_MESSAGE'] = (new_thread) => {
+  if (!new_thread || !new_thread.summary || !Array.isArray(new_thread.messages) || !new_thread.messages.length) return
+
+  const last_message = new_thread.messages[ new_thread.messages.length - 1 ]
+
+  new_thread.summary           = {...new_thread.summary}
+  new_thread.summary.msg_count = new_thread.messages.length
+
+  if (last_message.contents.body)
+    new_thread.summary.body = last_message.contents.body.substring(0, 160)
+  if (last_message.summary.timestamp)
+    new_thread.summary.date_modified = last_message.summary.timestamp
+}
+
+// -----------------------------------------------------------------------------
+
 RDCR['INSERT_MANY'] = (state, {threads}) => {
   if (!threads || !Array.isArray(threads) || !threads.length) return state  // noop
 
@@ -61,11 +77,13 @@ RDCR['UPDATE_ONE']['THREAD']['MESSAGES'] = (state, {thread_id, thread}) => {
 
   const new_state  = {...state}
   const new_thread = {
-    summary:      {...old_thread.summary},
-    settings:     {...old_thread.settings},
-    messages:     [...thread.messages],
-    participants: [...thread.participants]
+    summary:      old_thread.summary,
+    settings:     old_thread.settings,
+    messages:     thread.messages,
+    participants: thread.participants
   }
+
+  HELPER.UPDATE_THREAD_SUMMARY_FROM_LAST_MESSAGE(new_thread)
 
   new_state[thread_id] = new_thread
   return new_state
@@ -108,6 +126,8 @@ RDCR['UPDATE_ONE']['THREAD']['MESSAGE'] = (state, {{thread_id, recipient, body, 
 
   const new_state  = {...state}
   const new_thread = {...old_thread, messages: [...old_thread.messages, new_message]}  // APPEND new message to thread
+
+  HELPER.UPDATE_THREAD_SUMMARY_FROM_LAST_MESSAGE(new_thread)
 
   new_state[thread_id] = new_thread
   return new_state

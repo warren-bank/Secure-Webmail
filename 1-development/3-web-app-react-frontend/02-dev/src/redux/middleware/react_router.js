@@ -19,6 +19,9 @@ ROUTER['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
   dispatch(
     actions.SAVE_SETTING.START_THREADS_INDEX(start_threads_index)
   )
+  dispatch(
+    actions.SAVE_SETTING.THREAD_ID('')
+  )
 }
 
 // -----------------------------------------------------------------------------
