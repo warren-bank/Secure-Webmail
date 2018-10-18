@@ -7,7 +7,7 @@ const middleware   = [
   require('redux/middleware/settings'),
   require('redux/middleware/triggers'),
   require('redux/middleware/server_API'),
-  require('redux/middleware/react_router')
+  require('redux/middleware/user_events')
 ]
 
 const storeFactory = (stateData = initialState) =>

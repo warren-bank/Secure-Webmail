@@ -14,9 +14,13 @@ const component   = ({folders, history}, {actions}) => {
     )
   )
 
+  const compose_button = (
+    <Compose_New_Email_Button />
+  )
+
   return (
     <div className={`component ${displayName.toLowerCase()}`}>
-      <Compose_New_Email_Button />
+      <Compose_New_Email_Button onClick={() => history.push('/compose')} />
       {folder_buttons}
     </div>
   )

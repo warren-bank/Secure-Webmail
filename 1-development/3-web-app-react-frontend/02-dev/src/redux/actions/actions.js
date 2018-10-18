@@ -245,32 +245,6 @@ actions['SAVE_RSA_PUBLIC_KEYS'] = (public_keys) => {
 
 // -----------------------------------------------------------------------------
 
-actions['SEND_EMAIL'] = {}
-
-actions['SEND_EMAIL']['REPLY'] = (thread_id, recipient, body, cc, attachments) => {
-  return {
-    type: C.SEND_EMAIL.REPLY,
-    thread_id,
-    recipient,
-    body,
-    cc,
-    attachments
-  }
-}
-
-actions['SEND_EMAIL']['NEW_MESSAGE'] = (recipient, subject, body, cc, attachments) => {
-  return {
-    type: C.SEND_EMAIL.NEW_MESSAGE,
-    recipient,
-    subject,
-    body,
-    cc,
-    attachments
-  }
-}
-
-// -----------------------------------------------------------------------------
-
 actions['UPDATE_SETTINGS'] = (max_threads_per_page, private_key, private_key_storage) => {
   return {
     type: C.UPDATE_SETTINGS,
@@ -335,6 +309,79 @@ actions['CRYPTO']['RSA']['GENERATE_KEYPAIR'] = (allow_update) => {
   return {
     type: C.CRYPTO.RSA.GENERATE_KEYPAIR,
     allow_update
+  }
+}
+
+// -----------------------------------------------------------------------------
+
+actions['SEND_EMAIL'] = {}
+
+actions['SEND_EMAIL']['REPLY'] = (thread_id, recipient, body, cc, attachments) => {
+  return {
+    type: C.SEND_EMAIL.REPLY,
+    thread_id,
+    recipient,
+    body,
+    cc,
+    attachments
+  }
+}
+
+actions['SEND_EMAIL']['NEW_MESSAGE'] = (recipient, subject, body, cc, attachments) => {
+  return {
+    type: C.SEND_EMAIL.NEW_MESSAGE,
+    recipient,
+    subject,
+    body,
+    cc,
+    attachments
+  }
+}
+
+// -----------------------------------------------------------------------------
+
+actions['RESPOND_TO_USER_EVENT'] = {}
+
+actions['RESPOND_TO_USER_EVENT']['OPEN_FOLDER'] = ({folder_name, start_threads_index, history, is_push}) => {
+  if (typeof start_threads_index !== 'number')
+    start_threads_index = 0
+
+  if (history && folder_name)
+    (is_push ? history.push : history.replace)(`/folder/${folder_name}/${start_threads_index}`)
+
+  return {
+    type: C.OPEN_FOLDER,
+    folder_name,
+    start_threads_index
+  }
+}
+
+actions['RESPOND_TO_USER_EVENT']['OPEN_THREAD'] = ({thread_id, history, is_push}) => {
+  if (history && thread_id)
+    (is_push ? history.push : history.replace)(`/thread/${thread_id}`)
+
+  return {
+    type: C.OPEN_THREAD,
+    thread_id
+  }
+}
+
+actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_REPLY'] = ({thread_id, history, is_push}) => {
+  if (history && thread_id)
+    (is_push ? history.push : history.replace)(`/thread/${thread_id}/compose`)
+
+  return {
+    type: C.OPEN_COMPOSE_REPLY,
+    thread_id
+  }
+}
+
+actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_MESSAGE'] = ({history, is_push}) => {
+  if (history)
+    (is_push ? history.push : history.replace)(`/compose`)
+
+  return {
+    type: C.OPEN_COMPOSE_MESSAGE
   }
 }
 

@@ -4,19 +4,23 @@ const PropTypes   = require('prop-types')
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'Sidebar'
 
-const Compose_New_Email_Button = require(`./${displayName}/Compose_New_Email_Button`)
-const Folder_Select_Button     = require(`./${displayName}/Folder_Select_Button`)
+const Compose_New = require(`./${displayName}/Compose_New`)
+const Folder      = require(`./${displayName}/Folder`)
 
 const component   = ({folders, history}, {actions}) => {
+  const compose_button = (
+    <Compose_New onClick={() => actions.OPEN_COMPOSE_MESSAGE(history, true)} />
+  )
+
   const folder_buttons = folders.map(
     (folder, i) => (
-      <Folder_Select_Button {...folder} key={i} onClick={() => actions.OPEN_FOLDER(folder.folder_name, 0, history, true)} />
+      <Folder {...folder} key={i} onClick={() => actions.OPEN_FOLDER(folder.folder_name, 0, history, true)} />
     )
   )
 
   return (
     <div className={`component ${displayName.toLowerCase()}`}>
-      <Compose_New_Email_Button />
+      {compose_button}
       {folder_buttons}
     </div>
   )
@@ -27,7 +31,7 @@ component.propTypes = {
   history: PropTypes.object.isRequired
 }
 
-component.requireActions = ['OPEN_FOLDER']
+component.requireActions = ['OPEN_COMPOSE_MESSAGE', 'OPEN_FOLDER']
 
 component.displayName = displayName
 

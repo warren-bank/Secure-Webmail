@@ -51,15 +51,12 @@
             "NEW_MESSAGE":          "SEND_EMAIL_NEW_MESSAGE"
         },
 
-        "@@react_router": {
-            "OPEN_FOLDER":          "REACT_ROUTER_OPEN_FOLDER",
-            "OPEN_THREAD":          "REACT_ROUTER_OPEN_THREAD",
-            "OPEN_COMPOSE_MESSAGE": "REACT_ROUTER_OPEN_COMPOSE_MESSAGE",
-            "OPEN_COMPOSE_REPLY":   "REACT_ROUTER_OPEN_COMPOSE_REPLY"
+        "RESPOND_TO_USER_EVENT": {
+            "OPEN_FOLDER":          "USER_EVENT_OPEN_FOLDER",
+            "OPEN_THREAD":          "USER_EVENT_OPEN_THREAD",
+            "OPEN_COMPOSE_MESSAGE": "USER_EVENT_OPEN_COMPOSE_MESSAGE",
+            "OPEN_COMPOSE_REPLY":   "USER_EVENT_OPEN_COMPOSE_REPLY"
         }
-    },
-    "namespaces": {
-        "REACT_ROUTER":             "@@react_router"
     },
     "storage": {
         "PRIVATE_KEY":              "PRIVATE_KEY"

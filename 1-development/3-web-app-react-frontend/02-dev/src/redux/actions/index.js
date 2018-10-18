@@ -1,9 +1,3 @@
-const redux_middleware_reducers  = require('./redux_middleware_reducers')
-const react_router               = require('./react_router')
-
-const actions = {
-  ...redux_middleware_reducers,
-  ...react_router
-}
+const actions  = require('./actions')
 
 module.exports = actions

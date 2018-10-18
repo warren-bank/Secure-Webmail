@@ -6,20 +6,21 @@
   const store        = require('redux/store').store
   const actions      = (() => {
     const actions    = require('redux/actions')
-    const namespace  = require('redux/data/constants').namespaces.REACT_ROUTER
 
+    // pass initialization data from the server (stored as globally scoped variables) to the Redux store
     store.dispatch(
       actions.STORE_INITIALIZED(window.init_data || {})
     )
 
+    // cherry pick a subset of Redux actions that the UI can dispatch to the store
     return {
-      ...actions[namespace],
+      ...actions.RESPOND_TO_USER_EVENT,
       GENERATE_KEYPAIR: actions.CRYPTO.RSA.GENERATE_KEYPAIR,
       UPDATE_SETTINGS:  actions.UPDATE_SETTINGS,
       SEND_NEW_MESSAGE: actions.SEND_EMAIL.NEW_MESSAGE,
       SEND_REPLY:       actions.SEND_EMAIL.REPLY,
-      UPDATE_THREAD:    actions.UPDATE_THREAD,
-      UPDATE_MESSAGE:   actions.UPDATE_MESSAGE
+      UPDATE_THREAD:    actions.UPDATE_THREAD,             // {MARK_UNREAD, MOVE_TO_TRASH, MOVE_TO_SPAM, MOVE_TO_INBOX, MARK_IMPORTANT}
+      UPDATE_MESSAGE:   actions.UPDATE_MESSAGE             // {MARK_UNREAD, MOVE_TO_TRASH, MARK_STAR}
     }
   })()
 

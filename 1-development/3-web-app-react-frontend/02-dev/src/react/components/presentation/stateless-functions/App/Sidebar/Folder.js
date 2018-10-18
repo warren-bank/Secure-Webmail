@@ -2,7 +2,7 @@ const React       = require('react')
 const PropTypes   = require('prop-types')
 
 const purify      = require('react/components/higher-order/purify')
-const displayName = 'Folder_Select_Button'
+const displayName = 'Folder'
 
 const component   = ({folder_name, title, unread_count}) => {
   return (

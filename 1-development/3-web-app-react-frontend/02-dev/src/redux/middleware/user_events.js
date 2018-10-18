@@ -1,15 +1,13 @@
 const constants  = require('redux/data/constants')
 const actions    = require('redux/actions')
 
-const namespace  = constants.namespaces.REACT_ROUTER
+const C = constants.actions
 
-const C = constants.actions[namespace]
-
-const ROUTER = {}
+const EVENT = {}
 
 // -----------------------------------------------------------------------------
 
-ROUTER['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
+EVENT['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
   const {folder_name, start_threads_index = 0} = action
   if (!folder_name) return
 
@@ -26,7 +24,7 @@ ROUTER['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
-ROUTER['OPEN_THREAD'] = ({getState, dispatch, next, action}) => {
+EVENT['OPEN_THREAD'] = ({getState, dispatch, next, action}) => {
   const {thread_id} = action
   if (!thread_id) return
 
@@ -37,19 +35,19 @@ ROUTER['OPEN_THREAD'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
-const ROUTER_middleware = ({getState, dispatch}) => next => action => {
+const EVENT_middleware = ({getState, dispatch}) => next => action => {
   switch (action.type) {
 
-    case C.OPEN_FOLDER:
-      ROUTER.OPEN_FOLDER({getState, dispatch, next, action})
+    case C.RESPOND_TO_USER_EVENT.OPEN_FOLDER:
+      EVENT.OPEN_FOLDER({getState, dispatch, next, action})
       break
 
-    case C.OPEN_THREAD:
-    case C.OPEN_COMPOSE_REPLY:
-      ROUTER.OPEN_THREAD({getState, dispatch, next, action})
+    case C.RESPOND_TO_USER_EVENT.OPEN_THREAD:
+    case C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_REPLY:
+      EVENT.OPEN_THREAD({getState, dispatch, next, action})
       break
 
-    case C.OPEN_COMPOSE_MESSAGE:
+    case C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_MESSAGE:
       break
 
     default:
@@ -57,4 +55,4 @@ const ROUTER_middleware = ({getState, dispatch}) => next => action => {
   }
 }
 
-module.exports = ROUTER_middleware
+module.exports = EVENT_middleware
