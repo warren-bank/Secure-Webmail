@@ -1,3 +1,119 @@
+* {
+  box-sizing: border-box;
+}
+
 .wrapper {
   max-width: 100%;
+
+  font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #555;
+  background-color: #fff;
 }
+
+/* ------------------------------------------------------------------ */
+
+.top-component.noemail  {}
+.top-component.settings {}
+.top-component.about    {}
+.top-component.app      {}
+
+.top-component.app .component.header  {}
+.top-component.app .component.sidebar {}
+.top-component.app .component.thread  {}
+.top-component.app .component.folder  {}
+
+.top-component.app .component.sidebar .component.compose_new_email_button {}
+.top-component.app .component.sidebar .component.folder_select_button     {}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app .component.header {
+  position: fixed;
+  z-index: 1;
+  top:   0px;
+  left:  0px;
+  right: 0px;
+
+  height: 2em;
+  line-height: 2em;
+  padding: 0 0.5em;
+
+  background-color: #2fa4e7;
+  border-color: #1995dc;
+  color: #fff;
+
+  text-align: right;
+}
+
+.top-component.app .component.header span.title {
+  display: block;
+  float: left;
+  font-size: 1.5em;
+}
+
+.top-component.app .component.header span.email_address {
+  font-weight: bold;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app .component.sidebar {
+  position: fixed;
+  z-index: 2;
+  top: 15px;
+  left: 15px;
+}
+
+.top-component.app .component.sidebar > .component {
+  width: 15em;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+}
+.top-component.app .component.sidebar > .component:first-child {
+  border-top-right-radius: 4px;
+  border-top-left-radius:  4px;
+}
+.top-component.app .component.sidebar > .component:last-child {
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius:  4px;
+}
+
+.top-component.app .component.sidebar .component.compose_new_email_button {
+  background-color: #2fa4e7;
+  border-color: #2fa4e7;
+  color: #fff;
+}
+
+.top-component.app .component.sidebar .component.folder_select_button span.unread_count {
+  display: inline-block;
+  float: right;
+
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 9pt;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-align: center;
+  background-color: #2fa4e7;
+  border-radius: 10px;
+}
+
+.top-component.app .component.sidebar .component.folder_select_button span.title {}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app .component.thread,
+.top-component.app .component.folder {
+  position: absolute;
+  z-index: 3;
+  top: 3em;
+  left: 16em;
+  right: 0;
+}
+
+/* ------------------------------------------------------------------ */

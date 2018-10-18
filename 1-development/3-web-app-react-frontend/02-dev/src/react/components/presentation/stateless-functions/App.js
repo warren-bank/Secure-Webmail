@@ -1,40 +1,32 @@
-const React      = require('react')
-const PropTypes  = require('prop-types')
+const React       = require('react')
+const PropTypes   = require('prop-types')
 
-const purify     = require('react/components/higher-order/purify')
-const AddTodo    = require('./AddTodo')
-const TodoList   = require('./TodoList')
-const Footer     = require('./Footer')
+const purify      = require('react/components/higher-order/purify')
+const displayName = 'App'
 
-const getVisibleTodos = (todos, filter, C) => {
-  switch (filter) {
-    case C.SHOW_COMPLETED:
-      return todos.filter(t => t.completed)
-    case C.SHOW_ACTIVE:
-      return todos.filter(t => !t.completed)
-    case C.SHOW_ALL:
-    default:
-      return todos
-  }
-}
+const Header      = require(`./${displayName}/Header`)
+const Sidebar     = require(`./${displayName}/Sidebar`)
+const Folder      = require(`./${displayName}/Folder`)
+const Thread      = require(`./${displayName}/Thread`)
 
-const App = ({state}, {constants}) => {
-  let C     = constants.filter.values
-  let todos = getVisibleTodos(state.todos, state.visibilityFilter, C)
+const component   = ({state}) => {
+  const page_content = (state.ui.thread_id)
+    ? <Thread thread_id={state.ui.thread_id} {...state.threads[ state.ui.thread_id ]} />
+    : <Folder name={state.ui.folder_name} threads={state.threads} thread_ids={state.threads_in_folder[ state.ui.folder_name ]} start={state.ui.start_threads_index || 0} max={state.ui.settings.max_threads_per_page || 25} />
 
   return (
-    <div>
-      <AddTodo />
-      <TodoList todos={todos} />
-      <Footer visibilityFilter={state.visibilityFilter} />
+    <div className={`top-component ${displayName.toLowerCase()}`}>
+      <Header user={state.user} />
+      <Sidebar folders={state.folders} />
+      {page_content}
     </div>
   )
 }
 
-App.propTypes = {
+component.propTypes = {
   state: PropTypes.object.isRequired
 }
 
-App.displayName = 'App'
+component.displayName = displayName
 
-module.exports = purify(App)
+module.exports = purify(component)

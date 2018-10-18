@@ -8,22 +8,22 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "babel-jest": "^22.0.0",
-    "cross-env": "^5.1.1",
-    "deep-freeze": "0.0.1",
-    "enzyme": "^3.2.0",
-    "enzyme-adapter-react-16": "^1.1.0",
-    "enzyme-to-json": "^3.3.0",
-    "jest": "^22.0.0",
-    "jest-cli": "^22.0.1",
-    "jest-css-modules": "^1.1.0",
-    "regenerator-runtime": "^0.11.1"
+    "babel-jest": "~22.0.0",
+    "cross-env": "~5.1.1",
+    "deep-freeze": "~0.0.1",
+    "enzyme": "~3.2.0",
+    "enzyme-adapter-react-16": "~1.1.0",
+    "enzyme-to-json": "~3.3.0",
+    "jest": "~22.0.0",
+    "jest-cli": "~22.0.1",
+    "jest-css-modules": "~1.1.0",
+    "regenerator-runtime": "~0.11.1"
   },
   "__devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1"
+    "babel-core": "~6.26.0",
+    "babel-preset-env": "~1.6.1",
+    "babel-preset-react": "~6.24.1",
+    "babel-preset-stage-0": "~6.24.1"
   },
   "__babel": {
     "presets": [

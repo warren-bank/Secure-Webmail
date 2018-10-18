@@ -18,14 +18,4 @@ const storeFactory = (stateData = initialState) =>
 
 const store = storeFactory()
 
-// -----------------------------------------------------------------------------
-
-const actions = require('redux/actions')
-
-store.dispatch(
-  actions.STORE_INITIALIZED(window.init_data || {})
-)
-
-// -----------------------------------------------------------------------------
-
 module.exports = {storeFactory, store}

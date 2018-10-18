@@ -67,7 +67,7 @@ RDCR['INIT'] = (state, action) => {
 
 // -----------------------------------------------------------------------------
 
-const ui = (state = {settings: {}}, action) => {
+const ui = (state = {settings: {max_threads_per_page: 25, private_key: '', private_key_storage: 0}}, action) => {
   switch (action.type) {
 
     case C.STORE_INITIALIZED:

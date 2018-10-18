@@ -16,6 +16,7 @@ storage['GET']['storage_key'] = (email_address) => {
 storage['SET']['PRIVATE_KEY'] = (getState, private_key, private_key_storage) => {
   const state = getState()
   const my_email = state.user.email_address
+
   if (typeof private_key_storage !== 'number') {
     private_key_storage = state.ui.settings.private_key_storage
   }
@@ -24,7 +25,7 @@ storage['SET']['PRIVATE_KEY'] = (getState, private_key, private_key_storage) => 
   }
 
   // sanity check
-  if (!my_email || !private_key) return
+  if (!my_email || (typeof private_key !== 'string')) return
 
   const storage_key = storage.GET.storage_key(my_email)
 
