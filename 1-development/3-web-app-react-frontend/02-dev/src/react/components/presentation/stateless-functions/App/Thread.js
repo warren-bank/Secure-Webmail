@@ -4,34 +4,24 @@ const PropTypes   = require('prop-types')
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'Thread'
 
-const Compose_New_Email_Button = require(`./${displayName}/Compose_New_Email_Button`)
-const Folder_Select_Button     = require(`./${displayName}/Folder_Select_Button`)
-
-const component   = ({folders, history}, {actions}) => {
-  const folder_buttons = folders.map(
-    (folder, i) => (
-      <Folder_Select_Button {...folder} key={i} onClick={() => actions.OPEN_FOLDER(folder.folder_name, 0, history, true)} />
-    )
-  )
-
-  const compose_button = (
-    <Compose_New_Email_Button />
-  )
-
+const component   = ({thread_id, summary, settings, messages, participants, history}, {actions}) => {
   return (
     <div className={`component ${displayName.toLowerCase()}`}>
-      <Compose_New_Email_Button onClick={() => history.push('/compose')} />
-      {folder_buttons}
+      {JSON.stringify(summary)}
     </div>
   )
 }
 
 component.propTypes = {
-  folders: PropTypes.arrayOf(PropTypes.object).isRequired,
-  history: PropTypes.object.isRequired
+  thread_id:    PropTypes.string.isRequired,
+  summary:      PropTypes.object.isRequired,
+  settings:     PropTypes.object.isRequired,
+  messages:     PropTypes.arrayOf(PropTypes.object).isRequired,
+  participants: PropTypes.arrayOf(PropTypes.string).isRequired,
+  history:      PropTypes.object.isRequired
 }
 
-component.requireActions = ['OPEN_FOLDER']
+component.requireActions = ['OPEN_COMPOSE_REPLY']
 
 component.displayName = displayName
 
