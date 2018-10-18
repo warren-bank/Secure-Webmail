@@ -36,6 +36,14 @@ HELPERS['folders']['find_foldernames_by_threadid'] = (thread_id, state) => {
 
 // -----------------------------------------------------------------------------
 
+TRIGGERS['INIT'] = ({getState, dispatch, next, action}) => {
+  dispatch(
+    actions.GET_FOLDERS()
+  )
+}
+
+// -----------------------------------------------------------------------------
+
 TRIGGERS['SAVE_FOLDERS'] = ({getState, dispatch, next, action}) => {
   if (!action.folders || !Array.isArray(action.folders) || !action.folders.length) return
 
@@ -166,6 +174,11 @@ TRIGGERS['SEND_EMAIL']['REPLY'] = ({getState, dispatch, next, action}) => {
 
 const TRIGGERS_middleware = ({getState, dispatch}) => next => action => {
   switch (action.type) {
+
+    case C.STORE_INITIALIZED:
+      next(action)
+      TRIGGERS.INIT({getState, dispatch, next, action})
+      break
 
     case C.SAVE_FOLDERS:
       TRIGGERS.SAVE_FOLDERS({getState, dispatch, next, action})
