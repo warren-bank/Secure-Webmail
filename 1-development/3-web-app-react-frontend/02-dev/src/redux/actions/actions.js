@@ -335,7 +335,7 @@ actions['SEND_EMAIL']['NEW_MESSAGE'] = (recipient, subject, body, cc, attachment
 
 actions['RESPOND_TO_USER_EVENT'] = {}
 
-actions['RESPOND_TO_USER_EVENT']['OPEN_FOLDER'] = ({folder_name, start_threads_index, history, is_push}) => {
+actions['RESPOND_TO_USER_EVENT']['OPEN_FOLDER'] = (folder_name, start_threads_index, history, is_push) => {
   if (typeof start_threads_index !== 'number')
     start_threads_index = 0
 
@@ -349,7 +349,7 @@ actions['RESPOND_TO_USER_EVENT']['OPEN_FOLDER'] = ({folder_name, start_threads_i
   }
 }
 
-actions['RESPOND_TO_USER_EVENT']['OPEN_THREAD'] = ({thread_id, history, is_push}) => {
+actions['RESPOND_TO_USER_EVENT']['OPEN_THREAD'] = (thread_id, history, is_push) => {
   if (history && thread_id)
     (is_push ? history.push : history.replace)(`/thread/${thread_id}`)
 
@@ -359,7 +359,7 @@ actions['RESPOND_TO_USER_EVENT']['OPEN_THREAD'] = ({thread_id, history, is_push}
   }
 }
 
-actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_REPLY'] = ({thread_id, history, is_push}) => {
+actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_REPLY'] = (thread_id, history, is_push) => {
   if (history && thread_id)
     (is_push ? history.push : history.replace)(`/thread/${thread_id}/compose`)
 
@@ -369,7 +369,7 @@ actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_REPLY'] = ({thread_id, history, i
   }
 }
 
-actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_MESSAGE'] = ({history, is_push}) => {
+actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_MESSAGE'] = (history, is_push) => {
   if (history)
     (is_push ? history.push : history.replace)(`/compose`)
 
