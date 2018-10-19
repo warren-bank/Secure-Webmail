@@ -26,13 +26,28 @@ API['GET_THREADS_IN_FOLDER'] = ({getState, dispatch, next, action}) => {
 
   if (!folder_name || (typeof folder_name !== 'string')) throw new Error('ERROR: Redux action "GET_THREADS_IN_FOLDER" references an invalid folder name.')
 
+  // catch unneeded requests
+  {
+    const state            = getState()
+    const existing_threads = state.threads_in_folder[folder_name]
+
+    if (!(
+         (start === 0)
+      || (start === existing_threads.length)
+      || (
+              (start < existing_threads.length)
+           && ((start + max) > existing_threads.length)
+         )
+    )) return
+  }
+
   const onSuccess = threads => {
     if (!threads || !Array.isArray(threads) || !threads.length) return
 
     const thread_ids = threads.map(thread => thread.thread_id)
 
     dispatch(
-      actions.SAVE_THREADS_TO_FOLDER.APPEND(folder_name, thread_ids)
+      actions.SAVE_THREADS_TO_FOLDER.INSERT(folder_name, thread_ids, start)
     )
     dispatch(
       actions.SAVE_THREADS(threads)
@@ -55,6 +70,19 @@ API['GET_THREAD'] = ({getState, dispatch, next, action}) => {
       !thread.messages     || !Array.isArray(thread.messages)     || !thread.messages.length     ||
       !thread.participants || !Array.isArray(thread.participants) || !thread.participants.length
     ) return
+
+    // catch unneeded updates
+    {
+      const state             = getState()
+      const existing_messages = state.threads[thread_id].messages
+      let no_change           = (existing_messages.length === thread.messages.length)
+
+      for (let i=0; no_change && (i < existing_messages.length); i++) {
+        no_change = (existing_messages[i].message_id === thread.messages[i].message_id)
+      }
+
+      if (no_change) return
+    }
 
     dispatch(
       // "TRIGGERS_middleware" will dispatch: `actions.GET_RSA_PUBLIC_KEYS(thread.participants)`

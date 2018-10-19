@@ -7,9 +7,8 @@
 
         "GET_THREADS_IN_FOLDER":    "GET_THREADS_IN_FOLDER",
         "SAVE_THREADS_TO_FOLDER": {
-            "PREPEND":              "SAVE_THREADS_TO_FOLDER_PREPEND",
-            "APPEND":               "SAVE_THREADS_TO_FOLDER_APPEND",
-            "REFRESH":              "SAVE_THREADS_TO_FOLDER_REFRESH"
+            "REFRESH":              "SAVE_THREADS_TO_FOLDER_REFRESH",
+            "INSERT":               "SAVE_THREADS_TO_FOLDER_INSERT"
         },
         "SAVE_THREADS":             "SAVE_THREADS",
 

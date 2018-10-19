@@ -21,7 +21,7 @@ component.propTypes = {
   history:     PropTypes.object.isRequired
 }
 
-component.requireActions = ['OPEN_THREAD']
+component.requireActions = ['GET_THREADS', 'OPEN_THREAD']
 
 component.displayName = displayName
 

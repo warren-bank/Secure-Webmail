@@ -51,26 +51,19 @@ actions['GET_THREADS_IN_FOLDER'] = (folder_name, start=0) => {
 
 actions['SAVE_THREADS_TO_FOLDER'] = {}
 
-actions['SAVE_THREADS_TO_FOLDER']['APPEND'] = (folder_name, thread_ids) => {
-  return {
-    type: C.SAVE_THREADS_TO_FOLDER.APPEND,
-    folder_name,
-    thread_ids
-  }
-}
-
-actions['SAVE_THREADS_TO_FOLDER']['PREPEND'] = (folder_name, thread_ids) => {
-  return {
-    type: C.SAVE_THREADS_TO_FOLDER.PREPEND,
-    folder_name,
-    thread_ids
-  }
-}
-
 actions['SAVE_THREADS_TO_FOLDER']['REFRESH'] = (folder_name) => {
   return {
     type: C.SAVE_THREADS_TO_FOLDER.REFRESH,
     folder_name
+  }
+}
+
+actions['SAVE_THREADS_TO_FOLDER']['INSERT'] = (folder_name, thread_ids, start) => {
+  return {
+    type: C.SAVE_THREADS_TO_FOLDER.INSERT,
+    folder_name,
+    thread_ids,
+    start
   }
 }
 
