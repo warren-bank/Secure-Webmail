@@ -12,7 +12,7 @@ const initialState = {
   "threads": {
     "$thread_id": {
       "summary": {
-        "from":						"",					// String
+        "from":						"$email_address",	// String
         "subject":					"",					// String
         "body":						"",					// String
         "date_created":				0,					// Number (UTC timestamp in ms)
@@ -30,8 +30,8 @@ const initialState = {
       "messages": [{
         "message_id":				"",					// String
         "summary": {
-          "from":					"",					// String
-          "to":						[""],				// Array of String
+          "from":					"$email_address",	// String
+          "to":						["$email_address"],	// Array of String
           "timestamp":				0					// Number (UTC timestamp in ms)
         },
         "contents": {
@@ -48,9 +48,7 @@ const initialState = {
           "trash":					false				// Boolean
         }
       }],
-      "participants": [
-        "email_address":			""					// String
-      ]
+      "participants":				["$email_address"]	// Array of String
     }
   },
   "user": {

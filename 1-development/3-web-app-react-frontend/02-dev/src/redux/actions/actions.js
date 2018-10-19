@@ -343,7 +343,7 @@ actions['RESPOND_TO_USER_EVENT']['OPEN_FOLDER'] = ({folder_name, start_threads_i
     (is_push ? history.push : history.replace)(`/folder/${folder_name}/${start_threads_index}`)
 
   return {
-    type: C.OPEN_FOLDER,
+    type: C.RESPOND_TO_USER_EVENT.OPEN_FOLDER,
     folder_name,
     start_threads_index
   }
@@ -354,7 +354,7 @@ actions['RESPOND_TO_USER_EVENT']['OPEN_THREAD'] = ({thread_id, history, is_push}
     (is_push ? history.push : history.replace)(`/thread/${thread_id}`)
 
   return {
-    type: C.OPEN_THREAD,
+    type: C.RESPOND_TO_USER_EVENT.OPEN_THREAD,
     thread_id
   }
 }
@@ -364,7 +364,7 @@ actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_REPLY'] = ({thread_id, history, i
     (is_push ? history.push : history.replace)(`/thread/${thread_id}/compose`)
 
   return {
-    type: C.OPEN_COMPOSE_REPLY,
+    type: C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_REPLY,
     thread_id
   }
 }
@@ -374,7 +374,7 @@ actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_MESSAGE'] = ({history, is_push}) 
     (is_push ? history.push : history.replace)(`/compose`)
 
   return {
-    type: C.OPEN_COMPOSE_MESSAGE
+    type: C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_MESSAGE
   }
 }
 

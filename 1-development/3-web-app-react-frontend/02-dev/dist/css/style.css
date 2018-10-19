@@ -29,6 +29,33 @@
 
 /* ------------------------------------------------------------------ */
 
+.top-component.settings label,
+.top-component.settings input,
+.top-component.settings textarea,
+.top-component.settings select,
+.top-component.settings button {
+  display: block;
+  width: 100%;
+}
+
+.top-component.settings input,
+.top-component.settings textarea,
+.top-component.settings select {
+  padding: 0.5em;
+}
+
+.top-component.settings textarea {
+  height: 10em;
+}
+
+.top-component.settings label,
+.top-component.settings button {
+  margin-top: 1em;
+  padding: 0.5em 0;
+}
+
+/* ------------------------------------------------------------------ */
+
 .top-component.app .component.header {
   position: fixed;
   z-index: 1;

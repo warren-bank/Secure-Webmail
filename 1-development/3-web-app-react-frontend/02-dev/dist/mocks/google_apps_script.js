@@ -1,14 +1,18 @@
 window.google = {}
 
-;(function(google){
+;(function(google, data){
 
   let do_run = function(val){
-    return function(){
+    return function(...args){
+      let _val = (typeof val === 'function')
+        ? val(...args)
+        : val
+
       if (google.script.run.cb) {
-        google.script.run.cb(val)
+        google.script.run.cb(_val)
         delete google.script.run.cb
       }
-      return val
+      return _val
     }
   }
 
@@ -19,9 +23,9 @@ window.google = {}
 
   google.script = {}
   google.script.run = {
-    get_folders:           get_arr,
-    get_threads_in_folder: get_arr,
-    get_thread:            get_obj,
+    get_folders:           do_run(data.folders),
+    get_threads_in_folder: do_run((folder_name) => data.threads_in_folder[folder_name]),
+    get_thread:            do_run((thread_id) => data.threads[thread_id]),
     update_thread:         get_bool,
     update_message:        get_bool,
     set_public_key:        get_bool,
@@ -40,4 +44,4 @@ window.google = {}
     return google.script.run
   }
 
-})(window.google)
+})(window.google, window.mock_data)
