@@ -89,7 +89,7 @@ RDCR['UPDATE_ONE']['THREAD']['MESSAGES'] = (state, {thread_id, thread}) => {
   return new_state
 }
 
-RDCR['UPDATE_ONE']['THREAD']['MESSAGE'] = (state, {{thread_id, recipient, body, cc, attachments}}) => {
+RDCR['UPDATE_ONE']['THREAD']['MESSAGE'] = (state, {thread_id, recipient, body, cc, attachments}) => {
   if (!thread_id) return state  // noop
   if (! (body || (attachments && Array.isArray(attachments) && attachments.length)) ) return state  // noop
 

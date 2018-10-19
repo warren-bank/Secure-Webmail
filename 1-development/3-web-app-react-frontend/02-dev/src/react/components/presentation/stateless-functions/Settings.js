@@ -23,6 +23,21 @@ const component   = ({settings}, {actions}) => {
     }
   }
 
+  const get_private_key_storage_options = () => {
+    const descriptions = [
+      'Do not store private key',
+      'Use "sessionStorage" to store private key',
+      'Use "localStorage" to store private key'
+    ]
+    const options = descriptions.map((txt, val) => {
+      let selected = (Number(settings.private_key_storage) === val)
+      return (
+        <option value={val} key={val} selected={selected}>{txt}</option>
+      )
+    })
+    return options
+  }
+
   return (
     <div className={`top-component ${displayName.toLowerCase()}`}>
       <form onSubmit={save_settings} >
@@ -34,9 +49,7 @@ const component   = ({settings}, {actions}) => {
 
         <label for="private_key_storage">Storage Private Key:</label>
         <select id="private_key_storage" name="private_key_storage">
-          <option value="0" { (0 === Number(settings.private_key_storage)) ? 'selected' : '' } >Do not store private key</option>
-          <option value="1" { (1 === Number(settings.private_key_storage)) ? 'selected' : '' } >Use "sessionStorage" to store private key</option>
-          <option value="2" { (2 === Number(settings.private_key_storage)) ? 'selected' : '' } >Use "localStorage" to store private key</option>
+          {get_private_key_storage_options()}
         </select>
 
         <button type="submit">Save Settings</button>

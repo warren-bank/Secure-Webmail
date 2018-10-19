@@ -153,7 +153,8 @@ API['UPDATE_MESSAGE'] = ({getState, dispatch, next, action}) => {
 // -----------------------------------------------------------------------------
 
 API['SET_RSA_PUBLIC_KEY'] = ({getState, dispatch, next, action}) => {
-  const {public_key, allow_update} = action
+  const {public_key} = action
+  let {allow_update} = action
 
   if (!public_key || (typeof public_key !== 'string')) throw new Error('ERROR: Redux action "SET_RSA_PUBLIC_KEY" references an invalid public key.')
 

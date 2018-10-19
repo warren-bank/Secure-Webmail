@@ -14,7 +14,7 @@ HELPERS['folders']['convert_to_hash'] = folders_array => {
   const folders_object = {}
 
   folders_array.forEach(folder => {
-    {folder_name, unread_count} = folder
+    let {folder_name, unread_count} = folder
     folders_object[folder_name] = unread_count
   })
 
@@ -77,8 +77,8 @@ TRIGGERS['SAVE_THREAD_UPDATE'] = ({getState, dispatch, next, action}) => {
   const old_folders  = HELPERS.folders.convert_to_hash(state.folders)
   const old_settings = state.threads[thread_id].settings
 
-  const new_folders  = state.folders.map(folder => {...folder})
-  const dirty = false
+  const new_folders  = state.folders.map(folder => ({...folder}))
+  let dirty = false
 
   if (typeof options.unread === 'boolean') {
     if (options.unread !== old_settings.unread) {
@@ -122,7 +122,7 @@ TRIGGERS['SAVE_MESSAGE_UPDATE'] = ({getState, dispatch, next, action}) => {
   }
 
   const new_options = {}
-  const dirty = false
+  let dirty = false
 
   if (typeof options.unread === 'boolean') {
     if (options.unread !== old_settings.message.unread) {

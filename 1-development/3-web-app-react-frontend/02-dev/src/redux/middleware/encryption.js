@@ -60,7 +60,7 @@ RSA['GENERATE_KEYPAIR'] = ({getState, dispatch, next, action}) => {
       actions.SET_RSA_PUBLIC_KEY(public_key, allow_update)
     )
   })
-  .catch(() => {})
+  .catch((err) => {})
 }
 
 // -----------------------------------------------------------------------------
@@ -122,7 +122,7 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
 
       messages[i].contents = new_contents
     }
-    catch() {
+    catch(err) {
       continue  // next message
     }
   }
