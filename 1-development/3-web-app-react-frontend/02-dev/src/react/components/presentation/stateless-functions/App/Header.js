@@ -14,7 +14,7 @@ const component   = ({user}) => {
 }
 
 component.propTypes = {
-  user: PropTypes.object.isRequired
+  user:  PropTypes.object.isRequired
 }
 
 component.displayName = displayName

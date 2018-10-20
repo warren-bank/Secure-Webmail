@@ -7,7 +7,7 @@ const displayName = 'Sidebar'
 const Compose_New = require(`./${displayName}/Compose_New`)
 const Folder      = require(`./${displayName}/Folder`)
 
-const component   = ({folders, history}, {actions}) => {
+const component   = ({folders}, {actions, history}) => {
   const compose_button = (
     <Compose_New onClick={actions.OPEN_COMPOSE_MESSAGE.bind(this, history, true)} />
   )
@@ -27,16 +27,12 @@ const component   = ({folders, history}, {actions}) => {
 }
 
 component.propTypes = {
-  folders:      PropTypes.arrayOf(PropTypes.object).isRequired,
-  history:      PropTypes.shape({
-    push:         PropTypes.func.isRequired,
-    replace:      PropTypes.func.isRequired,
-    createHref:   PropTypes.func.isRequired
-  }).isRequired
+  folders:  PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
 component.contextTypes = {
-  actions: PropTypes.object.isRequired
+  actions:  PropTypes.object.isRequired,
+  history:  PropTypes.object.isRequired
 }
 
 component.requireActions = ['OPEN_COMPOSE_MESSAGE', 'OPEN_FOLDER']

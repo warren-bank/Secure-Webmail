@@ -3,8 +3,8 @@ const PropTypes  = require('prop-types')
 
 class Context extends React.Component {
     getChildContext() {
-        const {store, constants} = this.props
-        const actions            = {}
+        const {store, constants, history} = this.props
+        const actions = {}
 
         // helper: in={key:val} out=[[key,val]]
         const entries = (obj) => Object.keys(obj).map(key => [key, obj[key]])
@@ -28,7 +28,8 @@ class Context extends React.Component {
         return {
             store,
             actions,
-            constants
+            constants,
+            history
         }
     }
 
@@ -54,9 +55,10 @@ Context.propTypes = {
     store:     PropTypes.object.isRequired,
     actions:   PropTypes.object.isRequired,
     constants: PropTypes.object,
+    history:   PropTypes.object.isRequired,
     component: PropTypes.oneOfType([
-               PropTypes.func,
-               PropTypes.instanceOf(React.Component)
+                 PropTypes.func,
+                 PropTypes.instanceOf(React.Component)
                ]).isRequired
 }
 
@@ -67,7 +69,8 @@ Context.defaultProps = {
 Context.childContextTypes = {
     store:     PropTypes.object.isRequired,
     actions:   PropTypes.object.isRequired,
-    constants: PropTypes.object.isRequired
+    constants: PropTypes.object.isRequired,
+    history:   PropTypes.object.isRequired
 }
 
 module.exports = Context

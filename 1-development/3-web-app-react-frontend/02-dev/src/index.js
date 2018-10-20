@@ -25,9 +25,9 @@
     }
   })()
 
-  const constants    = require('react/data/constants')
-  const Router       = require('react/components/container/stateless-functions/Router')
-  const Context      = require('react/components/container/class/Context')
+  const constants          = require('react/data/constants')
+  const {history, Router}  = require('react/components/container/stateless-functions/Router')
+  const Context            = require('react/components/container/class/Context')
 
   //window.React = React
   //window.store = store
@@ -37,6 +37,7 @@
       store,
       actions,
       constants,
+      history,
       component: Router
     }
 

@@ -32,7 +32,8 @@ const purify = function(stateless_func) {
     PureComponentWrap.contextTypes = {
         store:     PropTypes.object,
         actions:   PropTypes.object,
-        constants: PropTypes.object
+        constants: PropTypes.object,
+        history:   PropTypes.object
     };
 
     ["propTypes", "defaultProps"].forEach(key => {

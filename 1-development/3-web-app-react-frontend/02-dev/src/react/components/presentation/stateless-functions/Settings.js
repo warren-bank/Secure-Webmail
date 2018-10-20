@@ -59,11 +59,11 @@ const component   = ({settings}, {actions}) => {
 }
 
 component.propTypes = {
-  settings: PropTypes.object.isRequired
+  settings:  PropTypes.object.isRequired
 }
 
 component.contextTypes = {
-  actions: PropTypes.object.isRequired
+  actions:  PropTypes.object.isRequired
 }
 
 component.requireActions = ['UPDATE_SETTINGS']

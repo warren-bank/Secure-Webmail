@@ -1,13 +1,16 @@
-const React                        = require('react')
-const PropTypes                    = require('prop-types')
-const {HashRouter, Switch, Route}  = require('react-router-dom')
+const React                    = require('react')
+const PropTypes                = require('prop-types')
+const {Router, Switch, Route}  = require('react-router-dom')
+const {createHashHistory}      = require('history')
 
-const App                          = require('react/components/presentation/stateless-functions/App')
-const Settings                     = require('react/components/presentation/stateless-functions/Settings')
-const About                        = require('react/components/presentation/stateless-functions/About')
-const NoEmail                      = require('react/components/presentation/stateless-functions/NoEmail')
+const App                      = require('react/components/presentation/stateless-functions/App')
+const Settings                 = require('react/components/presentation/stateless-functions/Settings')
+const About                    = require('react/components/presentation/stateless-functions/About')
+const NoEmail                  = require('react/components/presentation/stateless-functions/NoEmail')
 
-const Router = ({state}, {store, actions, constants}) => {
+const HashHistory = createHashHistory()
+
+const HashRouter  = ({state}, {store, actions, constants, history}) => {
 
   if (!state.user.email_address)
     return <NoEmail />
@@ -42,7 +45,7 @@ const Router = ({state}, {store, actions, constants}) => {
 
       actions.OPEN_THREAD(thread_id)  // `history` is not passed to prevent URL redirect
 
-      return <App state={state} history={history} />
+      return <App state={state} />
     }
     return <Route exact strict path="/thread/:thread_id" render={_render} />
   })()
@@ -59,7 +62,7 @@ const Router = ({state}, {store, actions, constants}) => {
 
       actions.OPEN_FOLDER(folder_name, start_threads_index)  // `history` is not passed to prevent URL redirect
 
-      return <App state={state} history={history} />
+      return (<App state={state} />)
     }
     return <Route exact strict path="/folder/:folder_name/:start_threads_index?" render={_render} />
   })()
@@ -72,7 +75,7 @@ const Router = ({state}, {store, actions, constants}) => {
   })()
 
   return (
-    <HashRouter>
+    <Router history={HashHistory} >
       <Switch>
         {thread_route}
         {folder_route}
@@ -81,20 +84,21 @@ const Router = ({state}, {store, actions, constants}) => {
         {folder_redirects}
         {default_redirect}
       </Switch>
-    </HashRouter>
+    </Router>
   )
 }
 
-Router.propTypes = {
+HashRouter.propTypes = {
   state: PropTypes.object.isRequired
 }
 
-Router.contextTypes = {
+HashRouter.contextTypes = {
   store:     PropTypes.object,
   actions:   PropTypes.object,
-  constants: PropTypes.object
+  constants: PropTypes.object,
+  history:   PropTypes.object
 }
 
-Router.displayName = 'Router'
+HashRouter.displayName = 'Router'
 
-module.exports = Router
+module.exports = {history: HashHistory, Router: HashRouter}

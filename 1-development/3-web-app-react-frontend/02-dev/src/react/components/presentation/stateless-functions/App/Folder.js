@@ -4,7 +4,7 @@ const PropTypes   = require('prop-types')
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'Folder'
 
-const component   = ({folder_name, threads, thread_ids, start, max, history}, {actions}) => {
+const component   = ({folder_name, threads, thread_ids, start, max}, {actions, history}) => {
   return (
     <div className={`component ${displayName.toLowerCase()}`}>
       <h1>{folder_name}</h1>
@@ -17,16 +17,12 @@ component.propTypes = {
   threads:      PropTypes.object.isRequired,
   thread_ids:   PropTypes.arrayOf(PropTypes.string).isRequired,
   start:        PropTypes.number.isRequired,
-  max:          PropTypes.number.isRequired,
-  history:      PropTypes.shape({
-    push:         PropTypes.func.isRequired,
-    replace:      PropTypes.func.isRequired,
-    createHref:   PropTypes.func.isRequired
-  }).isRequired
+  max:          PropTypes.number.isRequired
 }
 
 component.contextTypes = {
-  actions: PropTypes.object.isRequired
+  actions:  PropTypes.object.isRequired,
+  history:  PropTypes.object.isRequired
 }
 
 component.requireActions = ['GET_THREADS', 'OPEN_THREAD']
