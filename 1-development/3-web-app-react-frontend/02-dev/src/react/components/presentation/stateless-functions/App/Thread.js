@@ -7,7 +7,7 @@ const displayName = 'Thread'
 const component   = ({thread_id, summary, settings, messages, participants, history}, {actions}) => {
   return (
     <div className={`component ${displayName.toLowerCase()}`}>
-      {JSON.stringify(summary)}
+      <pre>{JSON.stringify(summary, null, 4)}</pre>
     </div>
   )
 }
@@ -18,7 +18,15 @@ component.propTypes = {
   settings:     PropTypes.object.isRequired,
   messages:     PropTypes.arrayOf(PropTypes.object).isRequired,
   participants: PropTypes.arrayOf(PropTypes.string).isRequired,
-  history:      PropTypes.object.isRequired
+  history:      PropTypes.shape({
+    push:         PropTypes.func.isRequired,
+    replace:      PropTypes.func.isRequired,
+    createHref:   PropTypes.func.isRequired
+  }).isRequired
+}
+
+component.contextTypes = {
+  actions: PropTypes.object.isRequired
 }
 
 component.requireActions = ['OPEN_COMPOSE_REPLY']

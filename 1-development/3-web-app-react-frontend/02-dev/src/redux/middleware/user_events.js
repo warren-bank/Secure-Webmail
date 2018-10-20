@@ -22,7 +22,7 @@ EVENT['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
 
   if (settings.thread_id !== thread_id)
     dispatch(
-      actions.SAVE_SETTING.THREAD_ID('')
+      actions.SAVE_SETTING.THREAD_ID(thread_id)
     )
 
   if (settings.start_threads_index !== start_threads_index)
@@ -42,7 +42,7 @@ EVENT['OPEN_THREAD'] = ({getState, dispatch, next, action}) => {
 
   if (settings.thread_id !== thread_id)
     dispatch(
-      actions.SAVE_SETTING.THREAD_ID('')
+      actions.SAVE_SETTING.THREAD_ID(thread_id)
     )
 }
 

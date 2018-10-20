@@ -4,9 +4,9 @@ const PropTypes   = require('prop-types')
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'Folder'
 
-const component   = ({folder_name, title, unread_count}) => {
+const component   = ({folder_name, title, unread_count, onClick}) => {
   return (
-    <div className={`component ${displayName.toLowerCase()}`}>
+    <div className={`component ${displayName.toLowerCase()}`} onClick={onClick}>
       <span className="unread_count">{unread_count}</span>
       <span className="title">{title}</span>
     </div>
@@ -16,7 +16,8 @@ const component   = ({folder_name, title, unread_count}) => {
 component.propTypes = {
   folder_name:  PropTypes.string.isRequired,
   title:        PropTypes.string.isRequired,
-  unread_count: PropTypes.number.isRequired
+  unread_count: PropTypes.number.isRequired,
+  onClick:      PropTypes.func.isRequired
 }
 
 component.displayName = displayName

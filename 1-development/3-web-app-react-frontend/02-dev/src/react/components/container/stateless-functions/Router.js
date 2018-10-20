@@ -42,7 +42,7 @@ const Router = ({state}, {store, actions, constants}) => {
 
       actions.OPEN_THREAD(thread_id)  // `history` is not passed to prevent URL redirect
 
-      return <App state={state} />
+      return <App state={state} history={history} />
     }
     return <Route exact strict path="/thread/:thread_id" render={_render} />
   })()
@@ -59,7 +59,7 @@ const Router = ({state}, {store, actions, constants}) => {
 
       actions.OPEN_FOLDER(folder_name, start_threads_index)  // `history` is not passed to prevent URL redirect
 
-      return <App state={state} />
+      return <App state={state} history={history} />
     }
     return <Route exact strict path="/folder/:folder_name/:start_threads_index?" render={_render} />
   })()

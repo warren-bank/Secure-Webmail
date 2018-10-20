@@ -62,6 +62,10 @@ component.propTypes = {
   settings: PropTypes.object.isRequired
 }
 
+component.contextTypes = {
+  actions: PropTypes.object.isRequired
+}
+
 component.requireActions = ['UPDATE_SETTINGS']
 
 component.displayName = displayName
