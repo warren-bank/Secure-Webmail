@@ -2,6 +2,11 @@
   box-sizing: border-box;
 }
 
+html, body, .wrapper {
+  margin: 0;
+  padding: 0;
+}
+
 .wrapper {
   max-width: 100%;
 
@@ -19,13 +24,13 @@
 .top-component.about    {}
 .top-component.app      {}
 
-.top-component.app .component.header  {}
-.top-component.app .component.sidebar {}
-.top-component.app .component.thread  {}
-.top-component.app .component.folder  {}
+.top-component.app > .component.header  {}
+.top-component.app > .component.sidebar {}
+.top-component.app > .component.thread  {}
+.top-component.app > .component.folder  {}
 
-.top-component.app .component.sidebar .component.compose_new_email_button {}
-.top-component.app .component.sidebar .component.folder_select_button     {}
+.top-component.app > .component.sidebar > .component.compose_new {}
+.top-component.app > .component.sidebar > .component.folder     {}
 
 /* ------------------------------------------------------------------ */
 
@@ -56,7 +61,7 @@
 
 /* ------------------------------------------------------------------ */
 
-.top-component.app .component.header {
+.top-component.app > .component.header {
   position: fixed;
   z-index: 1;
   top:   0px;
@@ -74,46 +79,54 @@
   text-align: right;
 }
 
-.top-component.app .component.header span.title {
+.top-component.app > .component.header span.title {
   display: block;
   float: left;
   font-size: 1.5em;
 }
 
-.top-component.app .component.header span.email_address {
+.top-component.app > .component.header span.email_address {
   font-weight: bold;
 }
 
 /* ------------------------------------------------------------------ */
 
-.top-component.app .component.sidebar {
+.top-component.app > .component.sidebar {
   position: fixed;
   z-index: 2;
-  top: 15px;
-  left: 15px;
+  top: 3em;
+  left: 1em;
 }
 
-.top-component.app .component.sidebar > .component {
+.top-component.app > .component.sidebar > .component {
   width: 15em;
-  padding: 10px 15px;
+  padding: .75em 1em;
   border: 1px solid #ddd;
+
+  text-align:center;
+  cursor: pointer;
 }
-.top-component.app .component.sidebar > .component:first-child {
+.top-component.app > .component.sidebar > .component:first-child {
   border-top-right-radius: 4px;
   border-top-left-radius:  4px;
 }
-.top-component.app .component.sidebar > .component:last-child {
+.top-component.app > .component.sidebar > .component:last-child {
   border-bottom-right-radius: 4px;
   border-bottom-left-radius:  4px;
 }
 
-.top-component.app .component.sidebar .component.compose_new_email_button {
+.top-component.app > .component.sidebar > .component.compose_new {
   background-color: #2fa4e7;
   border-color: #2fa4e7;
   color: #fff;
 }
 
-.top-component.app .component.sidebar .component.folder_select_button span.unread_count {
+.top-component.app > .component.sidebar > .component span {
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.top-component.app > .component.sidebar > .component.folder span.unread_count {
   display: inline-block;
   float: right;
 
@@ -130,17 +143,17 @@
   border-radius: 10px;
 }
 
-.top-component.app .component.sidebar .component.folder_select_button span.title {}
+.top-component.app > .component.sidebar > .component.folder span.title {}
 
 /* ------------------------------------------------------------------ */
 
-.top-component.app .component.thread,
-.top-component.app .component.folder {
+.top-component.app > .component.thread,
+.top-component.app > .component.folder {
   position: absolute;
   z-index: 3;
   top: 3em;
-  left: 16em;
-  right: 0;
+  left: 17em;
+  right: 1em;
 }
 
 /* ------------------------------------------------------------------ */
