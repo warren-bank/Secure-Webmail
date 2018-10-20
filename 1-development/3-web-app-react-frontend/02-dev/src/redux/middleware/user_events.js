@@ -11,15 +11,24 @@ EVENT['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
   const {folder_name, start_threads_index = 0} = action
   if (!folder_name) return
 
-  dispatch(
-    actions.SAVE_SETTING.FOLDER_NAME(folder_name)
-  )
-  dispatch(
-    actions.SAVE_SETTING.START_THREADS_INDEX(start_threads_index)
-  )
-  dispatch(
-    actions.SAVE_SETTING.THREAD_ID('')
-  )
+  const thread_id = ''
+  const state     = getState()
+  const settings  = state.ui
+
+  if (settings.folder_name !== folder_name)
+    dispatch(
+      actions.SAVE_SETTING.FOLDER_NAME(folder_name)
+    )
+
+  if (settings.thread_id !== thread_id)
+    dispatch(
+      actions.SAVE_SETTING.THREAD_ID('')
+    )
+
+  if (settings.start_threads_index !== start_threads_index)
+    dispatch(
+      actions.SAVE_SETTING.START_THREADS_INDEX(start_threads_index)
+    )
 }
 
 // -----------------------------------------------------------------------------
@@ -28,9 +37,13 @@ EVENT['OPEN_THREAD'] = ({getState, dispatch, next, action}) => {
   const {thread_id} = action
   if (!thread_id) return
 
-  dispatch(
-    actions.SAVE_SETTING.THREAD_ID(thread_id)
-  )
+  const state     = getState()
+  const settings  = state.ui
+
+  if (settings.thread_id !== thread_id)
+    dispatch(
+      actions.SAVE_SETTING.THREAD_ID('')
+    )
 }
 
 // -----------------------------------------------------------------------------
