@@ -3,14 +3,17 @@ const PropTypes                = require('prop-types')
 const {Router, Switch, Route}  = require('react-router-dom')
 const {createHashHistory}      = require('history')
 
+const purify                   = require('react/components/higher-order/purify')
+
 const App                      = require('react/components/presentation/stateless-functions/App')
 const Settings                 = require('react/components/presentation/stateless-functions/Settings')
 const About                    = require('react/components/presentation/stateless-functions/About')
 const NoEmail                  = require('react/components/presentation/stateless-functions/NoEmail')
 
+const displayName = 'Router'
 const HashHistory = createHashHistory()
 
-const HashRouter  = ({state}, {store, actions, constants, history}) => {
+const component   = ({state}, {store, actions, constants, history}) => {
 
   if (!state.user.email_address)
     return <NoEmail />
@@ -88,17 +91,17 @@ const HashRouter  = ({state}, {store, actions, constants, history}) => {
   )
 }
 
-HashRouter.propTypes = {
+component.propTypes = {
   state: PropTypes.object.isRequired
 }
 
-HashRouter.contextTypes = {
+component.contextTypes = {
   store:     PropTypes.object,
   actions:   PropTypes.object,
   constants: PropTypes.object,
   history:   PropTypes.object
 }
 
-HashRouter.displayName = 'Router'
+component.displayName = displayName
 
-module.exports = {history: HashHistory, Router: HashRouter}
+module.exports = {history: HashHistory, Router: purify(component)}
