@@ -1,6 +1,7 @@
 const constants  = require('redux/data/constants')
 
-const C = constants.actions
+const C   = constants.actions
+const MAX = constants.default_settings.max_threads_per_page
 
 const actions = {}
 
@@ -31,14 +32,14 @@ actions['SAVE_FOLDERS'] = (folders) => {
 
 // -----------------------------------------------------------------------------
 
-actions['GET_THREADS_IN_FOLDER'] = (folder_name, start=0, max=25, force=false) => {
+actions['GET_THREADS_IN_FOLDER'] = (folder_name, start=0, max=MAX, force=false) => {
   let body_length = 0
                         // In paginated list of threads, the number of characters in 1st message of each thread to show as a preview "snippet".
                         // `160` is the value used by the official Gmail UI (at "comfortable" density).
                         // This feature has no value when messages are encrypted.
 
-  if ( (typeof max !== 'number') || (max <=0) || (max > 25) )
-    max = 25
+  if ( (typeof max !== 'number') || (max <= 0) || (max > MAX) )
+    max = MAX
 
   return {
     type: C.GET_THREADS_IN_FOLDER,

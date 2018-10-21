@@ -66,5 +66,10 @@
         "CLEARTEXT_CONTENT": {
             "BODY":                 "Encrypted by: Secure Webmail\n\nhttps://secure-webmail.github.io/"
         }
+    },
+    "default_settings": {
+        "max_threads_per_page":     25,
+        "private_key":              "",
+        "private_key_storage":      0
     }
 }

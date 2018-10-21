@@ -13,7 +13,7 @@ const component   = ({state}) => {
 
   const page_content = (state.ui.thread_id)
     ? <Thread thread_id={state.ui.thread_id} {...state.threads[ state.ui.thread_id ]} />
-    : <Folder folder_name={state.ui.folder_name} threads={state.threads} thread_ids={state.threads_in_folder[ state.ui.folder_name ]} start={state.ui.start_threads_index || 0} max={state.ui.settings.max_threads_per_page || 25} />
+    : <Folder folder_name={state.ui.folder_name} threads={state.threads} thread_ids={state.threads_in_folder[ state.ui.folder_name ]} start={state.ui.start_threads_index || 0} max={state.ui.settings.max_threads_per_page} />
 
   return (
     <div className={`top-component ${displayName.toLowerCase()}`}>

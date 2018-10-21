@@ -26,7 +26,7 @@ SETTINGS['INIT'] = ({getState, dispatch, next, action}) => {
 // -----------------------------------------------------------------------------
 
 SETTINGS['UPDATE_SETTINGS'] = ({getState, dispatch, next, action}) => {
-  const {max_threads_per_page = 25, private_key = '', private_key_storage = 0} = action
+  const {max_threads_per_page, private_key, private_key_storage} = Object.assign({}, constants.default_settings, action)
 
   storage.SET.PRIVATE_KEY(getState, private_key, private_key_storage)
 
