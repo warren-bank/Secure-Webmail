@@ -125,6 +125,10 @@ html, body, .wrapper {
   color: #fff;
 }
 
+.top-component.app > .component.sidebar > .component.folder.active {
+  background-color: #eee;
+}
+
 .top-component.app > .component.sidebar > .component span {
   font-size: 1.25em;
   font-weight: bold;

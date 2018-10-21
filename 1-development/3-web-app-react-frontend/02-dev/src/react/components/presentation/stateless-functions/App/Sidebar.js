@@ -7,14 +7,14 @@ const displayName = 'Sidebar'
 const Compose_New = require(`./${displayName}/Compose_New`)
 const Folder      = require(`./${displayName}/Folder`)
 
-const component   = ({folders}, {actions, history}) => {
+const component   = ({folders, active_folder}, {actions, history}) => {
   const compose_button = (
     <Compose_New onClick={actions.OPEN_COMPOSE_MESSAGE.bind(this, history, true)} />
   )
 
   const folder_buttons = folders.map(
     (folder, i) => (
-      <Folder {...folder} key={i} onClick={actions.OPEN_FOLDER.bind(this, folder.folder_name, 0, history, true)} />
+      <Folder {...folder} key={i} onClick={actions.OPEN_FOLDER.bind(this, folder.folder_name, 0, history, true)} active={active_folder === folder.folder_name} />
     )
   )
 
@@ -27,7 +27,8 @@ const component   = ({folders}, {actions, history}) => {
 }
 
 component.propTypes = {
-  folders:  PropTypes.arrayOf(PropTypes.object).isRequired
+  folders:       PropTypes.arrayOf(PropTypes.object).isRequired,
+  active_folder: PropTypes.string.isRequired
 }
 
 component.contextTypes = {
