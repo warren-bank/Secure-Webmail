@@ -36,17 +36,10 @@ HELPERS['folders']['find_foldernames_by_threadid'] = (thread_id, state) => {
 
 // -----------------------------------------------------------------------------
 
-TRIGGERS['INIT'] = ({getState, dispatch, next, action}) => {
-  dispatch(
-    actions.GET_FOLDERS()
-  )
-}
-
-// -----------------------------------------------------------------------------
-
-TRIGGERS['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
   /* ===================================
-   * chain of actions:
+   * the following actions
+   * trigger a common chain of events:
+   * ===================================
    *  - API_middleware
    *     * GET_FOLDERS
    *        - SAVE_FOLDERS(folders)
@@ -61,6 +54,14 @@ TRIGGERS['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
    *     * prepend (forcefully) new thread_ids to: state.threads_in_folder[folder_name]
    * ===================================
    */
+
+TRIGGERS['INIT'] = ({getState, dispatch, next, action}) => {
+  dispatch(
+    actions.GET_FOLDERS()
+  )
+}
+
+TRIGGERS['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
   dispatch(
     actions.GET_FOLDERS()
   )

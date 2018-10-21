@@ -1,5 +1,10 @@
 * {
   box-sizing: border-box;
+
+  -webkit-margin-before: 0px;
+  -webkit-margin-after:  0px;
+  -webkit-margin-start:  0px;
+  -webkit-margin-end:    0px;
 }
 
 html, body, .wrapper {
@@ -67,7 +72,7 @@ html, body, .wrapper {
 
 .top-component.app > .component.header {
   position: fixed;
-  z-index: 1;
+  z-index: 3;
   top:   0px;
   left:  0px;
   right: 0px;
@@ -97,7 +102,7 @@ html, body, .wrapper {
 
 .top-component.app > .component.sidebar {
   position: fixed;
-  z-index: 2;
+  z-index: 1;
   top: 3em;
   left: 1em;
 }
@@ -158,7 +163,7 @@ html, body, .wrapper {
 .top-component.app > .component.folder,
 .top-component.app > .component.thread {
   position: absolute;
-  z-index: 3;
+  z-index: 2;
   top: 3em;
   left: 17em;
   right: 1em;
@@ -177,5 +182,48 @@ html, body, .wrapper {
   border-top-right-radius: 6px;
   border-top-left-radius:  6px;
 }
+
+.top-component.app > .component.folder > .action_buttons {
+  position: absolute;
+  z-index: 1;
+  height: 2.9em;  /* same as <h1>: 2em(height) + .45em(padding-top) + .45em(padding-bottom) */
+  top: 0;
+  right: 0;
+  text-align: right;
+}
+
+.top-component.app > .component.folder > .action_buttons > .button {
+  display: inline-block;
+  margin: .45em;
+  height: 2em;
+  width: 2em;
+
+  background-repeat: no-repeat;
+  background-size: 2em;
+  cursor: pointer;
+}
+
+.top-component.app > .component.folder > .action_buttons > .button.back {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_back_black_36dp.png');
+}
+.top-component.app > .component.folder > .action_buttons > .button.refresh {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/refresh_black_36dp.png');
+}
+.top-component.app > .component.folder > .action_buttons > .button.forward {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_forward_black_36dp.png');
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > .loading,
+.top-component.app > .component.folder > .loading > img {
+  width: 441px;
+  height: 291px;
+  max-width: 100%;
+  display: block;
+  margin: 2em auto;
+}
+
+/* ------------------------------------------------------------------ */
 
 /* ------------------------------------------------------------------ */

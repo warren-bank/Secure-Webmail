@@ -1,5 +1,6 @@
 {
     "folders": {
+        "titles": ["Inbox", "Priority Inbox", "Starred", "Chat", "Spam", "Trash"],
         "names":  ["inbox", "priority-inbox", "starred", "chat", "spam", "trash"],
         "default": "inbox"
     }
