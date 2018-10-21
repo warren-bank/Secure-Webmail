@@ -6,20 +6,7 @@ const RDCR = {}
 
 // -----------------------------------------------------------------------------
 
-RDCR['REFRESH'] = (state, {folder_name}) => {
-  if (!folder_name) return state  // noop
-
-  const existing_threads = state[folder_name]
-  if (existing_threads && Array.isArray(existing_threads) && !existing_threads.length) return state  // noop
-
-  const new_state = {...state}
-  new_state[folder_name] = []
-  return new_state
-}
-
-// -----------------------------------------------------------------------------
-
-RDCR['INSERT'] = (state, {folder_name, thread_ids, start=0}) => {
+RDCR['SAVE'] = (state, {folder_name, thread_ids, start=0, force=false}) => {
   if (!folder_name || !thread_ids || !Array.isArray(thread_ids) || !thread_ids.length) return state  // noop
 
   const new_state = {...state}
@@ -36,6 +23,10 @@ RDCR['INSERT'] = (state, {folder_name, thread_ids, start=0}) => {
 
         // only prepend new threads
         updated_threads = [...new_threads, ...existing_threads]
+      }
+      else if (force) {
+        // prepend all threads
+        updated_threads = [...thread_ids, ...existing_threads]
       }
       else {
         // refresh: replace the existing array
@@ -68,6 +59,10 @@ RDCR['INSERT'] = (state, {folder_name, thread_ids, start=0}) => {
           updated_threads = [...old_threads, ...thread_ids]
         }
       }
+      else if (force) {
+        // append all threads (blindly: DONT DO THIS)
+        updated_threads = [...existing_threads, ...thread_ids]
+      }
       else {
         // undeterministic
         return state  // noop
@@ -87,11 +82,8 @@ RDCR['INSERT'] = (state, {folder_name, thread_ids, start=0}) => {
 const threads_in_folder = (state = {}, action) => {
   switch (action.type) {
 
-    case C.SAVE_THREADS_TO_FOLDER.REFRESH:
-      return RDCR.REFRESH(state, action)
-
-    case C.SAVE_THREADS_TO_FOLDER.INSERT:
-      return RDCR.INSERT(state, action)
+    case C.SAVE_THREADS_TO_FOLDER:
+      return RDCR.SAVE(state, action)
 
     default:
       return state

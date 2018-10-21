@@ -22,7 +22,7 @@ API['GET_FOLDERS'] = ({getState, dispatch, next, action}) => {
 // -----------------------------------------------------------------------------
 
 API['GET_THREADS_IN_FOLDER'] = ({getState, dispatch, next, action}) => {
-  const {folder_name, body_length, start, max} = action
+  const {folder_name, body_length, start, max, force} = action
 
   if (!folder_name || (typeof folder_name !== 'string')) throw new Error('ERROR: Redux action "GET_THREADS_IN_FOLDER" references an invalid folder name.')
 
@@ -47,7 +47,7 @@ API['GET_THREADS_IN_FOLDER'] = ({getState, dispatch, next, action}) => {
     const thread_ids = threads.map(thread => thread.thread_id)
 
     dispatch(
-      actions.SAVE_THREADS_TO_FOLDER.INSERT(folder_name, thread_ids, start)
+      actions.SAVE_THREADS_TO_FOLDER(folder_name, thread_ids, start, force)
     )
     dispatch(
       actions.SAVE_THREADS(threads)
@@ -297,11 +297,10 @@ const API_middleware = ({getState, dispatch}) => next => action => {
       API.SEND_EMAIL.NEW_MESSAGE({getState, dispatch, next, action})
       break
 
-    // "TRIGGERS_middleware" will dispatch: `actions.SAVE_THREADS_TO_FOLDER.REFRESH(folder_name)` when `unread_count` has changed
+    // "TRIGGERS_middleware" will dispatch: `actions.GET_THREADS_IN_FOLDER(folder_name, start=0, max=diff, force=true)` when `unread_count` has changed
     case C.SAVE_FOLDERS:
 
-    case C.SAVE_THREADS_TO_FOLDER.PREPEND:
-    case C.SAVE_THREADS_TO_FOLDER.APPEND:
+    case C.SAVE_THREADS_TO_FOLDER:
     case C.SAVE_THREADS:
 
     // "TRIGGERS_middleware" will dispatch: `actions.GET_RSA_PUBLIC_KEYS(action.thread.participants)`

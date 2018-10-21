@@ -44,6 +44,30 @@ TRIGGERS['INIT'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
+TRIGGERS['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
+  /* ===================================
+   * chain of actions:
+   *  - API_middleware
+   *     * GET_FOLDERS
+   *        - SAVE_FOLDERS(folders)
+   *  - TRIGGERS_middleware
+   *     * SAVE_FOLDERS
+   *        - foreach folder with a larger "unread_count" than was previously in state
+   *           * GET_THREADS_IN_FOLDER(folder_name, start=0, max=diff, force=true)
+   *  - API_middleware
+   *     * GET_THREADS_IN_FOLDER
+   *        - SAVE_THREADS_TO_FOLDER(folder_name, thread_ids, start=0, force=true)
+   *  - reducer: "threads_in_folder"
+   *     * prepend (forcefully) new thread_ids to: state.threads_in_folder[folder_name]
+   * ===================================
+   */
+  dispatch(
+    actions.GET_FOLDERS()
+  )
+}
+
+// -----------------------------------------------------------------------------
+
 TRIGGERS['SAVE_FOLDERS'] = ({getState, dispatch, next, action}) => {
   if (!action.folders || !Array.isArray(action.folders) || !action.folders.length) return
 
@@ -55,9 +79,12 @@ TRIGGERS['SAVE_FOLDERS'] = ({getState, dispatch, next, action}) => {
   const folder_names = Object.keys(old_folders)
 
   folder_names.forEach(folder_name => {
-    if (new_folders[folder_name] !== old_folders[folder_name]) {
+    if (new_folders[folder_name] > old_folders[folder_name]) {
+      let start = 0
+      let max   = new_folders[folder_name] - old_folders[folder_name]
+      let force = true
       dispatch(
-        actions.SAVE_THREADS_TO_FOLDER.REFRESH(folder_name)
+        actions.GET_THREADS_IN_FOLDER(folder_name, start, max, force)
       )
     }
   })
@@ -178,6 +205,11 @@ const TRIGGERS_middleware = ({getState, dispatch}) => next => action => {
     case C.STORE_INITIALIZED:
       next(action)
       TRIGGERS.INIT({getState, dispatch, next, action})
+      break
+
+    case C.RESPOND_TO_USER_EVENT.OPEN_FOLDER:
+      TRIGGERS.OPEN_FOLDER({getState, dispatch, next, action})
+      next(action)
       break
 
     case C.SAVE_FOLDERS:

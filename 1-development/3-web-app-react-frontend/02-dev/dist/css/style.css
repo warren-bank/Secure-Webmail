@@ -26,13 +26,17 @@ html, body, .wrapper {
 
 .top-component.app > .component.header  {}
 .top-component.app > .component.sidebar {}
-.top-component.app > .component.thread  {}
 .top-component.app > .component.folder  {}
+.top-component.app > .component.thread  {}
 
 .top-component.app > .component.sidebar > .component.compose_new {}
 .top-component.app > .component.sidebar > .component.folder     {}
 
 /* ------------------------------------------------------------------ */
+
+.top-component.settings {
+  padding: 0 1em;
+}
 
 .top-component.settings label,
 .top-component.settings input,
@@ -147,13 +151,27 @@ html, body, .wrapper {
 
 /* ------------------------------------------------------------------ */
 
-.top-component.app > .component.thread,
-.top-component.app > .component.folder {
+.top-component.app > .component.folder,
+.top-component.app > .component.thread {
   position: absolute;
   z-index: 3;
   top: 3em;
   left: 17em;
   right: 1em;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > h1 {
+  margin: 0;
+  padding: .45em 1em;
+  font-size: 2em;
+  text-align: center;
+  font-weight: bold;
+
+  background-color: #eee;
+  border-top-right-radius: 6px;
+  border-top-left-radius:  6px;
 }
 
 /* ------------------------------------------------------------------ */

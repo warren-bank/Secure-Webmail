@@ -31,39 +31,32 @@ actions['SAVE_FOLDERS'] = (folders) => {
 
 // -----------------------------------------------------------------------------
 
-actions['GET_THREADS_IN_FOLDER'] = (folder_name, start=0) => {
+actions['GET_THREADS_IN_FOLDER'] = (folder_name, start=0, max=25, force=false) => {
   let body_length = 0
                         // In paginated list of threads, the number of characters in 1st message of each thread to show as a preview "snippet".
                         // `160` is the value used by the official Gmail UI (at "comfortable" density).
                         // This feature has no value when messages are encrypted.
-  let max         = 25
-                        // In paginated list of threads, the number of threads per "page".
-                        // `50` is the value used by the official Gmail UI (at "comfortable" density).
+
+  if ( (typeof max !== 'number') || (max <=0) || (max > 25) )
+    max = 25
 
   return {
     type: C.GET_THREADS_IN_FOLDER,
     folder_name,
     body_length,
     start,
-    max
+    max,
+    force
   }
 }
 
-actions['SAVE_THREADS_TO_FOLDER'] = {}
-
-actions['SAVE_THREADS_TO_FOLDER']['REFRESH'] = (folder_name) => {
+actions['SAVE_THREADS_TO_FOLDER'] = (folder_name, thread_ids, start, force=false) => {
   return {
-    type: C.SAVE_THREADS_TO_FOLDER.REFRESH,
-    folder_name
-  }
-}
-
-actions['SAVE_THREADS_TO_FOLDER']['INSERT'] = (folder_name, thread_ids, start) => {
-  return {
-    type: C.SAVE_THREADS_TO_FOLDER.INSERT,
+    type: C.SAVE_THREADS_TO_FOLDER,
     folder_name,
     thread_ids,
-    start
+    start,
+    force
   }
 }
 
@@ -339,8 +332,16 @@ actions['RESPOND_TO_USER_EVENT']['OPEN_FOLDER'] = (folder_name, start_threads_in
   if (typeof start_threads_index !== 'number')
     start_threads_index = 0
 
-  if (history && folder_name)
-    (is_push ? history.push : history.replace)(`/folder/${folder_name}/${start_threads_index}`)
+  if (history && folder_name) {
+    let URL = `/folder/${folder_name}/${start_threads_index}`
+    ;(is_push ? history.push : history.replace)(URL)
+
+    return {
+      type:   C.RESPOND_TO_USER_EVENT.REDIRECT_URL,
+      target: C.RESPOND_TO_USER_EVENT.OPEN_FOLDER,
+      URL
+    }
+  }
 
   return {
     type: C.RESPOND_TO_USER_EVENT.OPEN_FOLDER,
@@ -350,8 +351,16 @@ actions['RESPOND_TO_USER_EVENT']['OPEN_FOLDER'] = (folder_name, start_threads_in
 }
 
 actions['RESPOND_TO_USER_EVENT']['OPEN_THREAD'] = (thread_id, history, is_push) => {
-  if (history && thread_id)
-    (is_push ? history.push : history.replace)(`/thread/${thread_id}`)
+  if (history && thread_id) {
+    let URL = `/thread/${thread_id}`
+    ;(is_push ? history.push : history.replace)(URL)
+
+    return {
+      type:   C.RESPOND_TO_USER_EVENT.REDIRECT_URL,
+      target: C.RESPOND_TO_USER_EVENT.OPEN_THREAD,
+      URL
+    }
+  }
 
   return {
     type: C.RESPOND_TO_USER_EVENT.OPEN_THREAD,
@@ -360,8 +369,16 @@ actions['RESPOND_TO_USER_EVENT']['OPEN_THREAD'] = (thread_id, history, is_push) 
 }
 
 actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_REPLY'] = (thread_id, history, is_push) => {
-  if (history && thread_id)
-    (is_push ? history.push : history.replace)(`/thread/${thread_id}/compose`)
+  if (history && thread_id) {
+    let URL = `/thread/${thread_id}/compose`
+    ;(is_push ? history.push : history.replace)(URL)
+
+    return {
+      type:   C.RESPOND_TO_USER_EVENT.REDIRECT_URL,
+      target: C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_REPLY,
+      URL
+    }
+  }
 
   return {
     type: C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_REPLY,
@@ -370,8 +387,16 @@ actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_REPLY'] = (thread_id, history, is
 }
 
 actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_MESSAGE'] = (history, is_push) => {
-  if (history)
-    (is_push ? history.push : history.replace)(`/compose`)
+  if (history) {
+    let URL = `/compose`
+    ;(is_push ? history.push : history.replace)(URL)
+
+    return {
+      type:   C.RESPOND_TO_USER_EVENT.REDIRECT_URL,
+      target: C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_MESSAGE,
+      URL
+    }
+  }
 
   return {
     type: C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_MESSAGE
