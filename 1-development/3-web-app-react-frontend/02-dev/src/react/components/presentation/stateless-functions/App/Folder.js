@@ -45,14 +45,14 @@ const component   = ({folder_name, threads, thread_ids, start, max}, {actions, c
     }
 
     if (settings.nav.start.back !== null) {
-      settings.nav.onClick.back    = actions.OPEN_FOLDER.bind(this, folder_name, settings.nav.start.back, max, history, false)
+      settings.nav.onClick.back    = actions.OPEN_FOLDER.bind(this, folder_name, settings.nav.start.back, history, false)
     }
 
     if (settings.nav.start.forward !== null) {
-      settings.nav.onClick.forward = actions.OPEN_FOLDER.bind(this, folder_name, settings.nav.start.forward, max, history, false)
+      settings.nav.onClick.forward = actions.OPEN_FOLDER.bind(this, folder_name, settings.nav.start.forward, history, false)
     }
 
-    settings.nav.onClick.refresh   = actions.OPEN_FOLDER.bind(this, folder_name, 0, max, history, false)
+    settings.nav.onClick.refresh   = actions.OPEN_FOLDER.bind(this, folder_name, 0, history, false)
 
     let folder_index = constants.folders.names.indexOf(folder_name)
     settings.folder_title = (folder_index >= 0) ? constants.folders.titles[folder_index] : folder_name

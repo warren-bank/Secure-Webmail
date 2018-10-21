@@ -65,6 +65,24 @@ TRIGGERS['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
   dispatch(
     actions.GET_FOLDERS()
   )
+
+  // conditionally requested threads from server
+  {
+    const {folder_name, start_threads_index} = action
+    const state = getState()
+    const available_thread_ids = state.threads_in_folder[folder_name]
+
+    let start = null
+    if (!available_thread_ids)
+      start = 0
+    else if (start_threads_index === available_thread_ids.length)
+      start = start_threads_index
+
+    if (start !== null)
+      dispatch(
+        actions.GET_THREADS_IN_FOLDER(folder_name, start)
+      )
+  }
 }
 
 // -----------------------------------------------------------------------------
