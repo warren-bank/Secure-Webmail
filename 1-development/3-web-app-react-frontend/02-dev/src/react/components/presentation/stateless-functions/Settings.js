@@ -4,7 +4,7 @@ const PropTypes   = require('prop-types')
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'Settings'
 
-const component   = ({settings}, {actions}) => {
+const component = ({settings}, {actions}) => {
 
   const save_settings = (e) => {
     e.preventDefault()

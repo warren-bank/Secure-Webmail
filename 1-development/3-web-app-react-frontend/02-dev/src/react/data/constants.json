@@ -3,5 +3,8 @@
         "titles": ["Inbox", "Priority Inbox", "Starred", "Chat", "Spam", "Trash"],
         "names":  ["inbox", "priority-inbox", "starred", "chat", "spam", "trash"],
         "default": "inbox"
-    }
+    },
+    "months": [
+      "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"
+    ]
 }

@@ -4,7 +4,7 @@ const PropTypes   = require('prop-types')
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'Thread'
 
-const component   = ({thread_id, summary, settings, messages, participants}, {actions, history}) => {
+const component = ({thread_id, summary, settings, messages, participants}, {actions, history}) => {
   return (
     <div className={`component ${displayName.toLowerCase()}`}>
       <pre>{JSON.stringify(summary, null, 4)}</pre>

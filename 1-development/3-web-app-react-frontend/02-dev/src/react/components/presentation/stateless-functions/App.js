@@ -9,7 +9,7 @@ const Sidebar     = require(`./${displayName}/Sidebar`)
 const Folder      = require(`./${displayName}/Folder`)
 const Thread      = require(`./${displayName}/Thread`)
 
-const component   = ({state}) => {
+const component = ({state}) => {
 
   const page_content = (state.ui.thread_id)
     ? <Thread thread_id={state.ui.thread_id} {...state.threads[ state.ui.thread_id ]} />

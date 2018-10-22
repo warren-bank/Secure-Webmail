@@ -7,7 +7,7 @@ const displayName = 'Sidebar'
 const Compose_New = require(`./${displayName}/Compose_New`)
 const Folder      = require(`./${displayName}/Folder`)
 
-const component   = ({folders, active_folder}, {actions, history}) => {
+const component = ({folders, active_folder}, {actions, history}) => {
   const compose_button = (
     <Compose_New onClick={actions.OPEN_COMPOSE_MESSAGE.bind(this, history, true)} />
   )

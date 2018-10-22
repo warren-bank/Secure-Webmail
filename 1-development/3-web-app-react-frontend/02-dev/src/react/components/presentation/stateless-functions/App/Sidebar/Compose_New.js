@@ -4,7 +4,7 @@ const PropTypes   = require('prop-types')
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'Compose_New'
 
-const component   = ({onClick}) => {
+const component = ({onClick}) => {
   return (
     <div className={`component ${displayName.toLowerCase()}`} onClick={onClick}>
       <span>Compose</span>

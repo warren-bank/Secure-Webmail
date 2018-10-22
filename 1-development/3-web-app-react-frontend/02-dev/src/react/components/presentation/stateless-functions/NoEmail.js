@@ -4,7 +4,7 @@ const PropTypes   = require('prop-types')
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'NoEmail'
 
-const component   = () => {
+const component = () => {
   return (
     <div className={`top-component ${displayName.toLowerCase()}`}>
       Please log into a Google account.

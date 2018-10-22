@@ -4,7 +4,7 @@ const PropTypes   = require('prop-types')
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'Header'
 
-const component   = ({user}) => {
+const component = ({user}) => {
   return (
     <div className={`component ${displayName.toLowerCase()}`}>
       <span className="title">Secure Webmail</span>

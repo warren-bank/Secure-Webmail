@@ -4,7 +4,9 @@ const PropTypes   = require('prop-types')
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'Folder'
 
-const component   = ({folder_name, threads, thread_ids, start, max}, {actions, constants, history}) => {
+const Thread_Summary  = require(`./${displayName}/Thread_Summary`)
+
+const component = ({folder_name, threads, thread_ids, start, max}, {actions, constants, history}) => {
 
   const settings  = {
     nav: {
@@ -73,6 +75,17 @@ const component   = ({folder_name, threads, thread_ids, start, max}, {actions, c
     )
   }
 
+  const thread_summaries = []
+  settings.pagination.thread_ids.forEach(thread_id => {
+    const thread = threads[thread_id]
+
+    if (!thread || !thread.summary || !thread.settings) return
+
+    thread_summaries.push(
+      <Thread_Summary key={thread_id} thread_id={thread_id} summary={thread.summary} settings={thread.settings} />
+    )
+  })
+
   return (
     <div className={`component ${displayName.toLowerCase()}`}>
       <div className="action_buttons">
@@ -87,6 +100,7 @@ const component   = ({folder_name, threads, thread_ids, start, max}, {actions, c
         }
       </div>
       <h1>{settings.folder_title}</h1>
+      {thread_summaries}
     </div>
   )
 }
