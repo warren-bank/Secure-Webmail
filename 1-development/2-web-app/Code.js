@@ -153,9 +153,11 @@ function get_threads_in_folder(folder_name, body_length, start, max) {
   return threads
 }
 
-function get_thread(thread_id, current_message_count) {
+function get_thread(thread_id, current_message_count, body_length) {
   var thread = {
-    messages: [],
+    summary:      null,
+    settings:     null,
+    messages:     [],
     participants: []
   }
 
@@ -165,10 +167,38 @@ function get_thread(thread_id, current_message_count) {
     return emails
   }
 
+  var add_metadata = function(oMessages) {
+    if (!oMessages || !oMessages.length) return
+
+    var m0, m9
+    m0 = oMessages[0]
+    m9 = oMessages[ oMessages.length - 1 ]
+
+    thread.summary = {
+      from:          m0.getFrom(),                                                     // String
+      subject:       m0.getSubject(),                                                  // String
+      body:          (body_length ? m9.getPlainBody().substring(0, body_length) : ''), // String
+      date_created:  m0.getDate().getTime(),                                           // Number (UTC timestamp in ms)
+      date_modified: m9.getDate().getTime(),                                           // Number (UTC timestamp in ms)
+      msg_count:     oMessages.length                                                  // Number
+    }
+
+    thread.settings = {
+      star:          oThread.hasStarredMessages(),                                     // Boolean
+      important:     oThread.isImportant(),                                            // Boolean
+      unread:        oThread.isUnread(),                                               // Boolean
+      trash:         oThread.isInTrash(),                                              // Boolean
+      spam:          oThread.isInSpam(),                                               // Boolean
+      inbox:         oThread.isInInbox()                                               // Boolean
+    }
+  }
+
   var process_messages = function(oMessages) {
     if (!oMessages || !oMessages.length) return
 
     if (current_message_count && (current_message_count === oMessages.length)) return
+
+    add_metadata(oMessages)
 
     var participants = {}
 

@@ -13,6 +13,13 @@ const NoEmail                  = require('react/components/presentation/stateles
 const displayName = 'Router'
 const HashHistory = createHashHistory()
 
+const location_cache = {}
+const new_location   = location => {
+  const is_new = location_cache.pathname !== location.pathname
+  if (is_new) location_cache.pathname = location.pathname
+  return is_new
+}
+
 const component   = ({state}, {store, actions, constants, history}) => {
 
   if (!state.user.email_address)
@@ -43,10 +50,11 @@ const component   = ({state}, {store, actions, constants, history}) => {
   })()
 
   const thread_route = (() => {
-    const _render = ({history, match}) => {
+    const _render = ({location, history, match}) => {
       const {thread_id} = match.params
 
-      actions.OPEN_THREAD(thread_id)  // `history` is not passed to prevent URL redirect
+      if (new_location(location))
+        actions.OPEN_THREAD(thread_id)  // `history` is not passed to prevent URL redirect
 
       return <App state={state} />
     }
@@ -54,7 +62,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
   })()
 
   const folder_route = (() => {
-    const _render = ({history, match}) => {
+    const _render = ({location, history, match}) => {
       const {folder_name, start_threads_index} = match.params
 
       if (start_threads_index === undefined) {
@@ -63,7 +71,8 @@ const component   = ({state}, {store, actions, constants, history}) => {
         return null
       }
 
-      actions.OPEN_FOLDER(folder_name, start_threads_index)  // `history` is not passed to prevent URL redirect
+      if (new_location(location))
+        actions.OPEN_FOLDER(folder_name, start_threads_index)  // `history` is not passed to prevent URL redirect
 
       return (<App state={state} />)
     }

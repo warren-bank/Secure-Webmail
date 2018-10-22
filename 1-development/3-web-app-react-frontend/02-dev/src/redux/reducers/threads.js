@@ -36,7 +36,7 @@ HELPER['UPDATE_THREAD_SUMMARY_FROM_LAST_MESSAGE'] = (new_thread) => {
 
 // -----------------------------------------------------------------------------
 
-RDCR['INSERT_MANY'] = (state, {threads}) => {
+RDCR['SAVE_THREADS'] = (state, {threads}) => {
   if (!threads || !Array.isArray(threads) || !threads.length) return state  // noop
 
   let insert_counter = 0
@@ -63,33 +63,19 @@ RDCR['INSERT_MANY'] = (state, {threads}) => {
 
 // -----------------------------------------------------------------------------
 
-RDCR['UPDATE_ONE'] = {
-  "THREAD":  {},
-  "MESSAGE": {}
-}
-
-RDCR['UPDATE_ONE']['THREAD']['MESSAGES'] = (state, {thread_id, thread}) => {
+RDCR['SAVE_THREAD'] = (state, {thread_id, thread}) => {
   if (!thread_id) return state  // noop
-  if (!thread || (typeof thread !== 'object') || !Array.isArray(thread.messages) || !Array.isArray(thread.participants)) return state  // noop
-
-  const old_thread = state[thread_id]
-  if (!old_thread || (typeof old_thread !== 'object') || !old_thread.summary || !old_thread.settings) return state  // noop
+  if (!thread || (typeof thread !== 'object') || !thread.summary || !thread.settings || !Array.isArray(thread.messages) || !Array.isArray(thread.participants)) return state  // noop
 
   const new_state  = {...state}
-  const new_thread = {
-    summary:      old_thread.summary,
-    settings:     old_thread.settings,
-    messages:     thread.messages,
-    participants: thread.participants
-  }
 
-  HELPER.UPDATE_THREAD_SUMMARY_FROM_LAST_MESSAGE(new_thread)
-
-  new_state[thread_id] = new_thread
+  new_state[thread_id] = thread
   return new_state
 }
 
-RDCR['UPDATE_ONE']['THREAD']['MESSAGE'] = (state, {thread_id, recipient, body, cc, attachments}) => {
+// -----------------------------------------------------------------------------
+
+RDCR['SAVE_REPLY_TO_THREAD'] = (state, {thread_id, recipient, body, cc, attachments}) => {
   if (!thread_id) return state  // noop
   if (! (body || (attachments && Array.isArray(attachments) && attachments.length)) ) return state  // noop
 
@@ -133,7 +119,9 @@ RDCR['UPDATE_ONE']['THREAD']['MESSAGE'] = (state, {thread_id, recipient, body, c
   return new_state
 }
 
-RDCR['UPDATE_ONE']['THREAD']['SETTINGS'] = (state, {thread_id, options}) => {
+// -----------------------------------------------------------------------------
+
+RDCR['SAVE_THREAD_UPDATE'] = (state, {thread_id, options}) => {
   if (!thread_id || !options || (typeof options !== 'object')) return state  // noop
 
   const old_thread = state[thread_id]
@@ -150,7 +138,9 @@ RDCR['UPDATE_ONE']['THREAD']['SETTINGS'] = (state, {thread_id, options}) => {
   return new_state
 }
 
-RDCR['UPDATE_ONE']['MESSAGE']['SETTINGS'] = (state, {thread_id, message_id, options}) => {
+// -----------------------------------------------------------------------------
+
+RDCR['SAVE_MESSAGE_UPDATE'] = (state, {thread_id, message_id, options}) => {
   if (!thread_id || !message_id || !options || (typeof options !== 'object')) return state  // noop
 
   const old_thread = state[thread_id]
@@ -179,19 +169,19 @@ const threads = (state = {}, action) => {
   switch (action.type) {
 
     case C.SAVE_THREADS:
-      return RDCR.INSERT_MANY(state, action)
+      return RDCR.SAVE_THREADS(state, action)
 
     case C.SAVE_THREAD:
-      return RDCR.UPDATE_ONE.THREAD.MESSAGES(state, action)
+      return RDCR.SAVE_THREAD(state, action)
 
     case C.SAVE_REPLY_TO_THREAD:
-      return RDCR.UPDATE_ONE.THREAD.MESSAGE(state, action)
+      return RDCR.SAVE_REPLY_TO_THREAD(state, action)
 
     case C.SAVE_THREAD_UPDATE:
-      return RDCR.UPDATE_ONE.THREAD.SETTINGS(state, action)
+      return RDCR.SAVE_THREAD_UPDATE(state, action)
 
     case C.SAVE_MESSAGE_UPDATE:
-      return RDCR.UPDATE_ONE.MESSAGE.SETTINGS(state, action)
+      return RDCR.SAVE_MESSAGE_UPDATE(state, action)
 
     default:
       return state
