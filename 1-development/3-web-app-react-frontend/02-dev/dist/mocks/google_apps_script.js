@@ -21,11 +21,26 @@ window.google = {}
   let get_bool = do_run(true)
   let get_str  = do_run('')
 
+  let get_threads_in_folder = (folder_name) => {
+    const thread_ids = data.threads_in_folder[folder_name]
+    const threads    = thread_ids.map(thread_id => {
+      const thread = data.threads[thread_id]
+      return {
+        thread_id,
+        summary:  {...thread.summary},
+        settings: {...thread.settings}
+      }
+    })
+    return threads
+  }
+
+  let get_thread = (thread_id) => data.threads[thread_id]
+
   google.script = {}
   google.script.run = {
     get_folders:           do_run(data.folders),
-    get_threads_in_folder: do_run((folder_name) => data.threads_in_folder[folder_name]),
-    get_thread:            do_run((thread_id) => data.threads[thread_id]),
+    get_threads_in_folder: do_run(get_threads_in_folder),
+    get_thread:            do_run(get_thread),
     update_thread:         get_bool,
     update_message:        get_bool,
     set_public_key:        get_bool,

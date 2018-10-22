@@ -81,7 +81,7 @@ const component = ({thread_id, summary, settings}, {actions, constants}) => {
         <span className="date_modified">({date_modified})</span>
       </div>
       <div className="settings_buttons">
-        
+        {thread_id}
       </div>
     </div>
   )
