@@ -260,6 +260,7 @@ html, body, .wrapper {
 
 .top-component.app > .component.folder > .thread_summaries {
   display: table;
+  border-collapse: collapse;
 }
 
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary {
@@ -304,12 +305,17 @@ html, body, .wrapper {
 
 /* ------------------------------------------------------------------ */
 
+.top-component.app > .component.folder > .thread_summaries,
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary,
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover {
+  /* hack */
+  transform: scale(1);
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary,
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover {
   position: relative;
   z-index: 1;
-
-  /* hack */
-  transform: scale(1);
 }
 
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons {
@@ -317,22 +323,23 @@ html, body, .wrapper {
 
   position: absolute;
   z-index: 1;
-  top: 0;
-  bottom: 0;
-  right: 0;
+  top:    2px;
+  bottom: 2px;
+  right:  2px;
 
   background-color: rgba(242,245,245,1.0);
   cursor: default;
+  overflow: hidden;
 }
 
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button {
   display: inline-block;
   margin: 0 .25em;
-  height: 1.65em;
-  width: 1.65em;
+  height: 1.5em;
+  width: 1.5em;
 
   background-repeat: no-repeat;
-  background-size: 1.65em;
+  background-size: 1.5em;
   cursor: pointer;
 }
 
