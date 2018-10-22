@@ -337,25 +337,25 @@ html, body, .wrapper {
 }
 
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.unread.is_unread {
-  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_back_black_36dp.png');
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/mail_black_36dp.png');
 }
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.unread.not_unread {
-  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_forward_black_36dp.png');
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/drafts_black_36dp.png');
 }
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.important.is_important {
-  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_back_black_36dp.png');
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/star_black_36dp.png');
 }
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.important.not_important {
-  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_forward_black_36dp.png');
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/star_border_black_36dp.png');
 }
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.inbox {
-  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_back_black_36dp.png');
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/move_to_inbox_black_36dp.png');
 }
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.trash {
-  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_back_black_36dp.png');
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/delete_black_36dp.png');
 }
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.spam {
-  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_back_black_36dp.png');
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/block_black_36dp.png');
 }
 
 /* ------------------------------------------------------------------ */
