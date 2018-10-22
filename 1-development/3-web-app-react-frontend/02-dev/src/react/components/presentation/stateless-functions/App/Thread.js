@@ -5,9 +5,23 @@ const purify      = require('react/components/higher-order/purify')
 const displayName = 'Thread'
 
 const component = ({thread_id, summary, settings, messages, participants}, {actions, history}) => {
+
+  if (!messages || !messages.length) {
+    return (
+      <div className={`component ${displayName.toLowerCase()}`}>
+        <div className="loading">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className={`component ${displayName.toLowerCase()}`}>
-      <pre>{JSON.stringify(summary, null, 4)}</pre>
+      <h1>{summary.subject}</h1>
+      <div className="messages">
+        <pre>{JSON.stringify(summary, null, 4)}</pre>
+      </div>
     </div>
   )
 }

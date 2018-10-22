@@ -29,7 +29,7 @@ API['GET_THREADS_IN_FOLDER'] = ({getState, dispatch, next, action}) => {
   // catch unneeded requests
   {
     const state            = getState()
-    const existing_threads = state.threads_in_folder[folder_name]
+    const existing_threads = state.threads_in_folder[folder_name] || []
 
     if (!(
          (start === 0)
@@ -73,15 +73,19 @@ API['GET_THREAD'] = ({getState, dispatch, next, action}) => {
 
     // catch unneeded updates
     {
-      const state             = getState()
-      const existing_messages = state.threads[thread_id].messages
-      let no_change           = (existing_messages.length === thread.messages.length)
+      const state               = getState()
+      const existing_thread     = state.threads[thread_id]
 
-      for (let i=0; no_change && (i < existing_messages.length); i++) {
-        no_change = (existing_messages[i].message_id === thread.messages[i].message_id)
+      if (existing_thread) {
+        const existing_messages = existing_thread.messages || []
+        let no_change           = (existing_messages.length === thread.messages.length)
+
+        for (let i=0; no_change && (i < existing_messages.length); i++) {
+          no_change = (existing_messages[i].message_id === thread.messages[i].message_id)
+        }
+
+        if (no_change) return
       }
-
-      if (no_change) return
     }
 
     dispatch(

@@ -195,6 +195,23 @@ TRIGGERS['SAVE_MESSAGE_UPDATE'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
+TRIGGERS['OPEN_THREAD'] = ({getState, dispatch, next, action}) => {
+  // conditionally requested thread from server
+  {
+    const {thread_id} = action
+    const state = getState()
+    const thread = state.threads[thread_id]
+
+    if (thread && thread.summary && thread.settings && thread.messages && thread.participants && thread.messages.length && thread.participants.length) return
+
+    dispatch(
+      actions.GET_THREAD(thread_id)
+    )
+  }
+}
+
+// -----------------------------------------------------------------------------
+
 TRIGGERS['SAVE_THREAD'] = ({getState, dispatch, next, action}) => {
   if (!action.thread || !Array.isArray(action.thread.participants) || !action.thread.participants.length) return
 
@@ -243,6 +260,11 @@ const TRIGGERS_middleware = ({getState, dispatch}) => next => action => {
 
     case C.SAVE_MESSAGE_UPDATE:
       TRIGGERS.SAVE_MESSAGE_UPDATE({getState, dispatch, next, action})
+      next(action)
+      break
+
+    case C.RESPOND_TO_USER_EVENT.OPEN_THREAD:
+      TRIGGERS.OPEN_THREAD({getState, dispatch, next, action})
       next(action)
       break
 
