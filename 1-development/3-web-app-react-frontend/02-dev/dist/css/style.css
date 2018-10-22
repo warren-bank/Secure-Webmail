@@ -124,6 +124,10 @@ html, body, .wrapper {
   border-bottom-left-radius:  4px;
 }
 
+.top-component.app > .component.sidebar > .component + .component {
+  border-top-style: none;
+}
+
 .top-component.app > .component.sidebar > .component.compose_new {
   background-color: #2fa4e7;
   border-color: #2fa4e7;
@@ -173,6 +177,7 @@ html, body, .wrapper {
 
 .top-component.app > .component.folder > h1 {
   margin: 0;
+  margin-bottom: 0.45em;
   padding: .45em 1em;
   font-size: 2em;
   text-align: center;
@@ -225,5 +230,132 @@ html, body, .wrapper {
 }
 
 /* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary {
+  background-color: #eee;
+
+  border: 1px solid #ddd;
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary.unread {
+  background-color: #fff;
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover,
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary.unread:hover {
+  background-color: rgba(242,245,245,0.8);
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:first-child {
+  border-top-right-radius: 4px;
+  border-top-left-radius:  4px;
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:last-child {
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius:  4px;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary + .component.thread_summary {
+  border-top-style: none;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > .thread_summaries {
+  display: table;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary {
+  display: table-row;
+
+  cursor: pointer;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col {
+  display: table-cell;
+
+  padding: 0.2em 1em;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_1 {}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_1 > span.from {}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_2 {
+  padding-left: 0;
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_2 > span.msg_count {
+  font-size: 0.75em;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_3 {
+  width: 100%;
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_3 > span.subject {
+  padding-right: 0.25em;
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_3 > span.body {
+  padding-left: 0.25em;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_4 {}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .settings_buttons {
+  display: none;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover {
+  position: relative;
+  z-index: 1;
+
+  /* hack */
+  transform: scale(1);
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons {
+  display: block;
+
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  right: 0;
+
+  background-color: rgba(242,245,245,1.0);
+  cursor: default;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button {
+  display: inline-block;
+  margin: 0 .25em;
+  height: 1.65em;
+  width: 1.65em;
+
+  background-repeat: no-repeat;
+  background-size: 1.65em;
+  cursor: pointer;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.unread.is_unread {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_back_black_36dp.png');
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.unread.not_unread {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_forward_black_36dp.png');
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.important.is_important {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_back_black_36dp.png');
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.important.not_important {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_forward_black_36dp.png');
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.inbox {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_back_black_36dp.png');
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.trash {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_back_black_36dp.png');
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.spam {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_back_black_36dp.png');
+}
 
 /* ------------------------------------------------------------------ */

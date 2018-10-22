@@ -100,7 +100,9 @@ const component = ({folder_name, threads, thread_ids, start, max}, {actions, con
         }
       </div>
       <h1>{settings.folder_title}</h1>
-      {thread_summaries}
+      <div className="thread_summaries">
+        {thread_summaries}
+      </div>
     </div>
   )
 }
