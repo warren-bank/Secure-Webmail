@@ -63,10 +63,11 @@ const format_date = (timestamp, months) => {
   }
 }
 
-const component = ({thread_id, summary, settings}, {actions, constants}) => {
+const component = ({thread_id, summary, settings}, {actions, constants, history}) => {
   const date_modified = format_date(summary.date_modified, constants.months)
 
   const onClick = {
+    open:      actions.OPEN_THREAD.bind(this, thread_id, history, true),
     unread:    actions.UPDATE_THREAD.MARK_UNREAD.bind(this, thread_id, !settings.unread),
     important: actions.UPDATE_THREAD.MARK_IMPORTANT.bind(this, thread_id, !settings.important),
     inbox:     settings.inbox ? null : actions.UPDATE_THREAD.MOVE_TO_INBOX.bind(this, thread_id),
@@ -75,7 +76,7 @@ const component = ({thread_id, summary, settings}, {actions, constants}) => {
   }
 
   return (
-    <div className={`component ${displayName.toLowerCase()} ${ (settings.unread) ? 'unread' : '' }`}>
+    <div className={`component ${displayName.toLowerCase()} ${ (settings.unread) ? 'unread' : '' }`} onClick={onClick.open}>
       <div className="col col_1">
         <span className="msg_count">({summary.msg_count})</span>
       </div>
@@ -118,10 +119,11 @@ component.propTypes = {
 
 component.contextTypes = {
   actions:    PropTypes.object.isRequired,
-  constants:  PropTypes.object.isRequired
+  constants:  PropTypes.object.isRequired,
+  history:    PropTypes.object.isRequired
 }
 
-component.requireActions = ['UPDATE_THREAD']
+component.requireActions = ['OPEN_THREAD', 'UPDATE_THREAD']
 
 component.displayName = displayName
 

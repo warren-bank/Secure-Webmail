@@ -121,7 +121,7 @@ component.contextTypes = {
   history:   PropTypes.object.isRequired
 }
 
-component.requireActions = ['OPEN_FOLDER', 'OPEN_THREAD']
+component.requireActions = ['OPEN_FOLDER']
 
 component.displayName = displayName
 
