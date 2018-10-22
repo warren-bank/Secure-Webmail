@@ -175,18 +175,41 @@ html, body, .wrapper {
 
 /* ------------------------------------------------------------------ */
 
-.top-component.app > .component.folder > h1 {
+.top-component.app > .component.folder > .loading,
+.top-component.app > .component.folder > .loading > img,
+.top-component.app > .component.thread > .loading,
+.top-component.app > .component.thread > .loading > img {
+  width: 441px;
+  height: 291px;
+  max-width: 100%;
+  display: block;
+  margin: 2em auto;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > h1,
+.top-component.app > .component.thread > h1 {
   margin: 0;
   margin-bottom: 0.45em;
   padding: .45em 1em;
-  font-size: 2em;
-  text-align: center;
-  font-weight: bold;
 
   background-color: #eee;
   border-top-right-radius: 6px;
   border-top-left-radius:  6px;
+
+  font-size: 2em;
+  text-align: center;
+  font-weight: bold;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > h1 {}
 
 .top-component.app > .component.folder > .action_buttons {
   position: absolute;
@@ -216,17 +239,6 @@ html, body, .wrapper {
 }
 .top-component.app > .component.folder > .action_buttons > .button.forward {
   background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_forward_black_36dp.png');
-}
-
-/* ------------------------------------------------------------------ */
-
-.top-component.app > .component.folder > .loading,
-.top-component.app > .component.folder > .loading > img {
-  width: 441px;
-  height: 291px;
-  max-width: 100%;
-  display: block;
-  margin: 2em auto;
 }
 
 /* ------------------------------------------------------------------ */
@@ -374,5 +386,9 @@ html, body, .wrapper {
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.spam {
   background-image: url('https://www.gstatic.com/images/icons/material/system/1x/block_black_36dp.png');
 }
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.thread > h1 {}
 
 /* ------------------------------------------------------------------ */
