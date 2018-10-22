@@ -85,17 +85,39 @@ html, body, .wrapper {
   border-color: #1995dc;
   color: #fff;
 
-  text-align: right;
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  flex-wrap: nowrap;
+}
+
+.top-component.app > .component.header > span {
+  flex-basis: auto;
+}
+
+.top-component.app > .component.header span.settings_button {
+  display: inline-block;
+  margin-right: 1em;
+  height: 2em;
+  width:  2em;
+
+  background-repeat: no-repeat;
+  background-size: 2em;
+  cursor: pointer;
+
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/menu_white_36dp.png');
 }
 
 .top-component.app > .component.header span.title {
-  display: block;
-  float: left;
+  flex-grow: 1;
+
   font-size: 1.5em;
+  cursor: pointer;
 }
 
 .top-component.app > .component.header span.email_address {
   font-weight: bold;
+  padding-left: 0.5em;
 }
 
 /* ------------------------------------------------------------------ */
