@@ -261,6 +261,8 @@ html, body, .wrapper {
 .top-component.app > .component.folder > .thread_summaries {
   display: table;
   border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
 }
 
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary {
@@ -275,20 +277,25 @@ html, body, .wrapper {
   padding: 0.2em 1em;
   text-align: left;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_1 {}
-.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_1 > span.from {}
-
-.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_2 {
-  padding-left: 0;
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_1 {
+  width: 3em;
+  padding-right: 0;
 }
-.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_2 > span.msg_count {
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_1 > span.msg_count {
   font-size: 0.75em;
 }
 
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_2 {
+  width: 20%;
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_2 > span.from {}
+
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_3 {
-  width: 100%;
+  width: 80%;
 }
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_3 > span.subject {
   padding-right: 0.25em;
@@ -297,7 +304,10 @@ html, body, .wrapper {
   padding-left: 0.25em;
 }
 
-.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_4 {}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_4 {
+  width: 8em;
+  text-align: right;
+}
 
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .settings_buttons {
   display: none;

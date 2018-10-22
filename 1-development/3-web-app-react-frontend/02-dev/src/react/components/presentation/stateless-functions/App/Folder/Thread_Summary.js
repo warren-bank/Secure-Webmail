@@ -77,10 +77,10 @@ const component = ({thread_id, summary, settings}, {actions, constants}) => {
   return (
     <div className={`component ${displayName.toLowerCase()} ${ (settings.unread) ? 'unread' : '' }`}>
       <div className="col col_1">
-        <span className="from">{summary.from}</span>
+        <span className="msg_count">({summary.msg_count})</span>
       </div>
       <div className="col col_2">
-        <span className="msg_count">({summary.msg_count})</span>
+        <span className="from" role="tooltip" title={summary.from}>{summary.from}</span>
       </div>
       <div className="col col_3">
         <span className="subject">{summary.subject}</span>
