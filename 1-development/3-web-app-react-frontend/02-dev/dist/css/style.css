@@ -174,9 +174,19 @@ html, body, .wrapper {
   font-weight: bold;
 }
 
+.top-component.app > .component.sidebar > .component.folder {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  flex-wrap: nowrap;
+}
+
+.top-component.app > .component.sidebar > .component.folder span.title {
+  flex-grow: 1;
+}
+
 .top-component.app > .component.sidebar > .component.folder span.unread_count {
-  display: inline-block;
-  float: right;
+  flex-shrink: 0;
 
   background-color: #2fa4e7;
   color: #fff;
@@ -190,8 +200,6 @@ html, body, .wrapper {
   border-radius: 1em;
   padding: 0.5em;
 }
-
-.top-component.app > .component.sidebar > .component.folder span.title {}
 
 /* ------------------------------------------------------------------ */
 
