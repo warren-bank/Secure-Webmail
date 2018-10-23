@@ -11,11 +11,13 @@ HELPER['NOOP'] = {}
 
 HELPER['NOOP']['SETTINGS'] = (old_settings, new_settings) => {
   const all_option_keys = Object.keys(old_settings)
+  let noop = true
 
   all_option_keys.forEach(key => {
-    if ((new_settings[key] !== undefined) && (new_settings[key] !== old_settings[key])) return false
+    if ((new_settings[key] !== undefined) && (new_settings[key] !== old_settings[key]))
+      noop = false
   })
-  return true  // noop
+  return noop
 }
 
 // -----------------------------------------------------------------------------

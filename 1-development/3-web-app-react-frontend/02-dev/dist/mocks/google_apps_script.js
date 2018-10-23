@@ -36,12 +36,27 @@ window.google = {}
 
   let get_thread = (thread_id) => data.threads[thread_id]
 
+  let update_thread = (thread_id, options) => {
+    const thread = data.threads[thread_id]
+    Object.assign(thread.settings, options)
+
+    if (options.unread !== undefined) {
+      data.folders[0].unread_count += (options.unread ? 1 : -1)
+
+      thread.messages.forEach(message => {
+        message.settings.unread = options.unread
+      })
+    }
+
+    return true
+  }
+
   google.script = {}
   google.script.run = {
     get_folders:           do_run(data.folders),
     get_threads_in_folder: do_run(get_threads_in_folder),
     get_thread:            do_run(get_thread),
-    update_thread:         get_bool,
+    update_thread:         do_run(update_thread),
     update_message:        get_bool,
     set_public_key:        get_bool,
     get_public_key:        get_str,

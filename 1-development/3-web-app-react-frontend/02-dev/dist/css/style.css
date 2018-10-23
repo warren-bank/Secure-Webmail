@@ -248,9 +248,8 @@ html, body, .wrapper {
 
 /* ------------------------------------------------------------------ */
 
-.top-component.app > .component.folder > h1 {}
-
-.top-component.app > .component.folder > .action_buttons {
+.top-component.app > .component.folder > .action_buttons,
+.top-component.app > .component.thread > .action_buttons {
   position: absolute;
   z-index: 1;
   height: 2.9em;  /* same as <h1>: 2em(height) + .45em(padding-top) + .45em(padding-bottom) */
@@ -259,7 +258,8 @@ html, body, .wrapper {
   text-align: right;
 }
 
-.top-component.app > .component.folder > .action_buttons > .button {
+.top-component.app > .component.folder > .action_buttons > .button,
+.top-component.app > .component.thread > .action_buttons > .button {
   display: inline-block;
   margin: .45em;
   height: 2em;
@@ -269,6 +269,10 @@ html, body, .wrapper {
   background-size: 2em;
   cursor: pointer;
 }
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > h1 {}
 
 .top-component.app > .component.folder > .action_buttons > .button.back {
   background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_back_black_36dp.png');
@@ -429,5 +433,30 @@ html, body, .wrapper {
 /* ------------------------------------------------------------------ */
 
 .top-component.app > .component.thread > h1 {}
+
+.top-component.app > .component.thread > .action_buttons > .button.unread {
+  display: none !important;
+}
+.top-component.app > .component.thread > .action_buttons > .button.unread.is_unread {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/mail_black_36dp.png');
+}
+.top-component.app > .component.thread > .action_buttons > .button.unread.not_unread {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/drafts_black_36dp.png');
+}
+.top-component.app > .component.thread > .action_buttons > .button.important.is_important {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/star_black_36dp.png');
+}
+.top-component.app > .component.thread > .action_buttons > .button.important.not_important {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/star_border_black_36dp.png');
+}
+.top-component.app > .component.thread > .action_buttons > .button.inbox {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/move_to_inbox_black_36dp.png');
+}
+.top-component.app > .component.thread > .action_buttons > .button.trash {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/delete_black_36dp.png');
+}
+.top-component.app > .component.thread > .action_buttons > .button.spam {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/block_black_36dp.png');
+}
 
 /* ------------------------------------------------------------------ */

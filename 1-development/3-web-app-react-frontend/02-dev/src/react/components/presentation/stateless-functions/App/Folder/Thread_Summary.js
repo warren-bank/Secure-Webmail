@@ -5,6 +5,8 @@ const purify      = require('react/components/higher-order/purify')
 const displayName = 'Thread_Summary'
 
 const pad_to_length = (str, length, chr, is_append) => {
+  str = str.toString()
+
   let old_length = str.length
   let pad_length = length - old_length
 
@@ -40,6 +42,9 @@ const format_date = (timestamp, months) => {
       hours  = 12
     }
 
+    hours = pad_to_length(hours, 2, '0')
+    mins  = pad_to_length(mins,  2, '0')
+
     return `${hours}:${mins} ${am_pm}`
   }
 
@@ -74,6 +79,18 @@ const component = ({thread_id, summary, settings}, {actions, constants, history}
     trash:     settings.trash ? null : actions.UPDATE_THREAD.MOVE_TO_TRASH.bind(this, thread_id),
     spam:      settings.spam  ? null : actions.UPDATE_THREAD.MOVE_TO_SPAM.bind(this, thread_id)
   }
+
+  // wrap all onclick handlers to prevent the event from propogating to other DOM elements
+  Object.keys(onClick).forEach(key => {
+    const func = onClick[key]
+    if (func === null) return
+
+    onClick[key] = (event) => {
+      event.stopPropagation()
+      event.preventDefault()
+      func()
+    }
+  })
 
   return (
     <div className={`component ${displayName.toLowerCase()} ${ (settings.unread) ? 'unread' : '' }`} onClick={onClick.open}>
