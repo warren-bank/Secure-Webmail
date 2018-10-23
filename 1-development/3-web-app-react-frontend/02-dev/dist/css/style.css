@@ -89,6 +89,7 @@ html, body, .wrapper {
   flex-direction: row;
   flex-basis: auto;
   flex-wrap: nowrap;
+  overflow: hidden;
 }
 
 .top-component.app > .component.header > span {
@@ -96,6 +97,8 @@ html, body, .wrapper {
 }
 
 .top-component.app > .component.header span.settings_button {
+  flex-shrink: 0;
+
   display: inline-block;
   margin-right: 1em;
   height: 2em;
@@ -116,6 +119,8 @@ html, body, .wrapper {
 }
 
 .top-component.app > .component.header span.email_address {
+  flex-shrink: 0;
+
   font-weight: bold;
   padding-left: 0.5em;
 }
@@ -134,8 +139,12 @@ html, body, .wrapper {
   padding: .75em 1em;
   border: 1px solid #ddd;
 
-  text-align:center;
+  text-align: center;
   cursor: pointer;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .top-component.app > .component.sidebar > .component:first-child {
   border-top-right-radius: 4px;
@@ -169,17 +178,17 @@ html, body, .wrapper {
   display: inline-block;
   float: right;
 
-  min-width: 10px;
-  padding: 3px 7px;
-  font-size: 9pt;
-  font-weight: 700;
-  color: #fff;
-  line-height: 1;
-  vertical-align: middle;
-  white-space: nowrap;
-  text-align: center;
   background-color: #2fa4e7;
-  border-radius: 10px;
+  color: #fff;
+  font-weight: 700;
+  vertical-align: middle;
+
+  font-size: 0.75em;
+  width: 2em;
+  height: 2em;
+  line-height: 1em;
+  border-radius: 1em;
+  padding: 0.5em;
 }
 
 .top-component.app > .component.sidebar > .component.folder span.title {}
