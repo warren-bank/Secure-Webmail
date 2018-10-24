@@ -44,15 +44,32 @@ window.google = {}
     }
   }
 
+  let find_folderNames_by_threadId = thread_id => {
+    let folder_names = []
+    Object.keys(data.threads_in_folder).forEach(folder_name => {
+      let thread_ids = data.threads_in_folder[folder_name]
+      if (!thread_ids || !thread_ids.length) return
+      if (thread_ids.indexOf(thread_id) >= 0) folder_names.push(folder_name)
+    })
+    return folder_names
+  }
+
   let update_thread = (thread_id, options) => {
     const thread = data.threads[thread_id]
     Object.assign(thread.settings, options)
 
     if (options.unread !== undefined) {
-      data.folders[0].unread_count += (options.unread ? 1 : -1)
-
+      // update unread setting of all messages in thread
       thread.messages.forEach(message => {
         message.settings.unread = options.unread
+      })
+
+      // update unread count of folders
+      let folder_names = find_folderNames_by_threadId(thread_id)
+      data.folders.forEach(folder => {
+        if (folder_names.indexOf(folder.folder_name) >= 0) {
+          folder.unread_count += (options.unread ? 1 : -1)
+        }
       })
     }
 
