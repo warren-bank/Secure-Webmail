@@ -8,7 +8,7 @@ const component = ({folder_name, title, unread_count, onClick, active}) => {
   return (
     <div className={`component ${displayName.toLowerCase()} ${active ? 'active' : ''}`} onClick={onClick}>
       <span className="title">{title}</span>
-      <span className="unread_count">{unread_count}</span>
+      <span className={`unread_count ${ (unread_count === 0) ? 'no_unread' : '' }`}>{unread_count}</span>
     </div>
   )
 }

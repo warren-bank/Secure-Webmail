@@ -200,6 +200,9 @@ html, body, .wrapper {
   border-radius: 1em;
   padding: 0.5em;
 }
+.top-component.app > .component.sidebar > .component.folder span.unread_count.no_unread {
+  visibility: hidden;  /* `display:none` would cause the "title" to recenter, shifting to the right */
+}
 
 /* ------------------------------------------------------------------ */
 
