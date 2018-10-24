@@ -14,7 +14,18 @@ class Context extends React.Component {
             const arr_in = entries(obj_in)
             arr_in.forEach(([key, action]) => {
                 if (typeof action === 'function') {
-                    obj_out[key] = (...args) => store.dispatch(action(...args))
+                    obj_out[key] = (...args) => {
+                      // stop event propogation for usage pattern: onClick={actions[key].bind(this, ...args)}
+                      if (args && args.length) {
+                        let event = args[ args.length - 1 ]
+                        if ( (typeof event === 'object') && (event !== null) && (typeof event.stopPropagation === 'function') && (typeof event.preventDefault === 'function') ) {
+                          event.stopPropagation()
+                          event.preventDefault()
+                          args.pop()
+                        }
+                      }
+                      store.dispatch(action(...args))
+                    }
                 }
                 else if ((typeof action === 'object') && (action !== null)) {
                     obj_out[key] = {}

@@ -71,18 +71,6 @@ const component = ({thread_id, summary, settings, messages, participants}, {acti
     spam:      settings.spam  ? null : actions.UPDATE_THREAD.MOVE_TO_SPAM.bind(this, thread_id)
   }
 
-  // wrap all onclick handlers to prevent the event from propogating to other DOM elements
-  Object.keys(onClick).forEach(key => {
-    const func = onClick[key]
-    if (func === null) return
-
-    onClick[key] = (event) => {
-      event.stopPropagation()
-      event.preventDefault()
-      func()
-    }
-  })
-
   return (
     <div className={`component ${displayName.toLowerCase()}`}>
       <h1>{summary.subject}</h1>
