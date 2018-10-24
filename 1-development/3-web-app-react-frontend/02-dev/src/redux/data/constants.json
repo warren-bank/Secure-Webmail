@@ -1,6 +1,7 @@
 {
     "actions": {
         "STORE_INITIALIZED":        "STORE_INITIALIZED",
+        "LOG_DEBUG_MESSAGE":        "LOG_DEBUG_MESSAGE",
 
         "GET_FOLDERS":              "GET_FOLDERS",
         "SAVE_FOLDERS":             "SAVE_FOLDERS",

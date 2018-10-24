@@ -8,6 +8,8 @@ const Compose_New = require(`./${displayName}/Compose_New`)
 const Folder      = require(`./${displayName}/Folder`)
 
 const component = ({folders, active_folder}, {actions, history}) => {
+  actions.DEBUG(`rendering: ${displayName}`, {folders, active_folder})
+
   const compose_button = (
     <Compose_New onClick={actions.OPEN_COMPOSE_MESSAGE.bind(this, history, true)} />
   )
@@ -36,7 +38,7 @@ component.contextTypes = {
   history:  PropTypes.object.isRequired
 }
 
-component.requireActions = ['OPEN_COMPOSE_MESSAGE', 'OPEN_FOLDER']
+component.requireActions = ['DEBUG', 'OPEN_COMPOSE_MESSAGE', 'OPEN_FOLDER']
 
 component.displayName = displayName
 

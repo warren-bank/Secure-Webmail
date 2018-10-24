@@ -15,6 +15,13 @@ actions['STORE_INITIALIZED'] = ({email_address, thread_id}) => {
   }
 }
 
+actions['LOG_DEBUG_MESSAGE'] = (...message) => {
+  return {
+    type: C.LOG_DEBUG_MESSAGE,
+    message
+  }
+}
+
 // -----------------------------------------------------------------------------
 
 actions['GET_FOLDERS'] = () => {

@@ -46,8 +46,12 @@ const format_date = (timestamp) => {
 }
 
 const component = ({thread_id, summary, settings, messages, participants}, {actions, history}) => {
+  actions.DEBUG(`rendering: ${displayName}`, {thread_id, summary, settings})
 
-  if (!messages || !messages.length) {
+  if (settings.unread)
+    actions.UPDATE_THREAD.MARK_UNREAD(thread_id, false)
+
+  if (settings.unread || !messages || !messages.length) {
     return (
       <div className={`component ${displayName.toLowerCase()}`}>
         <div className="loading">
@@ -55,11 +59,6 @@ const component = ({thread_id, summary, settings, messages, participants}, {acti
         </div>
       </div>
     )
-  }
-
-  if (settings.unread) {
-    actions.UPDATE_THREAD.MARK_UNREAD(thread_id, false)
-    return null
   }
 
   const date_modified = format_date(summary.date_modified)
@@ -123,7 +122,7 @@ component.contextTypes = {
   history:  PropTypes.object.isRequired
 }
 
-component.requireActions = ['UPDATE_THREAD', 'OPEN_COMPOSE_REPLY']
+component.requireActions = ['DEBUG', 'UPDATE_THREAD', 'OPEN_COMPOSE_REPLY']
 
 component.displayName = displayName
 

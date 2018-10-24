@@ -15,6 +15,7 @@
     // cherry pick a subset of Redux actions that the UI can dispatch to the store
     return {
       ...actions.RESPOND_TO_USER_EVENT,
+      DEBUG:            actions.LOG_DEBUG_MESSAGE,
       GENERATE_KEYPAIR: actions.CRYPTO.RSA.GENERATE_KEYPAIR,
       UPDATE_SETTINGS:  actions.UPDATE_SETTINGS,
       SEND_NEW_MESSAGE: actions.SEND_EMAIL.NEW_MESSAGE,

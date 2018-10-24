@@ -33,7 +33,14 @@ const purify = function(stateless_func) {
         store:     PropTypes.object,
         actions:   PropTypes.object,
         constants: PropTypes.object,
-        history:   PropTypes.object
+        history:   PropTypes.object,
+          //   - <Context> creates the child context: {store, actions, constants, history}
+        router:    PropTypes.object
+          // https://github.com/search?type=Commits&q=context+repo:ReactTraining/react-router
+          // https://github.com/ReactTraining/react-router/commit/b18b9dd418a12f3c175e71dece289ead22ef9a09
+          //   - version 4.0.0-beta.7
+          //     * old context: {history}
+          //     * new context: {router: {history}}
     };
 
     ["propTypes", "defaultProps"].forEach(key => {

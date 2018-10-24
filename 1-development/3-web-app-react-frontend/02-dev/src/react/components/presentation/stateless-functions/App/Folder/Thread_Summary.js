@@ -69,6 +69,8 @@ const format_date = (timestamp, months) => {
 }
 
 const component = ({thread_id, summary, settings}, {actions, constants, history}) => {
+  actions.DEBUG(`rendering: ${displayName}`, {thread_id, summary, settings})
+
   const date_modified = format_date(summary.date_modified, constants.months)
 
   const onClick = {
@@ -140,7 +142,7 @@ component.contextTypes = {
   history:    PropTypes.object.isRequired
 }
 
-component.requireActions = ['OPEN_THREAD', 'UPDATE_THREAD']
+component.requireActions = ['DEBUG', 'OPEN_THREAD', 'UPDATE_THREAD']
 
 component.displayName = displayName
 

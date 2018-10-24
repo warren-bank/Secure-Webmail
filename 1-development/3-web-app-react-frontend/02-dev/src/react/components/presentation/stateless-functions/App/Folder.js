@@ -7,6 +7,7 @@ const displayName = 'Folder'
 const Thread_Summary  = require(`./${displayName}/Thread_Summary`)
 
 const component = ({folder_name, threads, thread_ids, start, max}, {actions, constants, history}) => {
+  actions.DEBUG(`rendering: ${displayName}`, {folder_name, threads, thread_ids, start})
 
   const settings  = {
     nav: {
@@ -76,13 +77,13 @@ const component = ({folder_name, threads, thread_ids, start, max}, {actions, con
   }
 
   const thread_summaries = []
-  settings.pagination.thread_ids.forEach(thread_id => {
+  settings.pagination.thread_ids.forEach((thread_id, i) => {
     const thread = threads[thread_id]
 
     if (!thread || !thread.summary || !thread.settings) return
 
     thread_summaries.push(
-      <Thread_Summary key={thread_id} thread_id={thread_id} summary={thread.summary} settings={thread.settings} />
+      <Thread_Summary key={i} thread_id={thread_id} summary={thread.summary} settings={thread.settings} />
     )
   })
 
@@ -121,7 +122,7 @@ component.contextTypes = {
   history:   PropTypes.object.isRequired
 }
 
-component.requireActions = ['OPEN_FOLDER']
+component.requireActions = ['DEBUG', 'OPEN_FOLDER']
 
 component.displayName = displayName
 

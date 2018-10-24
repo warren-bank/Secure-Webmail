@@ -202,6 +202,11 @@ TRIGGERS['OPEN_THREAD'] = ({getState, dispatch, next, action}) => {
     const state = getState()
     const thread = state.threads[thread_id]
 
+    if (thread && thread.settings && thread.settings.unread)
+      dispatch(
+        actions.UPDATE_THREAD.MARK_UNREAD(thread_id, false)
+      )
+
     if (thread && thread.summary && thread.settings && thread.messages && thread.participants && thread.messages.length && thread.participants.length) return
 
     dispatch(

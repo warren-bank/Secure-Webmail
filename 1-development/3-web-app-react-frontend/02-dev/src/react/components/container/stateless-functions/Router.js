@@ -24,6 +24,7 @@ const new_location   = (location, state) => {
 }
 
 const component   = ({state}, {store, actions, constants, history}) => {
+  actions.DEBUG(`rendering: ${displayName}`, {state})
 
   if (!state.user.email_address)
     return <NoEmail />
@@ -113,6 +114,8 @@ component.contextTypes = {
   constants: PropTypes.object,
   history:   PropTypes.object
 }
+
+component.requireActions = ['DEBUG']
 
 component.displayName = displayName
 
