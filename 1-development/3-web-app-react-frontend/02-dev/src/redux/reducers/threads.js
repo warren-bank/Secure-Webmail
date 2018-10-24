@@ -54,8 +54,8 @@ RDCR['SAVE_THREADS'] = (state, {threads}) => {
       insert_counter++
 
       new_state[thread_id] = {
-        summary:  {...summary},
-        settings: {...settings}
+        summary,
+        settings
       }
     }
   })

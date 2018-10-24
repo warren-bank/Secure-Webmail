@@ -34,7 +34,15 @@ window.google = {}
     return threads
   }
 
-  let get_thread = (thread_id) => data.threads[thread_id]
+  let get_thread = (thread_id) => {
+    const thread = data.threads[thread_id]
+    return {
+      summary:      {...thread.summary},
+      settings:     {...thread.settings},
+      messages:     [...thread.messages],
+      participants: [...thread.participants]
+    }
+  }
 
   let update_thread = (thread_id, options) => {
     const thread = data.threads[thread_id]
