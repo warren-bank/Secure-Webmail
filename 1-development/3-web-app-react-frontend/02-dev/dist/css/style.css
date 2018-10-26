@@ -42,6 +42,7 @@ html, body, .wrapper {
 .top-component.app > .component.thread > .messages > .component.message {}
 .top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary {}
 .top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents {}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment {}
 
 /* ------------------------------------------------------------------ */
 
@@ -542,8 +543,52 @@ html, body, .wrapper {
   font-style: italic;
 }
 
-.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents {
-  padding-top: 1em;
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .body,
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment {
+  margin-top: 1em;
+}
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment {
+  flex-basis: auto;
+  justify-content: space-between;
+
+  height: 2em;
+  line-height: 2em;
+  padding: 0 0.5em;
+
+  background-color: #eee;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment > .icon,
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment > .name {
+  display: inline-block;
+  vertical-align: top;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment > .icon {
+  margin: .25em;
+  height: 1.5em;
+  width:  1.5em;
+
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/attachment_black_36dp.png');
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment > .name {
+  white-space: nowrap;
 }
 
 /* ------------------------------------------------------------------ */
