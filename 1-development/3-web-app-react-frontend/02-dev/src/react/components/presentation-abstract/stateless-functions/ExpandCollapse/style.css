@@ -1,0 +1,32 @@
+div.component.expandcollapse > input {
+  display: none;
+  visibility: hidden;
+}
+
+div.component.expandcollapse > input + label {
+  display: block;
+  height: auto;
+}
+
+div.component.expandcollapse > input + label .checked_expand,
+div.component.expandcollapse > input + label .checked_collapse,
+div.component.expandcollapse > input + label + div.content {
+  overflow-y: hidden;
+  transition: height 0.5s;
+}
+
+div.component.expandcollapse > input + label .checked_expand,
+div.component.expandcollapse > input + label + div.content {
+  height: 0px;
+}
+div.component.expandcollapse > input:checked + label .checked_expand,
+div.component.expandcollapse > input:checked + label + div.content {
+  height: auto !important;
+}
+
+div.component.expandcollapse > input + label .checked_collapse {
+  height: auto;
+}
+div.component.expandcollapse > input:checked + label .checked_collapse {
+  height: 0px !important;
+}

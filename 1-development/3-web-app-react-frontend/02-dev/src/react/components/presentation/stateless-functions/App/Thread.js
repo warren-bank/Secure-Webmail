@@ -4,46 +4,7 @@ const PropTypes   = require('prop-types')
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'Thread'
 
-const pad_to_length = (str, length, chr, is_append) => {
-  str = str.toString()
-
-  let old_length = str.length
-  let pad_length = length - old_length
-
-  if (pad_length <= 0) return str
-
-  let padding = chr.repeat(pad_length)
-  return (is_append)
-    ? `${str}${padding}`
-    : `${padding}${str}`
-}
-
-const format_date = (timestamp) => {
-  const then = new Date(timestamp)
-
-  let month = then.getMonth() + 1
-  let day   = then.getDate()
-  let year  = then.getFullYear()
-
-  let hours = then.getHours()
-  let mins  = then.getMinutes()
-  let am_pm = 'am'
-
-  if (hours > 12) {
-    hours -= 12
-    am_pm  = 'pm'
-  }
-  if (hours === 0) {
-    hours  = 12
-  }
-
-  month = pad_to_length(month, 2, '0')
-  day   = pad_to_length(day,   2, '0')
-  hours = pad_to_length(hours, 2, '0')
-  mins  = pad_to_length(mins,  2, '0')
-
-  return `${month}/${day}/${year} ${hours}:${mins} ${am_pm}`
-}
+const Message     = require(`./${displayName}/Message`)
 
 const component = ({thread_id, summary, settings, messages, participants}, {actions, history}) => {
   actions.DEBUG(`rendering: ${displayName}`, {thread_id, summary, settings})
@@ -61,7 +22,13 @@ const component = ({thread_id, summary, settings, messages, participants}, {acti
     )
   }
 
-  const date_modified = format_date(summary.date_modified)
+  const Messages = messages.map((message, i) => {
+    const start_expanded = (message.settings.star === true) || (i === (messages.length - 1))
+
+    return (
+      <Message key={i} {...message} {...{start_expanded}} />
+    )
+  })
 
   const onClick = {
     unread:    actions.UPDATE_THREAD.MARK_UNREAD.bind(this, thread_id, !settings.unread),
@@ -91,7 +58,10 @@ const component = ({thread_id, summary, settings, messages, participants}, {acti
         }
       </div>
       <div className="messages">
-        <pre>{JSON.stringify(summary, null, 4)}</pre>
+        {Messages}
+      </div>
+      <div className="compose_reply">
+        {JSON.stringify(participants, null, 4)}
       </div>
     </div>
   )
