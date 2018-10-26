@@ -84,7 +84,7 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
 
     if (!contents.attachments || !Array.isArray(contents.attachments) || !contents.attachments.length) continue  // next message
 
-    let index_ciphers = contents.attachments.find(attachment => attachment.name === filename.CIPHERS)
+    let index_ciphers = contents.attachments.findIndex(attachment => attachment.name === filename.CIPHERS)
     if ((typeof index_ciphers !== 'number') || (index_ciphers < 0)) continue  // next message
 
     try {

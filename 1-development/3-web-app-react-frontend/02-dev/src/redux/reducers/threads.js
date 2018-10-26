@@ -148,7 +148,7 @@ RDCR['SAVE_MESSAGE_UPDATE'] = (state, {thread_id, message_id, options}) => {
   const old_thread = state[thread_id]
   if (!old_thread || (typeof old_thread !== 'object') || !Array.isArray(old_thread.messages)) return state  // noop
 
-  const index = old_thread.messages.find(message => message.message_id === message_id)
+  const index = old_thread.messages.findIndex(message => message.message_id === message_id)
   if ((typeof index !== 'number') || (index < 0)) return state  // noop
 
   const old_message = old_thread.messages[index]

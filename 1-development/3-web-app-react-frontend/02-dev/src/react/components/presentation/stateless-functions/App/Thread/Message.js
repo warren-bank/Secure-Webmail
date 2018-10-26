@@ -10,7 +10,7 @@ const ExpandCollapse    = require('react/components/presentation-abstract/statel
 const Message_Summary   = require(`./${displayName}/Message_Summary`)
 const Message_Contents  = require(`./${displayName}/Message_Contents`)
 
-const component = ({message_id, summary, settings, contents, start_expanded}) => {
+const component = ({thread_id, message_id, summary, settings, contents, start_expanded}) => {
 
   if (!(
     contents &&
@@ -24,7 +24,7 @@ const component = ({message_id, summary, settings, contents, start_expanded}) =>
 
   const body     = sanitize_html( contents.body.substring(0, 160) )
 
-  const label   = <Message_Summary  {...{message_id, body, summary, settings}} />
+  const label   = <Message_Summary  {...{thread_id, message_id, body, summary, settings}} />
   const content = <Message_Contents {...{contents}} />
 
   return (
@@ -35,6 +35,7 @@ const component = ({message_id, summary, settings, contents, start_expanded}) =>
 }
 
 component.propTypes = {
+  thread_id:       PropTypes.string.isRequired,
   message_id:      PropTypes.string.isRequired,
   summary:         PropTypes.object.isRequired,
   settings:        PropTypes.object.isRequired,

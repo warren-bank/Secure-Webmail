@@ -39,8 +39,15 @@ window.google = {}
     return {
       summary:      {...thread.summary},
       settings:     {...thread.settings},
-      messages:     [...thread.messages],
-      participants: [...thread.participants]
+      participants: [...thread.participants],
+      messages:     thread.messages.map(message => ({
+                      message_id: message.message_id,
+                      summary:    {...message.summary, to: [...message.summary.to]},
+                      settings:   {...message.settings},
+                      contents:   {...message.contents,
+                                      attachments: message.contents.attachments.map(attachment => ({...attachment}))
+                                  }
+                    }))
     }
   }
 
@@ -76,13 +83,27 @@ window.google = {}
     return true
   }
 
+  let update_message = (message_id, options) => {
+    Object.keys(data.threads).forEach(thread_id => {
+      const thread = data.threads[thread_id]
+
+      thread.messages.forEach(message => {
+        if (message.message_id !== message_id) return
+
+        Object.assign(message.settings, options)
+      })
+    })
+
+    return true
+  }
+
   google.script = {}
   google.script.run = {
     get_folders:           do_run(data.folders),
     get_threads_in_folder: do_run(get_threads_in_folder),
     get_thread:            do_run(get_thread),
     update_thread:         do_run(update_thread),
-    update_message:        get_bool,
+    update_message:        do_run(update_message),
     set_public_key:        get_bool,
     get_public_key:        get_str,
     get_public_keys:       get_obj,

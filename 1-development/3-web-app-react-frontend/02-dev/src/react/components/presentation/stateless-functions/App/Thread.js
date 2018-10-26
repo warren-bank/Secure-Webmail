@@ -26,7 +26,7 @@ const component = ({thread_id, summary, settings, messages, participants}, {acti
     const start_expanded = (message.settings.star === true) || (i === (messages.length - 1))
 
     return (
-      <Message key={i} {...message} {...{start_expanded}} />
+      <Message key={i} {...message} {...{thread_id, start_expanded}} />
     )
   })
 

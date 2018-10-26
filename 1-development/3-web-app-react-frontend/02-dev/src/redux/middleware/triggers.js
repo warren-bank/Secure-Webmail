@@ -186,6 +186,22 @@ TRIGGERS['SAVE_MESSAGE_UPDATE'] = ({getState, dispatch, next, action}) => {
     }
   }
 
+  if (typeof options.star === 'boolean') {
+    if (options.star !== old_settings.message.star) {
+      let new_star_count = (options.star) ? 1 : 0
+      thread.messages.forEach(message => {
+        if (message.message_id !== message_id)
+          if (message.settings.star)
+            new_star_count++
+      })
+      let new_important = (new_star_count > 0)
+      if (new_important !== old_settings.thread.important) {
+        dirty = true
+        new_options.important = new_important
+      }
+    }
+  }
+
   if (dirty) {
     dispatch(
       actions.SAVE_THREAD_UPDATE(thread_id, new_options)

@@ -6,16 +6,16 @@ const displayName = 'Message_Summary'
 
 const format_date = require('react/lib/format_date')[displayName]
 
-const component = ({message_id, body, summary, settings}, {actions}) => {
+const component = ({thread_id, message_id, body, summary, settings}, {actions}) => {
   actions.DEBUG(`rendering: ${displayName}`, {message_id, summary, settings})
 
   const timestamp = format_date(summary.timestamp)
   const to        = summary.to.join(', ')
 
   const onClick = {
-    unread:  actions.UPDATE_MESSAGE.MARK_UNREAD.bind(this, message_id, !settings.unread),
-    star:    actions.UPDATE_MESSAGE.MARK_STAR.bind(this, message_id, !settings.star),
-    trash:   settings.trash ? null : actions.UPDATE_MESSAGE.MOVE_TO_TRASH.bind(this, message_id)
+    unread:  actions.UPDATE_MESSAGE.MARK_UNREAD.bind(this, thread_id, message_id, !settings.unread),
+    star:    actions.UPDATE_MESSAGE.MARK_STAR.bind(this, thread_id, message_id, !settings.star),
+    trash:   settings.trash ? null : actions.UPDATE_MESSAGE.MOVE_TO_TRASH.bind(this, thread_id, message_id)
   }
 
   return (
@@ -49,6 +49,7 @@ const component = ({message_id, body, summary, settings}, {actions}) => {
 }
 
 component.propTypes = {
+  thread_id:   PropTypes.string.isRequired,
   message_id:  PropTypes.string.isRequired,
   body:        PropTypes.string.isRequired,
   summary:     PropTypes.object.isRequired,

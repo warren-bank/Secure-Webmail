@@ -37,6 +37,12 @@ html, body, .wrapper {
 .top-component.app > .component.sidebar > .component.compose_new {}
 .top-component.app > .component.sidebar > .component.folder     {}
 
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary {}
+
+.top-component.app > .component.thread > .messages > .component.message {}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary {}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents {}
+
 /* ------------------------------------------------------------------ */
 
 .top-component.settings {
@@ -460,6 +466,84 @@ html, body, .wrapper {
 }
 .top-component.app > .component.thread > .action_buttons > .button.spam {
   background-image: url('https://www.gstatic.com/images/icons/material/system/1x/block_black_36dp.png');
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.thread > .messages > .component.message {
+  padding: 1em 0;
+  border-bottom: 1px solid #eee;
+}
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary {
+  cursor: pointer;
+}
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row > .col {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col {
+  flex-basis: auto;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_1 {
+  flex-grow: 1;
+
+  font-weight: bold;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_2,
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 {
+  flex-shrink: 0;
+}
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons {
+  padding-left: 1em;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons > .button {
+  display: inline-block;
+  margin: 0 .25em;
+  height: 1.5em;
+  width: 1.5em;
+
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+  cursor: pointer;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons > .button.unread {
+  display: none !important;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons > .button.unread.is_unread {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/mail_black_36dp.png');
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons > .button.unread.not_unread {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/drafts_black_36dp.png');
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons > .button.star.is_star {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/star_black_36dp.png');
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons > .button.star.not_star {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/star_border_black_36dp.png');
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons > .button.trash {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/delete_black_36dp.png');
+}
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_2 > span.to,
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_3 > span.body {
+  font-style: italic;
+}
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents {
+  padding-top: 1em;
 }
 
 /* ------------------------------------------------------------------ */
