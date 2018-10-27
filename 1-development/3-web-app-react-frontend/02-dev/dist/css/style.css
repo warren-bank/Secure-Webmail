@@ -620,13 +620,17 @@ html, body, .wrapper {
 }
 .top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .buttons > input {
   display: inline-block;
-  margin: 0 0.25em;
+  margin: 0 0.75em;
 
   font-size: 1.25em;
-  padding: 0.5em;
-  border-radius: 0.5em;
+  padding: 0.5em 1.5em;
+  border-radius: 0.4em;
+  opacity: 1;
 
   cursor: pointer;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .buttons > input:hover {
+  opacity: 0.85;
 }
 
 /* ------------------------------------------------------------------ */
