@@ -164,27 +164,32 @@ class Compose_Message extends React.PureComponent {
             </div>
         }
         <form onSubmit={this.eventHandlers.onSubmit} >
-          <div className="recipient">
+          <div className="grid">
+
             <label for="recipient">To:</label>
             <input type="text" id="recipient" value={this.state.recipient} onChange={this.eventHandlers.onChange} />
-          </div>
-          <div className="cc">
+
             <label for="cc">Cc:</label>
             <input type="text" id="cc" value={this.state.cc} onChange={this.eventHandlers.onChange} />
-          </div>
-          <div className="subject">
+
             <label for="subject">Subject:</label>
             <input type="text" id="subject" value={this.state.subject} onChange={this.eventHandlers.onChange} />
-          </div>
-          <div className="body">
+
             <label for="body">Message:</label>
-            <input type="text" id="body" value={this.state.body} onChange={this.eventHandlers.onChange} />
-          </div>
-          <div className="attachments">
-          </div>
-          <div className="submit_button">
-            <input className="send"   type="submit" value="Send" />
-            <input className="cancel" type="button" value={this.state.txtCancel} onClick={this.eventHandlers.onCancel} />
+            <textarea id="body" onChange={this.eventHandlers.onChange} >
+              {this.state.body}
+            </textarea>
+
+            <label>Files:</label>
+            <div className="attachments">
+            </div>
+
+            <label></label>
+            <div className="buttons">
+              <input className="send"   type="submit" value="Send" />
+              <input className="cancel" type="button" value={this.state.txtCancel} onClick={this.eventHandlers.onCancel} />
+            </div>
+
           </div>
         </form>
       </div>

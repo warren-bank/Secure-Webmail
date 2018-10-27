@@ -43,6 +43,7 @@ html, body, .wrapper {
 .top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary {}
 .top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents {}
 .top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment {}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply {}
 
 /* ------------------------------------------------------------------ */
 
@@ -325,8 +326,8 @@ html, body, .wrapper {
 
 .top-component.app > .component.folder > .thread_summaries {
   display: table;
-  border-collapse: collapse;
   table-layout: fixed;
+  border-collapse: collapse;
   width: 100%;
 }
 
@@ -550,6 +551,10 @@ html, body, .wrapper {
   margin-top: 1em;
 }
 
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .body {
+  white-space: pre-wrap;
+}
+
 .top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments {
   display: flex;
   flex-direction: row;
@@ -596,6 +601,32 @@ html, body, .wrapper {
 
 .top-component.app > .component.thread > .compose_reply {
   padding-top: 1em;
+}
+
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-row-gap: 0.5em;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > label {
+  padding-right: 1em;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > textarea {
+  height: 15em;
+}
+
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .buttons {
+  text-align: center;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .buttons > input {
+  display: inline-block;
+  margin: 0 0.25em;
+
+  font-size: 1.25em;
+  padding: 0.5em;
+  border-radius: 0.5em;
+
+  cursor: pointer;
 }
 
 /* ------------------------------------------------------------------ */
