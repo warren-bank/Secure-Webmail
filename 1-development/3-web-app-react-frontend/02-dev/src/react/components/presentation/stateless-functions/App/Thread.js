@@ -23,6 +23,10 @@ const component = ({thread_id, summary, settings, messages, participants}, {stor
     )
   }
 
+  const DOM_refs = {
+    [displayName]: null
+  }
+
   const Messages = messages.map((message, i) => {
     const start_expanded = (message.settings.star === true) || (i === (messages.length - 1))
 
@@ -51,7 +55,17 @@ const component = ({thread_id, summary, settings, messages, participants}, {stor
       recipient: msg.summary.from,
       cc:        cc.ReplyAll.message,
 
-      onSend:    () => console.log('Reply Sent'),
+      onSend:    () => {
+                         console.log('Reply Sent')
+
+                         window.setTimeout(
+                           () => {
+                                   if (DOM_refs[displayName] instanceof HTMLElement)
+                                     window.scrollTo(0, DOM_refs[displayName].scrollHeight)
+                           },
+                           0
+                         )
+                       },
       onCancel:  () => console.log('Reply Cancelled'),
       txtCancel: 'Cancel'
     }
@@ -70,7 +84,7 @@ const component = ({thread_id, summary, settings, messages, participants}, {stor
   }
 
   return (
-    <div className={`component ${displayName.toLowerCase()}`}>
+    <div className={`component ${displayName.toLowerCase()}`} ref={(DOM_node) => { DOM_refs[displayName] = DOM_node }} >
       <h1>{summary.subject}</h1>
       <div className="action_buttons">
         <div className={`button unread    ${ (settings.unread)    ? 'is_unread'    : 'not_unread' }`}    onClick={onClick.unread}    role="img" title={`${ (settings.unread)    ? 'Mark Read'        : 'Mark Unread'    }`}></div>

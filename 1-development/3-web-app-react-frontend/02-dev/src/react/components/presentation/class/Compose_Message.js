@@ -29,6 +29,8 @@ class Compose_Message extends React.PureComponent {
       onSubmit: this.handleSubmit.bind(this),
       onCancel: this.handleCancel.bind(this)
     }
+
+    this.sent_msg_notification_timer = null
   }
 
   componentWillMount() {
@@ -47,12 +49,27 @@ class Compose_Message extends React.PureComponent {
 
       onSend:        ((typeof nextProps.onSend   === 'function') ? nextProps.onSend   : null),
       onCancel:      ((typeof nextProps.onCancel === 'function') ? nextProps.onCancel : null),
-      txtCancel:     (nextProps.txtCancel || 'Clear'),
-
-      error_message: null
+      txtCancel:     (nextProps.txtCancel || 'Clear')
     }
 
+    if (this.sent_msg_notification_timer === null)
+      newState.error_message = null
+
     this.setState(newState)
+  }
+
+  clearTimer() {
+    if (this.sent_msg_notification_timer !== null) {
+      window.clearTimeout(this.sent_msg_notification_timer)
+
+      this.sent_msg_notification_timer = null
+    }
+  }
+
+  setError(msg) {
+    this.clearTimer()
+
+    this.setState({error_message: msg})
   }
 
   // mutates state
@@ -67,7 +84,7 @@ class Compose_Message extends React.PureComponent {
     )
 
     if (is_error)
-      this.setState({error_message: 'Invalid Input: Cannot Compose a Reply'})
+      this.setError('Invalid Input: Cannot Compose a Reply')
 
     return !is_error
   }
@@ -76,16 +93,14 @@ class Compose_Message extends React.PureComponent {
     event.stopPropagation()
     event.preventDefault()
 
-    let key = event.currentTarget.id
-    let val = event.currentTarget.value
+    const key      = event.currentTarget.id
+    const val      = event.currentTarget.value
+    const newState = {
+      [key]: val
+    }
+    this.setState(newState)
 
-    let state = {}
-    state[key] = val
-
-    if (this.state.error_message !== null)
-      state['error_message'] = null
-
-    this.setState(state)
+    this.setError(null)
   }
 
   handleSubmit(event) {
@@ -108,10 +123,7 @@ class Compose_Message extends React.PureComponent {
     if (!body)
       empty_required_fields.push('Message')
     if (empty_required_fields.length)
-      return this.setState({error_message: `The following required field${ (empty_required_fields.length > 1) ? 's are' : ' is' } incomplete: "${empty_required_fields.join('", "')}"`})
-
-    // clean previous error message
-    this.setState({error_message: null})
+      return this.setError(`The following required field${ (empty_required_fields.length > 1) ? 's are' : ' is' } incomplete: "${empty_required_fields.join('", "')}"`)
 
     // send message
     if (is_reply)
@@ -129,8 +141,12 @@ class Compose_Message extends React.PureComponent {
     this.setState(newState)
 
     // wait 5 seconds, then remove success notification
-    window.setTimeout(
-      this.setState.bind(this, {error_message: null}),
+    this.sent_msg_notification_timer = window.setTimeout(
+      () => {
+        this.sent_msg_notification_timer = null
+
+        this.setState({error_message: null})
+      },
       5000
     )
 
@@ -145,10 +161,11 @@ class Compose_Message extends React.PureComponent {
     const newState = {
       subject:       '',
       body:          '',
-      attachments:   [],
-      error_message: null
+      attachments:   []
     }
     this.setState(newState)
+
+    this.setError(null)
 
     if (this.state.onCancel)
       this.state.onCancel()
@@ -176,9 +193,7 @@ class Compose_Message extends React.PureComponent {
             <input type="text" id="subject" value={this.state.subject} onChange={this.eventHandlers.onChange} />
 
             <label for="body">Message:</label>
-            <textarea id="body" onChange={this.eventHandlers.onChange} >
-              {this.state.body}
-            </textarea>
+            <textarea id="body" value={this.state.body} onChange={this.eventHandlers.onChange} ></textarea>
 
             <label>Files:</label>
             <div className="attachments">
