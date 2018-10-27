@@ -611,9 +611,15 @@ html, body, .wrapper {
 .top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > label {
   padding-right: 1em;
 }
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > input,
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > textarea {
+  padding: 0.25em;
+}
 .top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > textarea {
   height: 15em;
 }
+
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments {}
 
 .top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .buttons {
   text-align: center;
