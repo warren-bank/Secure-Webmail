@@ -571,11 +571,15 @@ html, body, .wrapper {
   padding: 0 0.5em;
 
   background-color: #eee;
-  border: 1px solid #ddd;
+  border: 1px outset #ccc;
   border-radius: 4px;
+  outline: none;
 
   margin-right: 0.5em;
   cursor: pointer;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
 }
 .top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment > .icon,
 .top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment > .name {
@@ -631,12 +635,12 @@ html, body, .wrapper {
   font-size: 1.25em;
   padding: 0.5em 1.5em;
   border-radius: 0.4em;
-  opacity: 1;
+  outline: none;
 
   cursor: pointer;
 }
 .top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .buttons > input:hover {
-  opacity: 0.85;
+  box-shadow: inset 0px 0px 10px #ccc;
 }
 
 /* ------------------------------------------------------------------ */
