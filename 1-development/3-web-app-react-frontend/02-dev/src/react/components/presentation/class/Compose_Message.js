@@ -30,6 +30,8 @@ class Compose_Message extends React.PureComponent {
       onCancel: this.handleCancel.bind(this)
     }
 
+    this.callbackQueue = []
+
     this.sent_msg_notification_timer = null
   }
 
@@ -56,6 +58,12 @@ class Compose_Message extends React.PureComponent {
       newState.error_message = null
 
     this.setState(newState)
+  }
+
+  componentDidUpdate() {
+    while (this.callbackQueue.length) {
+      ( this.callbackQueue.shift() )()
+    }
   }
 
   clearTimer() {
@@ -151,7 +159,7 @@ class Compose_Message extends React.PureComponent {
     )
 
     if (this.state.onSend)
-      this.state.onSend()
+      this.callbackQueue.push( this.state.onSend )
   }
 
   handleCancel(event) {
@@ -168,7 +176,7 @@ class Compose_Message extends React.PureComponent {
     this.setError(null)
 
     if (this.state.onCancel)
-      this.state.onCancel()
+      this.callbackQueue.push( this.state.onCancel )
   }
 
   render() {

@@ -607,6 +607,15 @@ html, body, .wrapper {
   padding-top: 1em;
 }
 
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > .error_message {
+  font-size: 1.25em;
+  text-align: center;
+  background-color: rgba(242,245,245,0.8);
+
+  margin-bottom: 1em;
+  padding: 1em;
+}
+
 .top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid {
   display: grid;
   grid-template-columns: auto 1fr;

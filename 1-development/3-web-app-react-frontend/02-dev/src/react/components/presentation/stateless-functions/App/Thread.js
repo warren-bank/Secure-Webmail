@@ -7,6 +7,37 @@ const displayName = 'Thread'
 const Message          = require(`./${displayName}/Message`)
 const Compose_Message  = require('react/components/presentation/class/Compose_Message')
 
+// =================
+// https://reactjs.org/docs/refs-and-the-dom.html#refs-and-function-components
+//   React 16.3: added React.createRef() API
+// https://reactjs.org/docs/refs-and-the-dom.html#callback-refs
+//   legacy: callback refs
+// =================
+const DOM_refs = {
+  [displayName]: null
+}
+const callbackQueue = []
+const scrollToBottom = () => {
+  if (DOM_refs[displayName] instanceof HTMLElement) {
+    window.scrollTo(0, DOM_refs[displayName].scrollHeight)
+  }
+  else {
+    callbackQueue.push((DOM_node) => {
+      window.scrollTo(0, DOM_node.scrollHeight)
+    })
+  }
+}
+const componentDidUpdate = (DOM_node) => {
+  DOM_refs[displayName] = DOM_node
+
+  if (DOM_node instanceof HTMLElement) {
+    while (callbackQueue.length) {
+      ( callbackQueue.shift() )(DOM_node)
+    }
+    scrollToBottom()
+  }
+}
+
 const component = ({thread_id, summary, settings, messages, participants}, {store, actions, history}) => {
   actions.DEBUG(`rendering: ${displayName}`, {thread_id, summary, settings})
 
@@ -21,10 +52,6 @@ const component = ({thread_id, summary, settings, messages, participants}, {stor
         </div>
       </div>
     )
-  }
-
-  const DOM_refs = {
-    [displayName]: null
   }
 
   const Messages = messages.map((message, i) => {
@@ -58,13 +85,7 @@ const component = ({thread_id, summary, settings, messages, participants}, {stor
       onSend:    () => {
                          console.log('Reply Sent')
 
-                         window.setTimeout(
-                           () => {
-                                   if (DOM_refs[displayName] instanceof HTMLElement)
-                                     window.scrollTo(0, DOM_refs[displayName].scrollHeight)
-                           },
-                           0
-                         )
+                         scrollToBottom()
                        },
       onCancel:  () => console.log('Reply Cancelled'),
       txtCancel: 'Cancel'
@@ -84,7 +105,7 @@ const component = ({thread_id, summary, settings, messages, participants}, {stor
   }
 
   return (
-    <div className={`component ${displayName.toLowerCase()}`} ref={(DOM_node) => { DOM_refs[displayName] = DOM_node }} >
+    <div className={`component ${displayName.toLowerCase()}`} ref={componentDidUpdate} >
       <h1>{summary.subject}</h1>
       <div className="action_buttons">
         <div className={`button unread    ${ (settings.unread)    ? 'is_unread'    : 'not_unread' }`}    onClick={onClick.unread}    role="img" title={`${ (settings.unread)    ? 'Mark Read'        : 'Mark Unread'    }`}></div>
