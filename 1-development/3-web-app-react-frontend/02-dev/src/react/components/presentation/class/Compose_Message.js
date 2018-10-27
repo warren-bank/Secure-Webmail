@@ -8,21 +8,7 @@ class Compose_Message extends React.PureComponent {
   constructor(props) {
     super(props)
 
-    this.state = {
-      is_reply:       props.is_reply,
-      thread_id:     (props.thread_id || ''),
-      recipient:     (props.recipient || ''),
-      cc:            (Array.isArray(props.cc) ? props.cc.join(' ') : ''),
-      subject:       '',
-      body:          '',
-      attachments:   [],
-
-      onSend:        ((typeof props.onSend   === 'function') ? props.onSend   : null),
-      onCancel:      ((typeof props.onCancel === 'function') ? props.onCancel : null),
-      txtCancel:     (props.txtCancel || 'Clear'),
-
-      error_message: null
-    }
+    this.state = this.get_state_from_props(props)
 
     this.eventHandlers = {
       onChange: this.handleChange.bind(this),
@@ -40,22 +26,8 @@ class Compose_Message extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const newState = {
-      is_reply:       nextProps.is_reply,
-      thread_id:     (nextProps.thread_id || ''),
-      recipient:     (nextProps.recipient || ''),
-      cc:            (Array.isArray(nextProps.cc) ? nextProps.cc.join(' ') : ''),
-      subject:       '',
-      body:          '',
-      attachments:   [],
-
-      onSend:        ((typeof nextProps.onSend   === 'function') ? nextProps.onSend   : null),
-      onCancel:      ((typeof nextProps.onCancel === 'function') ? nextProps.onCancel : null),
-      txtCancel:     (nextProps.txtCancel || 'Clear')
-    }
-
-    if (this.sent_msg_notification_timer === null)
-      newState.error_message = null
+    const unset_error = (this.sent_msg_notification_timer === null)
+    const newState    = this.get_state_from_props(nextProps, unset_error)
 
     this.setState(newState)
   }
@@ -64,6 +36,30 @@ class Compose_Message extends React.PureComponent {
     while (this.callbackQueue.length) {
       ( this.callbackQueue.shift() )()
     }
+  }
+
+  get_state_from_props(props, unset_error=true) {
+    const state = {
+      is_reply:         props.is_reply,
+      thread_id:       (props.thread_id || ''),
+      recipient:       (props.recipient || ''),
+      cc:              (Array.isArray(props.cc) ? props.cc.join(' ') : ''),
+      cc_suggestions:  (Array.isArray(props.cc_suggestions) ? props.cc_suggestions : []),
+      subject:         '',
+      body:            '',
+      attachments:     [],
+
+      onSend:          ((typeof props.onSend   === 'function') ? props.onSend   : null),
+      onCancel:        ((typeof props.onCancel === 'function') ? props.onCancel : null),
+      txtCancel:       (props.txtCancel || 'Clear'),
+
+      invalid_state:   false
+    }
+
+    if (unset_error)
+      state.error_message = null
+
+    return state
   }
 
   clearTimer() {
@@ -91,10 +87,33 @@ class Compose_Message extends React.PureComponent {
       )
     )
 
-    if (is_error)
-      this.setError('Invalid Input: Cannot Compose a Reply')
+    if (is_error) {
+      this.setState({invalid_state: true})
+
+      this.setError('Invalid State: Cannot Compose a Reply')
+    }
 
     return !is_error
+  }
+
+  add_cc_suggestion(email) {
+    const old_cc = this.state.cc
+    const new_cc = `${old_cc.trim()} ${email}`
+
+    const old_cc_suggestions = this.state.cc_suggestions
+    const old_index          = old_cc_suggestions.indexOf(email)
+
+    // sanity check
+    if (old_index < 0) return
+
+    const new_cc_suggestions = [...old_cc_suggestions]
+    new_cc_suggestions.splice(old_index, 1)
+
+    const newState = {
+      cc: new_cc,
+      cc_suggestions: new_cc_suggestions
+    }
+    this.setState(newState)
   }
 
   handleChange(event) {
@@ -180,6 +199,16 @@ class Compose_Message extends React.PureComponent {
   }
 
   render() {
+
+    const cc_suggestions = this.state.cc_suggestions.map(email => {
+      return (
+        <div key={email} className="cc_suggestion" onClick={this.add_cc_suggestion.bind(this, email)}>
+          <span className="icon"></span>
+          <span className="email">{email}</span>
+        </div>
+      )
+    })
+
     return (
       <div className={`component ${displayName.toLowerCase()} ${ this.state.is_reply ? 'reply' : 'new_message' }`} >
         {
@@ -188,55 +217,73 @@ class Compose_Message extends React.PureComponent {
               <span>{this.state.error_message}</span>
             </div>
         }
-        <form onSubmit={this.eventHandlers.onSubmit} >
-          <div className="grid">
+        {
+          (this.state.invalid_state !== true) &&
+            <form onSubmit={this.eventHandlers.onSubmit} >
+              <div className="grid">
 
-            <label for="recipient">To:</label>
-            <input type="text" id="recipient" value={this.state.recipient} onChange={this.eventHandlers.onChange} />
+                <label for="recipient">To:</label>
+                <input type="text" id="recipient" value={this.state.recipient} onChange={this.eventHandlers.onChange} />
 
-            <label for="cc">Cc:</label>
-            <input type="text" id="cc" value={this.state.cc} onChange={this.eventHandlers.onChange} />
+                <label for="cc">Cc:</label>
+                <input type="text" id="cc" value={this.state.cc} onChange={this.eventHandlers.onChange} />
 
-            <label for="subject">Subject:</label>
-            <input type="text" id="subject" value={this.state.subject} onChange={this.eventHandlers.onChange} />
+                {
+                  (this.state.cc_suggestions.length > 0) &&
+                    <label></label>
+                }
+                {
+                  (this.state.cc_suggestions.length > 0) &&
+                    <div className="cc_suggestions">
+                      {cc_suggestions}
+                    </div>
+                }
 
-            <label for="body">Message:</label>
-            <textarea id="body" value={this.state.body} onChange={this.eventHandlers.onChange} ></textarea>
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" value={this.state.subject} onChange={this.eventHandlers.onChange} />
 
-            <label>Files:</label>
-            <div className="attachments">
-            </div>
+                <label for="body">Message:</label>
+                <textarea id="body" value={this.state.body} onChange={this.eventHandlers.onChange} ></textarea>
 
-            <label></label>
-            <div className="buttons">
-              <input className="send"   type="submit" value="Send" />
-              <input className="cancel" type="button" value={this.state.txtCancel} onClick={this.eventHandlers.onCancel} />
-            </div>
+                <label>Files:</label>
+                <div className="attachments">
+                </div>
 
-          </div>
-        </form>
+                <label></label>
+                <div className="buttons">
+                  <input className="send"   type="submit" value="Send" />
+                  <input className="cancel" type="button" value={this.state.txtCancel} onClick={this.eventHandlers.onCancel} />
+                </div>
+
+              </div>
+            </form>
+        }
       </div>
     )
   }
 }
 
 Compose_Message.propTypes = {
-  is_reply:  PropTypes.bool,
-  thread_id: PropTypes.string,
-  recipient: PropTypes.string,
-  cc:        PropTypes.arrayOf(PropTypes.string),
+  is_reply:        PropTypes.bool,
+  thread_id:       PropTypes.string,
+  recipient:       PropTypes.string,
+  cc:              PropTypes.arrayOf(PropTypes.string),
+  cc_suggestions:  PropTypes.arrayOf(PropTypes.string),
 
-  onSend:    PropTypes.func,
-  onCancel:  PropTypes.func,
-  txtCancel: PropTypes.string
+  onSend:          PropTypes.func,
+  onCancel:        PropTypes.func,
+  txtCancel:       PropTypes.string
 }
 
 Compose_Message.defaultProps = {
-  is_reply:  false
+  is_reply:        false,
+  cc:              [],
+  cc_suggestions:  [],
+  txtCancel:       'Clear'
 }
 
 Compose_Message.contextTypes = {
-  actions:   PropTypes.object.isRequired
+  actions:         PropTypes.object.isRequired
 }
 
 module.exports = Compose_Message

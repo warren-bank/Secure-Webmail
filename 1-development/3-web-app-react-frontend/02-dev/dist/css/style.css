@@ -632,6 +632,9 @@ html, body, .wrapper {
   height: 15em;
 }
 
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions {}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions > .cc_suggestion {}
+
 .top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments {}
 
 .top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .buttons {
@@ -650,6 +653,54 @@ html, body, .wrapper {
 }
 .top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .buttons > input:hover {
   box-shadow: inset 0px 0px 10px #ccc;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions > .cc_suggestion {
+  flex-basis: auto;
+  justify-content: space-between;
+
+  height: 2em;
+  line-height: 2em;
+  padding: 0 0.5em;
+
+  background-color: #eee;
+  border: 1px outset #ccc;
+  border-radius: 4px;
+  outline: none;
+
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions > .cc_suggestion:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions > .cc_suggestion > .icon,
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions > .cc_suggestion > .email {
+  display: inline-block;
+  vertical-align: top;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions > .cc_suggestion > .icon {
+  margin: 0.25em;
+  height: 1.5em;
+  width:  1.5em;
+
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/add_black_36dp.png');
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions > .cc_suggestion > .email {
+  margin-left: 0.25em;
+  white-space: nowrap;
 }
 
 /* ------------------------------------------------------------------ */

@@ -43,26 +43,25 @@ const component = ({thread_id, summary, settings, messages, participants}, {stor
     const state    = store.getState()
     const my_email = state.user.email_address
 
-    const cc = {
-      ReplyAll: {
-        message: msg.summary.to.filter(email => email !== my_email),  // Reply to All: Recipients of Last Message
-        thread:  participants                                         // Reply to All: Participants in Thread
-      }
-    }
+    const recipient      = msg.summary.from
+    const cc             = msg.summary.to.filter(email => email !== my_email)                  // Reply to All: Recipients of Last Message
+    const cc_sugg_filter = [...cc, recipient, my_email]
+    const cc_suggestions = participants.filter(email => cc_sugg_filter.indexOf(email) === -1)  // Cc Suggestions: All Additional Thread Participants => Sent or Received Previous Message(s) in Thread
 
     const props = {
-      is_reply:  true,
+      is_reply:        true,
       thread_id,
-      recipient: msg.summary.from,
-      cc:        cc.ReplyAll.message,
+      recipient,
+      cc,
+      cc_suggestions,
 
-      onSend:    () => {
+      onSend:          () => {
                          console.log('Reply Sent')
 
                          scroller.scrollToBottom()
                        },
-      onCancel:  () => console.log('Reply Cancelled'),
-      txtCancel: 'Cancel'
+      onCancel:        () => console.log('Reply Cancelled'),
+      txtCancel:       'Cancel'
     }
 
     ReplyForm = (
