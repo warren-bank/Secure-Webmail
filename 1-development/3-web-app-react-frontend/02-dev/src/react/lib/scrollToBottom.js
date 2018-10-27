@@ -36,6 +36,7 @@ class scrollToBottom {
 
 module.exports = scrollToBottom
 
+
 /* -----------------------------------------------
  * usage:
  * ======

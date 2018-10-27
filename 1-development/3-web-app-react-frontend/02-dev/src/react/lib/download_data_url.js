@@ -5,10 +5,10 @@ const download_data_url = (dataurl, filename) => {
   a.href = dataurl
   a.setAttribute("download", filename)
 
-  const b = window.document.createEvent("MouseEvents")
-  b.initEvent("click", false, true)
+  const e = window.document.createEvent("MouseEvents")
+  e.initEvent("click", false, true)
 
-  a.dispatchEvent(b)
+  a.dispatchEvent(e)
 }
 
 module.exports = download_data_url

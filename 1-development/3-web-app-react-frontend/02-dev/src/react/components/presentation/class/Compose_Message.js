@@ -3,6 +3,8 @@ const PropTypes   = require('prop-types')
 
 const displayName = 'Compose_Message'
 
+const read_file_content  = require('react/lib/read_file_content')
+
 class Compose_Message extends React.PureComponent {
 
   constructor(props) {
@@ -116,6 +118,48 @@ class Compose_Message extends React.PureComponent {
     this.setState(newState)
   }
 
+  add_attachment() {
+    const add_new_files = files => {
+      const old_attachments = this.state.attachments
+      const new_attachments = [...old_attachments, ...files]
+
+      const newState = {
+        attachments: new_attachments
+      }
+      this.setState(newState)
+    }
+
+    read_file_content()
+    .then(files => {
+      add_new_files(files)
+    })
+    .catch(error => {
+      if (Array.isArray(error.file_contents) && error.file_contents.length) {
+        add_new_files(error.file_contents)
+        this.setError('ERROR: some attachments failed to be read from disk')
+      }
+      else {
+        this.setError('WARNING: did not detect any files selected')
+      }
+    })
+  }
+
+  remove_attachment(attachment) {
+    const old_attachments = this.state.attachments
+    const old_index       = old_attachments.indexOf(attachment)
+
+    // sanity check
+    if (old_index < 0) return
+
+    const new_attachments = [...old_attachments]
+    new_attachments.splice(old_index, 1)
+
+    const newState = {
+      attachments: new_attachments
+    }
+    this.setState(newState)
+  }
+
   handleChange(event) {
     event.stopPropagation()
     event.preventDefault()
@@ -202,9 +246,18 @@ class Compose_Message extends React.PureComponent {
 
     const cc_suggestions = this.state.cc_suggestions.map(email => {
       return (
-        <div key={email} className="cc_suggestion" onClick={this.add_cc_suggestion.bind(this, email)}>
+        <div key={email} className="cc_suggestion" onClick={this.add_cc_suggestion.bind(this, email)} >
           <span className="icon"></span>
           <span className="email">{email}</span>
+        </div>
+      )
+    })
+
+    const attachments = this.state.attachments.map(attachment => {
+      return (
+        <div key={attachment.name} className="attachment" onClick={this.remove_attachment.bind(this, attachment)} >
+          <span className="icon icon-remove"></span>
+          <span className="filename">{attachment.name}</span>
         </div>
       )
     })
@@ -247,6 +300,10 @@ class Compose_Message extends React.PureComponent {
 
                 <label>Files:</label>
                 <div className="attachments">
+                  <div className="attachment static-icons">
+                    <span className="icon icon-add" onClick={this.add_attachment.bind(this)}></span>
+                  </div>
+                  {attachments}
                 </div>
 
                 <label></label>

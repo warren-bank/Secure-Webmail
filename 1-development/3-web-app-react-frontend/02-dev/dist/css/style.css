@@ -704,3 +704,55 @@ html, body, .wrapper {
 }
 
 /* ------------------------------------------------------------------ */
+
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment {
+  flex-basis: auto;
+  justify-content: space-between;
+
+  height: 2em;
+  line-height: 2em;
+  padding: 0 0.5em;
+
+  background-color: #eee;
+  border: 1px outset #ccc;
+  border-radius: 4px;
+  outline: none;
+
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment > .icon,
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment > .filename {
+  display: inline-block;
+  vertical-align: top;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment > .icon {
+  margin: 0.25em;
+  height: 1.5em;
+  width:  1.5em;
+
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment > .icon.icon-add {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/add_black_36dp.png');
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment > .icon.icon-remove {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/close_black_36dp.png');
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment > .filename {
+  margin-left: 0.25em;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ */
