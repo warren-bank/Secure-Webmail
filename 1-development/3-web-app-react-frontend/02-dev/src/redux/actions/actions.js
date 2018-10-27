@@ -94,10 +94,11 @@ actions['SAVE_THREAD'] = (thread_id, thread) => {
 
 // -----------------------------------------------------------------------------
 
-actions['SAVE_REPLY_TO_THREAD'] = ({thread_id, recipient, body, cc, attachments} = {}) => {
+actions['SAVE_REPLY_TO_THREAD'] = ({thread_id, recipient, body, cc, attachments} = {}, from = '') => {
   return {
     type: C.SAVE_REPLY_TO_THREAD,
     thread_id,
+    from,
     recipient,
     body,
     cc,

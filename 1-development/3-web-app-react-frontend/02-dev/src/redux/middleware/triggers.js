@@ -249,8 +249,11 @@ TRIGGERS['SAVE_THREAD'] = ({getState, dispatch, next, action}) => {
 TRIGGERS['SEND_EMAIL'] = {}
 
 TRIGGERS['SEND_EMAIL']['REPLY'] = ({getState, dispatch, next, action}) => {
+  const state = getState()
+  const from  = state.user.email_address
+
   dispatch(
-    actions.SAVE_REPLY_TO_THREAD(action)
+    actions.SAVE_REPLY_TO_THREAD(action, from)
   )
 }
 

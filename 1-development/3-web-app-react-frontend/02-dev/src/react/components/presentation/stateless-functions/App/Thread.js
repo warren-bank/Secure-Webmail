@@ -4,9 +4,10 @@ const PropTypes   = require('prop-types')
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'Thread'
 
-const Message     = require(`./${displayName}/Message`)
+const Message          = require(`./${displayName}/Message`)
+const Compose_Message  = require('react/components/presentation/class/Compose_Message')
 
-const component = ({thread_id, summary, settings, messages, participants}, {actions, history}) => {
+const component = ({thread_id, summary, settings, messages, participants}, {store, actions, history}) => {
   actions.DEBUG(`rendering: ${displayName}`, {thread_id, summary, settings})
 
   if (settings.unread)
@@ -29,6 +30,36 @@ const component = ({thread_id, summary, settings, messages, participants}, {acti
       <Message key={i} {...message} {...{thread_id, start_expanded}} />
     )
   })
+
+  let ReplyForm
+  {
+    const msg = messages[ messages.length - 1 ]
+
+    const state    = store.getState()
+    const my_email = state.user.email_address
+
+    const cc = {
+      ReplyAll: {
+        message: msg.summary.to.filter(email => email !== my_email),  // Reply to All: Recipients of Last Message
+        thread:  participants                                         // Reply to All: Participants in Thread
+      }
+    }
+
+    const props = {
+      is_reply:  true,
+      thread_id,
+      recipient: msg.summary.from,
+      cc:        cc.ReplyAll.message,
+
+      onSend:    () => console.log('Reply Sent'),
+      onCancel:  () => console.log('Reply Cancelled'),
+      txtCancel: 'Cancel'
+    }
+
+    ReplyForm = (
+      <Compose_Message {...props} />
+    )
+  }
 
   const onClick = {
     unread:    actions.UPDATE_THREAD.MARK_UNREAD.bind(this, thread_id, !settings.unread),
@@ -61,7 +92,7 @@ const component = ({thread_id, summary, settings, messages, participants}, {acti
         {Messages}
       </div>
       <div className="compose_reply">
-        {JSON.stringify(participants, null, 4)}
+        {ReplyForm}
       </div>
     </div>
   )
@@ -76,6 +107,7 @@ component.propTypes = {
 }
 
 component.contextTypes = {
+  store:    PropTypes.object.isRequired,
   actions:  PropTypes.object.isRequired,
   history:  PropTypes.object.isRequired
 }

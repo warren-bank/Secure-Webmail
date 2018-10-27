@@ -6,11 +6,25 @@ const displayName = 'Message_Summary'
 
 const format_date = require('react/lib/format_date')[displayName]
 
-const component = ({thread_id, message_id, body, summary, settings}, {actions}) => {
+const format_to = (to, store) => {
+  const state    = store.getState()
+  const my_email = state.user.email_address
+
+  let result
+  result = to.filter(email => email !== my_email)
+
+  if (result.length < to.length)
+    result.unshift('me')
+
+  result = result.join(', ')
+  return result
+}
+
+const component = ({thread_id, message_id, body, summary, settings}, {store, actions}) => {
   actions.DEBUG(`rendering: ${displayName}`, {message_id, summary, settings})
 
   const timestamp = format_date(summary.timestamp)
-  const to        = summary.to.join(', ')
+  const to        = format_to(summary.to, store)
 
   const onClick = {
     unread:  actions.UPDATE_MESSAGE.MARK_UNREAD.bind(this, thread_id, message_id, !settings.unread),
@@ -57,6 +71,7 @@ component.propTypes = {
 }
 
 component.contextTypes = {
+  store:    PropTypes.object.isRequired,
   actions:  PropTypes.object.isRequired
 }
 

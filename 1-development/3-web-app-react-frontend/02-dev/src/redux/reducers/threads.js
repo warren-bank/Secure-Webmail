@@ -77,7 +77,7 @@ RDCR['SAVE_THREAD'] = (state, {thread_id, thread}) => {
 
 // -----------------------------------------------------------------------------
 
-RDCR['SAVE_REPLY_TO_THREAD'] = (state, {thread_id, recipient, body, cc, attachments}) => {
+RDCR['SAVE_REPLY_TO_THREAD'] = (state, {thread_id, from, recipient, body, cc, attachments}) => {
   if (!thread_id) return state  // noop
   if (! (body || (attachments && Array.isArray(attachments) && attachments.length)) ) return state  // noop
 
@@ -96,7 +96,7 @@ RDCR['SAVE_REPLY_TO_THREAD'] = (state, {thread_id, recipient, body, cc, attachme
     return {
       message_id:     '',
       summary: {
-        from:         state.user.email_address,
+        from,
         to,
         timestamp:    (new Date().getTime())
       },
