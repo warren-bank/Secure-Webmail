@@ -1,0 +1,148 @@
+--------------------------------------------------------------------------------
+
+additional Redux state data:
+============================
+state.ui.settings.is_generating_keypair
+
+state.ui.draft_message = {
+  is_reply,
+  thread_id,
+  recipient,
+  cc,
+  cc_suggestions,
+  subject,
+  body,
+  attachments,
+  status: {
+    success,
+    error_message
+  }
+}
+
+--------------------------------------------------------------------------------
+
+note:
+=====
+the "ui" Redux reducer should be broken apart, and composed from additional (smaller) reducers
+
+--------------------------------------------------------------------------------
+
+note:
+=====
+when the following Redux action is dispatched:
+  C.CRYPTO.RSA.GENERATE_KEYPAIR
+
+* in the encryption middleware that performs the work:
+  - a flag should be stored in the Redux state:
+      state.ui.settings.is_generating_keypair
+  - true:   when work begins
+  - false:  when the onSuccess handler is invoked
+
+--------------------------------------------------------------------------------
+
+note:
+=====
+when the following Redux actions are dispatched:
+  C.SEND_EMAIL.NEW_MESSAGE
+  C.SEND_EMAIL.REPLY
+
+* the parameters are temporarily stored in Redux state as a draft message
+* this allows the middleware to update the Redux state with status information:
+    - success (boolean):
+        * signals that the draft message was successfully sent
+        * the Compose_Message component should detect this prop and respond accordingly:
+            - remove the draft message from Redux state
+            - call the onSend() callback function
+    - error_message (string):
+        * display to the user
+        * allow them to make any necessary changes to the draft message, and attempt to resend
+
+-------------------------------------------------------------------------------- updates (version #1):
+
+pseudo code:
+============
+
+const save_draft_message_to_store = (draft_message = {}) => {
+  const {is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments} = draft_message
+
+  store.dispatch(
+    actions.SAVE_DRAFT_MESSAGE(is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments)
+  )
+}
+
+const save_state_to_store = () => save_draft_message_to_store(this.state)
+
+const cleanup_store = () => save_draft_message_to_store()
+
+--------------------------------------------------------------------------------
+
+context:
+========
+in file:
+  1-development/3-web-app-react-frontend/02-dev/src/react/components/presentation/class/Compose_Message.js
+in function:
+  get_state_from_props(props, unset_error=true) {...}
+
+update:
+=======
+      cc:              (Array.isArray(props.cc) ? props.cc.join(' ') : (props.cc || '')),
+
+update:
+=======
+    if (unset_error)
+      state.error_message = props.status.error_message || null
+
+--------------------------------------------------------------------------------
+
+context:
+========
+in file:
+  1-development/3-web-app-react-frontend/02-dev/src/react/components/presentation/class/Compose_Message.js
+
+update:
+=======
+Compose_Message.propTypes = {
+  is_reply:        PropTypes.bool,
+  thread_id:       PropTypes.string,
+  recipient:       PropTypes.string,
+  cc:              PropTypes.oneOfType([					// change
+                     PropTypes.arrayOf(PropTypes.string),
+                     PropTypes.string
+                   ]),
+  cc_suggestions:  PropTypes.arrayOf(PropTypes.string),
+
+  subject:         PropTypes.string,						// new
+  body:            PropTypes.string,						// new
+  attachments:     PropTypes.arrayOf(PropTypes.object),		// new
+  error_message:   PropTypes.string,						// new
+
+  onSend:          PropTypes.func,
+  onCancel:        PropTypes.func,
+  txtCancel:       PropTypes.string
+}
+
+Compose_Message.defaultProps = {
+  is_reply:        false,
+  cc:              '',										// change
+  cc_suggestions:  [],
+  error_message:   null,									// new
+  txtCancel:       'Clear'
+}
+
+Compose_Message.contextTypes = {
+  store:           PropTypes.object.isRequired,				// new
+  actions:         PropTypes.object.isRequired
+}
+
+-------------------------------------------------------------------------------- updates (version #2):
+
+* "updates (version #1)" comprised some trivial patches to the existing "Compose_Message" component
+* "updates (version #2)" is a less naive implementation, but requires some more drastic changes to "Compose_Message"
+
+considerations:
+===============
+* props should change:
+    - rather than lots of strings,
+    - it should pass (by reference) the Redux state: state.ui.draft_message
+
+--------------------------------------------------------------------------------
