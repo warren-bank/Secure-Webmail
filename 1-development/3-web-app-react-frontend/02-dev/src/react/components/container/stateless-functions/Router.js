@@ -6,7 +6,7 @@ const {createHashHistory}      = require('history')
 const purify                   = require('react/components/higher-order/purify')
 
 const App                      = require('react/components/presentation/stateless-functions/App')
-const Settings                 = require('react/components/presentation/stateless-functions/Settings')
+const Settings                 = require('react/components/presentation/class/Settings')
 const About                    = require('react/components/presentation/stateless-functions/About')
 const NoEmail                  = require('react/components/presentation/stateless-functions/NoEmail')
 

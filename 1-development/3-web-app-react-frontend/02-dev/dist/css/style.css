@@ -76,6 +76,30 @@ html, body, .wrapper {
   padding: 0.5em 0;
 }
 
+.top-component.settings .icon {
+  display: inline-block;
+  vertical-align: top;
+
+  margin: 0.25em;
+  height: 1.5em;
+  width:  1.5em;
+
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+
+  background-color: #eee;
+  border: 1px outset #ccc;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+.top-component.settings .icon:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
+}
+.top-component.settings .icon.icon-generate-keypair {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/add_black_36dp.png');
+}
+
 /* ------------------------------------------------------------------ */
 
 .top-component.app > .component.header {
