@@ -146,3 +146,51 @@ considerations:
     - it should pass (by reference) the Redux state: state.ui.draft_message
 
 --------------------------------------------------------------------------------
+
+context:
+========
+in file:
+  1-development/3-web-app-react-frontend/02-dev/src/redux/reducers/index.js
+
+old Redux store structure:
+==========================
+const rootReducer = combineReducers({
+  folders,
+  threads_in_folder,
+  threads,
+  user,
+  public_keys,
+  ui
+})
+
+new Redux store structure:
+==========================
+const rootReducer = combineReducers({
+  folders,
+  threads_in_folder,
+  threads,
+  user,
+  public_keys,
+  app: {
+    ui,
+    settings,
+    draft_message
+  }
+})
+
+note:
+=====
+* moves:
+    state.ui.settings
+  to:
+    state.app.settings
+
+* moves:
+    state.ui
+  to:
+    state.app.ui
+
+* adds:
+    state.app.draft_message
+
+--------------------------------------------------------------------------------
