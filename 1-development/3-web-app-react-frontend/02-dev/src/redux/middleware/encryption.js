@@ -17,15 +17,15 @@ RSA['GENERATE_KEYPAIR'] = ({getState, dispatch, next, action}) => {
   crypto.RSA.generate_keypair()
   .then(({public_key, private_key}) => {
 
+    let {allow_update}        = action
+    allow_update              = !!allow_update  // cast to a boolean
+
     let state                 = getState()
     let max_threads_per_page  = 0  // "SETTINGS_middleware" only updates positive integer values
     let {private_key_storage} = state.ui.settings
 
     let sanity_check = () => {
       let pass = true
-
-      let {allow_update} = action
-      allow_update = !!allow_update  // cast to a boolean
 
       let my_email  = state.user.email_address
       let my_pubkey = state.public_keys[my_email]

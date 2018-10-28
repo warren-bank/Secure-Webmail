@@ -180,6 +180,16 @@ API['SET_RSA_PUBLIC_KEY'] = ({getState, dispatch, next, action}) => {
     if (typeof result !== 'boolean') return
 
     if (!result) onFailure()
+
+    // save to store
+
+    const state       = getState()
+    const my_email    = state.user.email_address
+    const public_keys = {[my_email]: public_key}
+
+    dispatch(
+      actions.SAVE_RSA_PUBLIC_KEYS(public_keys)
+    )
   }
 
   google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).set_public_key(public_key, allow_update)
