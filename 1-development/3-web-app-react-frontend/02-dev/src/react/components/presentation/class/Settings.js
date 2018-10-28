@@ -13,6 +13,7 @@ class Settings extends React.PureComponent {
     this.eventHandlers = {
       onChange: this.handleChange.bind(this),
       onSubmit: this.handleSubmit.bind(this),
+      onCancel: this.handleCancel.bind(this),
       onClick: {
         generate_keypair: this.generate_keypair.bind(this)
       }
@@ -27,7 +28,7 @@ class Settings extends React.PureComponent {
   get_state_from_props(props) {
     const {settings} = props
 
-    const state = {...settings}
+    const state = {...settings, is_generating_keypair: false}
     return state
   }
 
@@ -65,12 +66,24 @@ class Settings extends React.PureComponent {
       this.context.history.replace('/')
   }
 
+  handleCancel(event) {
+    event.stopPropagation()
+    event.preventDefault()
+
+    const newState = this.get_state_from_props(this.props)
+    this.setState(newState)
+  }
+
   generate_keypair(event) {
     event.stopPropagation()
     event.preventDefault()
 
+    if (this.state.is_generating_keypair === true) return
+
     const allow_update = true
     this.context.actions.GENERATE_KEYPAIR(allow_update)
+
+    this.setState({is_generating_keypair: true})
   }
 
   get_private_key_storage_options() {
@@ -100,14 +113,21 @@ class Settings extends React.PureComponent {
   
           <label for="private_key">Private RSA Encryption Key:</label>
           <textarea id="private_key" value={this.state.private_key} onChange={this.eventHandlers.onChange} ></textarea>
-          <span className="icon icon-generate-keypair" onClick={this.eventHandlers.onClick.generate_keypair} ></span>
-  
+          {
+            (this.state.is_generating_keypair !== true)
+              ? <span className="icon button generate-keypair" onClick={this.eventHandlers.onClick.generate_keypair} ></span>
+              : <span className="icon loader is-generating"></span>
+          }
+
           <label for="private_key_storage">Storage Private Key:</label>
           <select id="private_key_storage" value={this.state.private_key_storage} onChange={this.eventHandlers.onChange} >
             {private_key_storage_options}
           </select>
   
-          <button type="submit">Save Settings</button>
+          <div className="buttons">
+            <input className="send"   type="submit" value="Save Settings" disabled={this.state.is_generating_keypair} />
+            <input className="cancel" type="button" value="Reset" onClick={this.eventHandlers.onCancel} />
+          </div>
         </form>
       </div>
     )

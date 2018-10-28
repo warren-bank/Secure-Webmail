@@ -51,32 +51,30 @@ html, body, .wrapper {
   padding: 0 1em;
 }
 
-.top-component.settings label,
-.top-component.settings input,
-.top-component.settings textarea,
-.top-component.settings select,
-.top-component.settings button {
+.top-component.settings > form > label,
+.top-component.settings > form > input,
+.top-component.settings > form > textarea,
+.top-component.settings > form > select {
   display: block;
   width: 100%;
 }
 
-.top-component.settings input,
-.top-component.settings textarea,
-.top-component.settings select {
+.top-component.settings > form > input,
+.top-component.settings > form > textarea,
+.top-component.settings > form > select {
   padding: 0.5em;
 }
 
-.top-component.settings textarea {
+.top-component.settings > form > textarea {
   height: 10em;
 }
 
-.top-component.settings label,
-.top-component.settings button {
+.top-component.settings > form > label {
   margin-top: 1em;
   padding: 0.5em 0;
 }
 
-.top-component.settings .icon {
+.top-component.settings > form > .icon {
   display: inline-block;
   vertical-align: top;
 
@@ -86,18 +84,64 @@ html, body, .wrapper {
 
   background-repeat: no-repeat;
   background-size: 1.5em;
+}
 
+.top-component.settings > form > .icon.button {
   background-color: #eee;
   border: 1px outset #ccc;
   border-radius: 4px;
   outline: none;
   cursor: pointer;
 }
-.top-component.settings .icon:hover {
+.top-component.settings > form > .icon.button:hover {
   box-shadow: inset 0px 0px 10px #ccc;
 }
-.top-component.settings .icon.icon-generate-keypair {
+.top-component.settings > form > .icon.button.generate-keypair {
   background-image: url('https://www.gstatic.com/images/icons/material/system/1x/add_black_36dp.png');
+}
+
+/* ===========================
+ * https://loading.io/css/
+ * ===========================
+ */
+.top-component.settings > form > .icon.loader {}
+.top-component.settings > form > .icon.loader:after {
+  content: " ";
+  display: block;
+  width:  1em;
+  height: 1em;
+  margin: 1px;
+  border-radius: 50%;
+  border: 0.15em solid #ccc;
+  border-color: #ccc transparent #ccc transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.top-component.settings > form > .buttons {
+  padding: 1.5em 0;
+  text-align: center;
+}
+.top-component.settings > form > .buttons > input {
+  display: inline-block;
+  margin: 0 0.75em;
+
+  font-size: 1.25em;
+  padding: 0.5em 1.5em;
+  border-radius: 0.4em;
+  outline: none;
+
+  cursor: pointer;
+}
+.top-component.settings > form > .buttons > input:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
 }
 
 /* ------------------------------------------------------------------ */
