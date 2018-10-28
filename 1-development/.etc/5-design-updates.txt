@@ -14,7 +14,7 @@ state.ui.draft_message = {
   body,
   attachments,
   status: {
-    success,
+    code,			// [0=can_edit, 1=busy_sending, 2=sent_success, 3=sent_error]
     error_message
   }
 }
@@ -48,14 +48,31 @@ when the following Redux actions are dispatched:
 
 * the parameters are temporarily stored in Redux state as a draft message
 * this allows the middleware to update the Redux state with status information:
-    - success (boolean):
-        * signals that the draft message was successfully sent
-        * the Compose_Message component should detect this prop and respond accordingly:
-            - remove the draft message from Redux state
-            - call the onSend() callback function
+    - code (integer enumeration):
+        * 0:
+          - no middleware is working on the draft message
+          - it can be edited by the user, and sent to middleware for encryption and transmission to the server
+        * 1:
+          - middleware is busy sending this draft message
+          - it cannot be edited or resent
+        * 2:
+          - middleware operations completed successfully
+            * the server has acknowledged receival of the message
+          - the Compose_Message component should detect this prop and respond accordingly:
+            * dispatch a Redux action to:
+              - reset: state.ui.draft_message
+              - reset: state.ui.draft_message.status
+            * call the onSend() callback function
+        * 3:
+          - middleware operations were UNABLE to complete due to an error
+            * "error_message" contains additional information
+          - the Compose_Message component should detect this prop and respond accordingly:
+            * display the error message
+            * dispatch a Redux action to update:
+                state.ui.draft_message.status.code = 0
     - error_message (string):
-        * display to the user
-        * allow them to make any necessary changes to the draft message, and attempt to resend
+        * a friendly error message for display to the user
+        * enables the user to make any necessary changes to the draft message, and attempt to resend
 
 -------------------------------------------------------------------------------- updates (version #1):
 
