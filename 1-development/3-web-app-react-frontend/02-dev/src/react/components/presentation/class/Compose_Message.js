@@ -301,7 +301,7 @@ class Compose_Message extends React.PureComponent {
                 <label>Files:</label>
                 <div className="attachments">
                   <div className="attachment static-icons">
-                    <span className="icon icon-add" onClick={this.add_attachment.bind(this)}></span>
+                    <span className="icon icon-add" role="img" title="Add File Attachment" onClick={this.add_attachment.bind(this)}></span>
                   </div>
                   {attachments}
                 </div>

@@ -115,7 +115,7 @@ class Settings extends React.PureComponent {
           <textarea id="private_key" value={this.state.private_key} onChange={this.eventHandlers.onChange} ></textarea>
           {
             (this.state.is_generating_keypair !== true)
-              ? <span className="icon button generate-keypair" onClick={this.eventHandlers.onClick.generate_keypair} ></span>
+              ? <span className="icon button generate-keypair" role="img" title="Generate Keypair" onClick={this.eventHandlers.onClick.generate_keypair} ></span>
               : <span className="icon loader is-generating"></span>
           }
 

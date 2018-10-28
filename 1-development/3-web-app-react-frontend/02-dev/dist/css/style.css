@@ -80,11 +80,12 @@ html, body, .wrapper {
   vertical-align: top;
 
   margin: 0.25em;
-  height: 1.5em;
-  width:  1.5em;
+  height: 2em;
+  width:  2em;
 
   background-repeat: no-repeat;
   background-size: 1.5em;
+  background-position: 0.2em 0.2em;
 }
 
 .top-component.settings > form > .icon.button {
@@ -109,8 +110,8 @@ html, body, .wrapper {
 .top-component.settings > form > .icon.loader:after {
   content: " ";
   display: block;
-  width:  1em;
-  height: 1em;
+  width:  1.5em;
+  height: 1.5em;
   margin: 1px;
   border-radius: 50%;
   border: 0.15em solid #ccc;
