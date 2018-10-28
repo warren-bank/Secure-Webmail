@@ -24,7 +24,7 @@ class Compose_Message extends React.PureComponent {
   }
 
   componentWillMount() {
-    this.validateReplyInput()
+    if (!this.validateReplyInput()) return
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,6 +35,8 @@ class Compose_Message extends React.PureComponent {
   }
 
   componentDidUpdate() {
+    if (!this.validateReplyInput()) return
+
     while (this.callbackQueue.length) {
       ( this.callbackQueue.shift() )()
     }
