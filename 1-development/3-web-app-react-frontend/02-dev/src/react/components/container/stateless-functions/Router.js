@@ -5,10 +5,14 @@ const {createHashHistory}      = require('history')
 
 const purify                   = require('react/components/higher-order/purify')
 
-const App                      = require('react/components/presentation/stateless-functions/App')
-const Settings                 = require('react/components/presentation/class/Settings')
 const About                    = require('react/components/presentation/stateless-functions/About')
 const NoEmail                  = require('react/components/presentation/stateless-functions/NoEmail')
+const Settings                 = require('react/components/presentation/class/Settings')
+
+const App                      = require('react/components/presentation/stateless-functions/App')
+const Folder                   = require('react/components/presentation/stateless-functions/App/Folder')
+const Thread                   = require('react/components/presentation/stateless-functions/App/Thread')
+const Compose_Message          = require('react/components/presentation/class/Compose_Message')
 
 const displayName = 'Router'
 const HashHistory = createHashHistory()
@@ -60,7 +64,11 @@ const component   = ({state}, {store, actions, constants, history}) => {
       if (new_location(location, state))
         actions.OPEN_THREAD(thread_id)  // `history` is not passed to prevent URL redirect
 
-      return <App state={state} />
+      const component = (
+        <Thread thread_id={thread_id} {...state.threads[thread_id]} />
+      )
+
+      return <App state={state} component={component} />
     }
     return <Route exact strict path="/thread/:thread_id" render={_render} />
   })()
@@ -78,9 +86,35 @@ const component   = ({state}, {store, actions, constants, history}) => {
       if (new_location(location, state))
         actions.OPEN_FOLDER(folder_name, start_threads_index)  // `history` is not passed to prevent URL redirect
 
-      return (<App state={state} />)
+      const component = (
+        <Folder folder_name={folder_name} threads={state.threads} thread_ids={state.threads_in_folder[folder_name]} start={start_threads_index || 0} max={state.ui.settings.max_threads_per_page} />
+      )
+
+      return (<App state={state} component={component} />)
     }
     return <Route exact strict path="/folder/:folder_name/:start_threads_index?" render={_render} />
+  })()
+
+  const compose_route = (() => {
+    const _render = ({history}) => {
+      const props = {
+        is_reply:   false,
+        onSend:     () => {
+                      console.log('Reply Sent')
+
+                      history.replace('/')
+                    },
+        onCancel:   () => console.log('Reply Cancelled'),
+        txtCancel:  'Cancel'
+      }
+
+      const component = (
+        <Compose_Message {...props} />
+      )
+
+      return (<App state={state} component={component} />)
+    }
+    return <Route exact strict path="/compose" render={_render} />
   })()
 
   const settings_route = (() => {
@@ -95,6 +129,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
       <Switch>
         {thread_route}
         {folder_route}
+        {compose_route}
         {settings_route}
         <Route exact strict path="/about" component={About} />
         {folder_redirects}

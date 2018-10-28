@@ -24,18 +24,19 @@ html, body, .wrapper {
 
 /* ------------------------------------------------------------------ */
 
-.top-component.noemail  {}
+.top-component.noemail {}
 .top-component.settings {}
-.top-component.about    {}
-.top-component.app      {}
+.top-component.about {}
+.top-component.app {}
 
-.top-component.app > .component.header  {}
+.top-component.app > .component.header {}
 .top-component.app > .component.sidebar {}
-.top-component.app > .component.folder  {}
-.top-component.app > .component.thread  {}
+.top-component.app > .component.folder {}
+.top-component.app > .component.thread {}
+.top-component.app > .component.compose_message.new_message {}
 
 .top-component.app > .component.sidebar > .component.compose_new {}
-.top-component.app > .component.sidebar > .component.folder     {}
+.top-component.app > .component.sidebar > .component.folder {}
 
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary {}
 
@@ -283,7 +284,8 @@ html, body, .wrapper {
 /* ------------------------------------------------------------------ */
 
 .top-component.app > .component.folder,
-.top-component.app > .component.thread {
+.top-component.app > .component.thread,
+.top-component.app > .component.compose_message.new_message {
   position: absolute;
   z-index: 2;
   top: 3em;
@@ -826,6 +828,113 @@ html, body, .wrapper {
   background-image: url('https://www.gstatic.com/images/icons/material/system/1x/close_black_36dp.png');
 }
 .top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment > .filename {
+  margin-left: 0.25em;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.compose_message.new_message {
+  padding: 1em 0;
+}
+
+.top-component.app > .component.compose_message.new_message > .error_message {
+  font-size: 1.25em;
+  text-align: center;
+  background-color: rgba(242,245,245,0.8);
+
+  margin-bottom: 1em;
+  padding: 1em;
+}
+
+.top-component.app > .component.compose_message.new_message > form > .grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-row-gap: 0.5em;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > label {
+  padding-right: 1em;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > input,
+.top-component.app > .component.compose_message.new_message > form > .grid > textarea {
+  padding: 0.25em;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > textarea {
+  height: 15em;
+}
+
+.top-component.app > .component.compose_message.new_message > form > .grid > .cc_suggestions {
+  display: none;
+}
+
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments {}
+
+.top-component.app > .component.compose_message.new_message > form > .grid > .buttons {
+  text-align: center;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .buttons > input {
+  display: inline-block;
+  margin: 0 0.75em;
+
+  font-size: 1.25em;
+  padding: 0.5em 1.5em;
+  border-radius: 0.4em;
+  outline: none;
+
+  cursor: pointer;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .buttons > input:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment {
+  flex-basis: auto;
+  justify-content: space-between;
+
+  height: 2em;
+  line-height: 2em;
+  padding: 0 0.5em;
+
+  background-color: #eee;
+  border: 1px outset #ccc;
+  border-radius: 4px;
+  outline: none;
+
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment > .icon,
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment > .filename {
+  display: inline-block;
+  vertical-align: top;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment > .icon {
+  margin: 0.25em;
+  height: 1.5em;
+  width:  1.5em;
+
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment > .icon.icon-add {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/add_black_36dp.png');
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment > .icon.icon-remove {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/close_black_36dp.png');
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment > .filename {
   margin-left: 0.25em;
   white-space: nowrap;
 }
