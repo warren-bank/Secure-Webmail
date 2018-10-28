@@ -56,8 +56,14 @@ HELPERS['folders']['find_foldernames_by_threadid'] = (thread_id, state) => {
    */
 
 TRIGGERS['INIT'] = ({getState, dispatch, next, action}) => {
+  const state    = getState()
+  const my_email = state.user.email_address
+
   dispatch(
     actions.GET_FOLDERS()
+  )
+  dispatch(
+    actions.GET_RSA_PUBLIC_KEYS([my_email])
   )
 }
 
