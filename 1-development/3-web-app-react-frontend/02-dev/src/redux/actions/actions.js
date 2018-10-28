@@ -377,24 +377,6 @@ actions['RESPOND_TO_USER_EVENT']['OPEN_THREAD'] = (thread_id, history, is_push) 
   }
 }
 
-actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_REPLY'] = (thread_id, history, is_push) => {
-  if (history && thread_id) {
-    let URL = `/thread/${thread_id}/compose`
-    ;(is_push ? history.push : history.replace)(URL)
-
-    return {
-      type:   C.RESPOND_TO_USER_EVENT.REDIRECT_URL,
-      target: C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_REPLY,
-      URL
-    }
-  }
-
-  return {
-    type: C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_REPLY,
-    thread_id
-  }
-}
-
 actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_MESSAGE'] = (history, is_push) => {
   if (history) {
     let URL = `/compose`

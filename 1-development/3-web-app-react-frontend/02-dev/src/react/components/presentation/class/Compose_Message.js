@@ -276,7 +276,7 @@ class Compose_Message extends React.PureComponent {
               <div className="grid">
 
                 <label for="recipient">To:</label>
-                <input type="text" id="recipient" value={this.state.recipient} onChange={this.eventHandlers.onChange} />
+                <input type="text" id="recipient" value={this.state.recipient} onChange={this.eventHandlers.onChange} disabled={this.state.is_reply} />
 
                 <label for="cc">Cc:</label>
                 <input type="text" id="cc" value={this.state.cc} onChange={this.eventHandlers.onChange} />

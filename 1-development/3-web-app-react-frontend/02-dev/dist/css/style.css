@@ -604,7 +604,7 @@ html, body, .wrapper {
 /* ------------------------------------------------------------------ */
 
 .top-component.app > .component.thread > .compose_reply {
-  padding-top: 1em;
+  padding: 1em 0;
 }
 
 .top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > .error_message {
@@ -653,6 +653,13 @@ html, body, .wrapper {
 }
 .top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .buttons > input:hover {
   box-shadow: inset 0px 0px 10px #ccc;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > label[for=subject],
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > input#subject {
+  display: none;
 }
 
 /* ------------------------------------------------------------------ */

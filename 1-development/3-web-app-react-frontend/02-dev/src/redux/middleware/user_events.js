@@ -56,11 +56,11 @@ const EVENT_middleware = ({getState, dispatch}) => next => action => {
       break
 
     case C.RESPOND_TO_USER_EVENT.OPEN_THREAD:
-    case C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_REPLY:
       EVENT.OPEN_THREAD({getState, dispatch, next, action})
       break
 
     case C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_MESSAGE:
+    case C.RESPOND_TO_USER_EVENT.REDIRECT_URL:
       break
 
     default:

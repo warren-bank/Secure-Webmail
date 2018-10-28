@@ -120,7 +120,7 @@ component.contextTypes = {
   history:  PropTypes.object.isRequired
 }
 
-component.requireActions = ['DEBUG', 'UPDATE_THREAD', 'OPEN_COMPOSE_REPLY']
+component.requireActions = ['DEBUG', 'UPDATE_THREAD']
 
 component.displayName = displayName
 

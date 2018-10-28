@@ -52,8 +52,7 @@
             "REDIRECT_URL":         "USER_EVENT_REDIRECT_URL",
             "OPEN_FOLDER":          "USER_EVENT_OPEN_FOLDER",
             "OPEN_THREAD":          "USER_EVENT_OPEN_THREAD",
-            "OPEN_COMPOSE_MESSAGE": "USER_EVENT_OPEN_COMPOSE_MESSAGE",
-            "OPEN_COMPOSE_REPLY":   "USER_EVENT_OPEN_COMPOSE_REPLY"
+            "OPEN_COMPOSE_MESSAGE": "USER_EVENT_OPEN_COMPOSE_MESSAGE"
         }
     },
     "storage": {
