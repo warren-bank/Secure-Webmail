@@ -65,7 +65,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
         actions.OPEN_THREAD(thread_id)  // `history` is not passed to prevent URL redirect
 
       const component = (
-        <Thread thread_id={thread_id} {...state.threads[thread_id]} />
+        <Thread thread_id={thread_id} {...state.threads[thread_id]} draft_message={state.app.draft_message} />
       )
 
       return <App state={state} component={component} />
@@ -98,7 +98,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
   const compose_route = (() => {
     const _render = ({history}) => {
       const props = {
-        is_reply:   false,
+        draft:      state.app.draft_message,
         onSend:     () => {
                       console.log('Reply Sent')
 

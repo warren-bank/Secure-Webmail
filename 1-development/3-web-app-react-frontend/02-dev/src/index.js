@@ -15,13 +15,15 @@
     // cherry pick a subset of Redux actions that the UI can dispatch to the store
     return {
       ...actions.RESPOND_TO_USER_EVENT,
-      DEBUG:            actions.LOG_DEBUG_MESSAGE,
-      GENERATE_KEYPAIR: actions.CRYPTO.RSA.GENERATE_KEYPAIR,
-      UPDATE_SETTINGS:  actions.UPDATE_SETTINGS,
-      SEND_NEW_MESSAGE: actions.SEND_EMAIL.NEW_MESSAGE,
-      SEND_REPLY:       actions.SEND_EMAIL.REPLY,
-      UPDATE_THREAD:    actions.UPDATE_THREAD,             // {MARK_UNREAD, MOVE_TO_TRASH, MOVE_TO_SPAM, MOVE_TO_INBOX, MARK_IMPORTANT}
-      UPDATE_MESSAGE:   actions.UPDATE_MESSAGE             // {MARK_UNREAD, MOVE_TO_TRASH, MARK_STAR}
+      DEBUG:               actions.LOG_DEBUG_MESSAGE,
+      GENERATE_KEYPAIR:    actions.CRYPTO.RSA.GENERATE_KEYPAIR,
+      UPDATE_SETTINGS:     actions.UPDATE_SETTINGS,
+      SAVE_DRAFT_MESSAGE:  actions.SAVE_APP.DRAFT_MESSAGE.STORE,
+      CLEAR_DRAFT_MESSAGE: actions.SAVE_APP.DRAFT_MESSAGE.CLEAR,
+      SEND_NEW_MESSAGE:    actions.SEND_EMAIL.NEW_MESSAGE,
+      SEND_REPLY:          actions.SEND_EMAIL.REPLY,
+      UPDATE_THREAD:       actions.UPDATE_THREAD,             // {MARK_UNREAD, MOVE_TO_TRASH, MOVE_TO_SPAM, MOVE_TO_INBOX, MARK_IMPORTANT}
+      UPDATE_MESSAGE:      actions.UPDATE_MESSAGE             // {MARK_UNREAD, MOVE_TO_TRASH, MARK_STAR}
     }
   })()
 

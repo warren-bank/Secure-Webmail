@@ -32,6 +32,8 @@ class Compose_Message extends React.PureComponent {
     const newState    = this.get_state_from_props(nextProps, unset_error)
 
     this.setState(newState)
+
+    handlePostSubmit(newState)
   }
 
   componentDidUpdate() {
@@ -43,22 +45,17 @@ class Compose_Message extends React.PureComponent {
   }
 
   get_state_from_props(props, unset_error=true) {
-    const state = {
-      is_reply:         props.is_reply,
-      thread_id:       (props.thread_id || ''),
-      recipient:       (props.recipient || ''),
-      cc:              (Array.isArray(props.cc) ? props.cc.join(' ') : ''),
-      cc_suggestions:  (Array.isArray(props.cc_suggestions) ? props.cc_suggestions : []),
-      subject:         '',
-      body:            '',
-      attachments:     [],
+    const draft          = props.draft
+    const cc_suggestions = [...draft.cc_suggestions]
+    const attachments    = draft.attachments.map(file => {return {...file}})
+    const status         = {...draft.status}
 
-      onSend:          ((typeof props.onSend   === 'function') ? props.onSend   : null),
-      onCancel:        ((typeof props.onCancel === 'function') ? props.onCancel : null),
-      txtCancel:       (props.txtCancel || 'Clear'),
+    const onSend         = ((typeof props.onSend   === 'function') ? props.onSend   : null)
+    const onCancel       = ((typeof props.onCancel === 'function') ? props.onCancel : null)
+    const txtCancel      = (props.txtCancel || 'Clear')
+    const invalid_state  = false
 
-      invalid_state:   false
-    }
+    const state = {...draft, cc_suggestions, attachments, status, onSend, onCancel, txtCancel, invalid_state}
 
     if (unset_error)
       state.error_message = null
@@ -182,10 +179,8 @@ class Compose_Message extends React.PureComponent {
 
     if (!this.validateReplyInput()) return
 
-    const {is_reply, thread_id, recipient, subject, body, attachments} = this.state
-    let {cc} = this.state
-
-    cc = cc.trim().split(/\s*[,\s]\s*/g).filter(val => val.length)
+    const {is_reply, thread_id, recipient, subject, body} = this.state
+    let {cc, attachments} = this.state
 
     // validate required fields
     const empty_required_fields = []
@@ -198,50 +193,64 @@ class Compose_Message extends React.PureComponent {
     if (empty_required_fields.length)
       return this.setError(`The following required field${ (empty_required_fields.length > 1) ? 's are' : ' is' } incomplete: "${empty_required_fields.join('", "')}"`)
 
+    // format data, make deep copy of objects
+    cc          = cc.trim().split(/\s*[,\s]\s*/g).filter(val => val.length)
+    attachments = attachments.map(file => {return {...file}})
+
     // send message
     if (is_reply)
       this.context.actions.SEND_REPLY(thread_id, recipient, body, cc, attachments)
     else
       this.context.actions.SEND_NEW_MESSAGE(recipient, subject, body, cc, attachments)
+  }
 
-    // cleanup form fields, display a success notification
-    const newState = {
-      subject:       '',
-      body:          '',
-      attachments:   [],
-      error_message: 'Message Sent'
+  handlePostSubmit(store) {
+    if (!store) store = this.state
+
+    switch (store.status.code) {
+      case 0:
+        break
+
+      case 1:
+        this.setError('Message is Sending...')
+        break
+
+      case 2:
+        this.setError('Message Sent')
+
+        // wait 5 seconds, then remove success notification
+        this.sent_msg_notification_timer = window.setTimeout(
+          () => {
+            this.sent_msg_notification_timer = null
+
+            this.setState({error_message: null})
+          },
+          5000
+        )
+
+        if (store.onSend)
+          this.callbackQueue.push( store.onSend )
+
+        this.context.actions.CLEAR_DRAFT_MESSAGE()
+
+        break
+
+      case 2:
+        this.setError( store.status.error_message )
+        break
     }
-    this.setState(newState)
-
-    // wait 5 seconds, then remove success notification
-    this.sent_msg_notification_timer = window.setTimeout(
-      () => {
-        this.sent_msg_notification_timer = null
-
-        this.setState({error_message: null})
-      },
-      5000
-    )
-
-    if (this.state.onSend)
-      this.callbackQueue.push( this.state.onSend )
   }
 
   handleCancel(event) {
     event.stopPropagation()
     event.preventDefault()
 
-    const newState = {
-      subject:       '',
-      body:          '',
-      attachments:   []
-    }
-    this.setState(newState)
-
     this.setError(null)
 
     if (this.state.onCancel)
       this.callbackQueue.push( this.state.onCancel )
+
+    this.context.actions.CLEAR_DRAFT_MESSAGE()
   }
 
   render() {
@@ -323,26 +332,19 @@ class Compose_Message extends React.PureComponent {
 }
 
 Compose_Message.propTypes = {
-  is_reply:        PropTypes.bool,
-  thread_id:       PropTypes.string,
-  recipient:       PropTypes.string,
-  cc:              PropTypes.arrayOf(PropTypes.string),
-  cc_suggestions:  PropTypes.arrayOf(PropTypes.string),
+  draft:      PropTypes.object.isRequired,
 
-  onSend:          PropTypes.func,
-  onCancel:        PropTypes.func,
-  txtCancel:       PropTypes.string
+  onSend:     PropTypes.func,
+  onCancel:   PropTypes.func,
+  txtCancel:  PropTypes.string
 }
 
 Compose_Message.defaultProps = {
-  is_reply:        false,
-  cc:              [],
-  cc_suggestions:  [],
-  txtCancel:       'Clear'
+  txtCancel:  'Clear'
 }
 
 Compose_Message.contextTypes = {
-  actions:         PropTypes.object.isRequired
+  actions:    PropTypes.object.isRequired
 }
 
 module.exports = Compose_Message

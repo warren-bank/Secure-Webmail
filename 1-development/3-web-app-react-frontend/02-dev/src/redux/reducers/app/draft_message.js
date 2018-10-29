@@ -24,7 +24,7 @@ const initial_state = {
 
 const get_initial_state = () => {
   const cc_suggestions = [...initial_state.cc_suggestions]
-  const attachments    = [...initial_state.attachments]
+  const attachments    = initial_state.attachments.map(file => {return {...file}})
   const status         = {...initial_state.status}
 
   return {...initial_state, cc_suggestions, attachments, status}

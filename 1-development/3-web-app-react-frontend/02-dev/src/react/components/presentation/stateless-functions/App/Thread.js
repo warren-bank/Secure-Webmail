@@ -12,7 +12,7 @@ const scroller              = new scrollToBottom()
 scroller.componentDidUpdate = scroller.componentDidUpdate.bind(scroller)
 scroller.scrollToBottom     = scroller.scrollToBottom.bind(scroller)
 
-const component = ({thread_id, summary, settings, messages, participants}, {store, actions, history}) => {
+const component = ({thread_id, summary, settings, messages, participants, draft_message}, {store, actions, history}) => {
   actions.DEBUG(`rendering: ${displayName}`, {thread_id, summary, settings})
 
 //if (settings.unread)
@@ -43,18 +43,19 @@ const component = ({thread_id, summary, settings, messages, participants}, {stor
     const state    = store.getState()
     const my_email = state.user.email_address
 
+    const is_reply       = true
     const recipient      = msg.summary.from
     const cc             = msg.summary.to.filter(email => email !== my_email)                  // Reply to All: Recipients of Last Message
     const cc_sugg_filter = [...cc, recipient, my_email]
     const cc_suggestions = participants.filter(email => cc_sugg_filter.indexOf(email) === -1)  // Cc Suggestions: All Additional Thread Participants => Sent or Received Previous Message(s) in Thread
+    const subject        = ''
+    const body           = ''
+    const attachments    = []
+
+    actions.SAVE_DRAFT_MESSAGE(is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments)
 
     const props = {
-      is_reply:        true,
-      thread_id,
-      recipient,
-      cc,
-      cc_suggestions,
-
+      draft:           draft_message,
       onSend:          () => {
                          console.log('Reply Sent')
 
@@ -111,7 +112,8 @@ component.propTypes = {
   summary:       PropTypes.object.isRequired,
   settings:      PropTypes.object.isRequired,
   messages:      PropTypes.arrayOf(PropTypes.object).isRequired,
-  participants:  PropTypes.arrayOf(PropTypes.string).isRequired
+  participants:  PropTypes.arrayOf(PropTypes.string).isRequired,
+  draft_message: PropTypes.object.isRequired
 }
 
 component.contextTypes = {
@@ -120,7 +122,7 @@ component.contextTypes = {
   history:  PropTypes.object.isRequired
 }
 
-component.requireActions = ['DEBUG', 'UPDATE_THREAD']
+component.requireActions = ['DEBUG', 'UPDATE_THREAD', 'SAVE_DRAFT_MESSAGE']
 
 component.displayName = displayName
 
