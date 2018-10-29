@@ -5,7 +5,15 @@ const C = constants.actions
 
 // -----------------------------------------------------------------------------
 
-const settings = (state = {...constants.default_settings}, action) => {
+const initial_state = constants.default_settings
+
+const get_initial_state = () => {
+  return {...initial_state}
+}
+
+// -----------------------------------------------------------------------------
+
+const settings = (state = get_initial_state(), action) => {
   switch (action.type) {
 
     case C.SAVE_APP.SETTING.MAX_THREADS_PER_PAGE:

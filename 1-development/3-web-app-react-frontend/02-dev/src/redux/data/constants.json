@@ -38,6 +38,11 @@
                 "PRIVATE_KEY":              "SAVE_APP_SETTING_PRIVATE_KEY",
                 "PRIVATE_KEY_STORAGE":      "SAVE_APP_SETTING_PRIVATE_KEY_STORAGE",
                 "IS_GENERATING_KEYPAIR":    "SAVE_APP_SETTING_IS_GENERATING_KEYPAIR"
+            },
+            "DRAFT_MESSAGE": {
+                "STORE":                    "SAVE_APP_DRAFT_MESSAGE_STORE",
+                "CLEAR":                    "SAVE_APP_DRAFT_MESSAGE_CLEAR",
+                "SET_STATUS":               "SAVE_APP_DRAFT_MESSAGE_SET_STATUS"
             }
         },
         "CRYPTO": {

@@ -7,6 +7,7 @@ const user               = require('./user')
 const public_keys        = require('./public_keys')
 const ui                 = require('./app/ui')
 const settings           = require('./app/settings')
+const draft_message      = require('./app/draft_message')
 
 const rootReducer = combineReducers({
   folders,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   public_keys,
   app: combineReducers({
     ui,
-    settings
+    settings,
+    draft_message
   })
 })
 

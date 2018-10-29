@@ -69,6 +69,24 @@ const initialState = {
       "private_key":				"",					// String
       "private_key_storage":		0,					// Number (enumeration: [0:none, 1:sessionStorage, 2:localStorage])
       "is_generating_keypair":		false				// Boolean
+    },
+    "draft_message": {
+      "is_reply":					false,				// Boolean
+      "thread_id":					"",					// String
+      "recipient":					"",					// String
+      "cc":							"",					// String
+      "cc_suggestions":				["$email_address"],	// Array of String
+      "subject":					"",					// String
+      "body":						"",					// String
+      "attachments":				[{					// Array of Object
+        "data":						"",
+        "contentType":				"",
+        "name":						""
+      }],
+      "status": {
+        "code":						0,					// Number (enumeration: [0=can_edit, 1=busy_sending, 2=sent_success, 3=sent_error])
+        "error_message":			""					// String
+      }
     }
   }
 }

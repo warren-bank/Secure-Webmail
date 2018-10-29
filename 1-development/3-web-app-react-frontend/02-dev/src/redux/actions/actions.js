@@ -250,8 +250,9 @@ actions['UPDATE_SETTINGS'] = (max_threads_per_page, private_key, private_key_sto
 }
 
 actions['SAVE_APP'] = {
-  UI:      {},
-  SETTING: {}
+  UI:            {},
+  SETTING:       {},
+  DRAFT_MESSAGE: {}
 }
 
 // -----------------------------------------------------------------------------
@@ -311,6 +312,38 @@ actions['SAVE_APP']['SETTING']['IS_GENERATING_KEYPAIR'] = (is_generating_keypair
   return {
     type: C.SAVE_APP.SETTING.IS_GENERATING_KEYPAIR,
     is_generating_keypair
+  }
+}
+
+// -----------------------------------------------------------------------------
+
+actions['SAVE_APP']['DRAFT_MESSAGE']['STORE'] = (is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments) => {
+  return {
+    type: C.SAVE_APP.DRAFT_MESSAGE.STORE,
+    is_reply,
+    thread_id,
+    recipient,
+    cc,
+    cc_suggestions,
+    subject,
+    body,
+    attachments
+  }
+}
+
+actions['SAVE_APP']['DRAFT_MESSAGE']['CLEAR'] = () => {
+  return {
+    type: C.SAVE_APP.DRAFT_MESSAGE.CLEAR
+  }
+}
+
+actions['SAVE_APP']['DRAFT_MESSAGE']['SET_STATUS'] = (code, error_message="") => {
+  return {
+    type: C.SAVE_APP.DRAFT_MESSAGE.STORE,
+    status: {
+      code,
+      error_message
+    }
   }
 }
 
