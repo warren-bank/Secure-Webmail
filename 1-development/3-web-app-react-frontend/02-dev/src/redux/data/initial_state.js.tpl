@@ -74,7 +74,7 @@ const initialState = {
       "is_reply":					false,				// Boolean
       "thread_id":					"",					// String
       "recipient":					"",					// String
-      "cc":							"",					// String
+      "cc":							["$email_address"],	// Array of String
       "cc_suggestions":				["$email_address"],	// Array of String
       "subject":					"",					// String
       "body":						"",					// String

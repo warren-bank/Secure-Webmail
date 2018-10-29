@@ -33,7 +33,7 @@ class Compose_Message extends React.PureComponent {
 
     this.setState(newState)
 
-    handlePostSubmit(newState)
+    this.handlePostSubmit(newState)
   }
 
   componentDidUpdate() {
@@ -46,6 +46,7 @@ class Compose_Message extends React.PureComponent {
 
   get_state_from_props(props, unset_error=true) {
     const draft          = props.draft
+    const cc             = draft.cc.join(' ')
     const cc_suggestions = [...draft.cc_suggestions]
     const attachments    = draft.attachments.map(file => {return {...file}})
     const status         = {...draft.status}
@@ -55,7 +56,7 @@ class Compose_Message extends React.PureComponent {
     const txtCancel      = (props.txtCancel || 'Clear')
     const invalid_state  = false
 
-    const state = {...draft, cc_suggestions, attachments, status, onSend, onCancel, txtCancel, invalid_state}
+    const state = {...draft, cc, cc_suggestions, attachments, status, onSend, onCancel, txtCancel, invalid_state}
 
     if (unset_error)
       state.error_message = null
@@ -180,7 +181,7 @@ class Compose_Message extends React.PureComponent {
     if (!this.validateReplyInput()) return
 
     const {is_reply, thread_id, recipient, subject, body} = this.state
-    let {cc, attachments} = this.state
+    let {cc, cc_suggestions, attachments} = this.state
 
     // validate required fields
     const empty_required_fields = []
@@ -194,8 +195,12 @@ class Compose_Message extends React.PureComponent {
       return this.setError(`The following required field${ (empty_required_fields.length > 1) ? 's are' : ' is' } incomplete: "${empty_required_fields.join('", "')}"`)
 
     // format data, make deep copy of objects
-    cc          = cc.trim().split(/\s*[,\s]\s*/g).filter(val => val.length)
-    attachments = attachments.map(file => {return {...file}})
+    cc             = cc.trim().split(/\s*[,\s]\s*/g).filter(val => val.length)
+    cc_suggestions = [...cc_suggestions]
+    attachments    = attachments.map(file => {return {...file}})
+
+    // save draft
+    this.context.actions.SAVE_DRAFT_MESSAGE(is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments)
 
     // send message
     if (is_reply)

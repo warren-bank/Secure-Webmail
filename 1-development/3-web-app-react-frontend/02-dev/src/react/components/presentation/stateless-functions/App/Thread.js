@@ -38,22 +38,6 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
 
   let ReplyForm
   {
-    const msg = messages[ messages.length - 1 ]
-
-    const state    = store.getState()
-    const my_email = state.user.email_address
-
-    const is_reply       = true
-    const recipient      = msg.summary.from
-    const cc             = msg.summary.to.filter(email => email !== my_email)                  // Reply to All: Recipients of Last Message
-    const cc_sugg_filter = [...cc, recipient, my_email]
-    const cc_suggestions = participants.filter(email => cc_sugg_filter.indexOf(email) === -1)  // Cc Suggestions: All Additional Thread Participants => Sent or Received Previous Message(s) in Thread
-    const subject        = ''
-    const body           = ''
-    const attachments    = []
-
-    actions.SAVE_DRAFT_MESSAGE(is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments)
-
     const props = {
       draft:           draft_message,
       onSend:          () => {
@@ -69,6 +53,62 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
       <Compose_Message {...props} />
     )
   }
+
+  const save_draft = () => {
+    const msg = messages[ messages.length - 1 ]
+
+    const state    = store.getState()
+    const my_email = state.user.email_address
+
+    const is_reply       = true
+    const recipient      = msg.summary.from
+    const cc             = msg.summary.to.filter(email => email !== my_email)                  // Reply to All: Recipients of Last Message
+    const cc_sugg_filter = [...cc, recipient, my_email]
+    const cc_suggestions = participants.filter(email => cc_sugg_filter.indexOf(email) === -1)  // Cc Suggestions: All Additional Thread Participants => Sent or Received Previous Message(s) in Thread
+    const subject        = ''
+    const body           = ''
+    const attachments    = []
+
+    const is_new_draft   = () => {
+      let dirty     = false
+      let new_draft = {is_reply, thread_id, recipient, subject, body}
+      const keys    = Object.keys(new_draft)
+
+      for (let i=0; !dirty && (i < keys.length); i++) {
+        let key = keys[i]
+        if (draft_message[key] !== new_draft[key])
+          dirty = true
+      }
+
+      dirty = dirty || (draft_message.cc.length                !== cc.length)
+      dirty = dirty || (draft_message.cc.join(',')             !== cc.join(',') )
+
+      dirty = dirty || (draft_message.cc_suggestions.length    !== cc_suggestions.length)
+      dirty = dirty || (draft_message.cc_suggestions.join(',') !== cc_suggestions.join(',') )
+
+      dirty = dirty || (draft_message.attachments.length       !== attachments.length)
+
+      if (!dirty) {
+        for (let i=0; !dirty && (i < draft_message.attachments.length); i++) {
+          let old_file = draft_message.attachments[i]
+          let new_file = attachments[i]
+
+          dirty = dirty || (old_file.name !== new_file.name)
+          dirty = dirty || (old_file.data !== new_file.data)
+        }
+      }
+
+      return dirty
+    }
+
+    const requires_update = is_new_draft()
+
+    if (requires_update)
+      actions.SAVE_DRAFT_MESSAGE(is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments)
+
+    return requires_update
+  }
+  save_draft()
 
   const onClick = {
     unread:    actions.UPDATE_THREAD.MARK_UNREAD.bind(this, thread_id, !settings.unread),

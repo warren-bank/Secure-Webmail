@@ -11,7 +11,7 @@ const initial_state = {
   "is_reply":         false,
   "thread_id":        "",
   "recipient":        "",
-  "cc":               "",
+  "cc":               [],
   "cc_suggestions":   [],
   "subject":          "",
   "body":             "",
@@ -23,16 +23,18 @@ const initial_state = {
 }
 
 const get_initial_state = () => {
+  const cc             = [...initial_state.cc]
   const cc_suggestions = [...initial_state.cc_suggestions]
   const attachments    = initial_state.attachments.map(file => {return {...file}})
   const status         = {...initial_state.status}
 
-  return {...initial_state, cc_suggestions, attachments, status}
+  return {...initial_state, cc, cc_suggestions, attachments, status}
 }
 
 // -----------------------------------------------------------------------------
 
 RDCR['STORE'] = (state, {is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments}) => {
+  cc              = [...cc]
   cc_suggestions  = [...cc_suggestions]
   attachments     = attachments.map(file => {return {...file}})
 

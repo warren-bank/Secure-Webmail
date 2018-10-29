@@ -100,11 +100,11 @@ const component   = ({state}, {store, actions, constants, history}) => {
       const props = {
         draft:      state.app.draft_message,
         onSend:     () => {
-                      console.log('Reply Sent')
+                      console.log('Message Sent')
 
                       history.replace('/')
                     },
-        onCancel:   () => console.log('Reply Cancelled'),
+        onCancel:   () => console.log('Message Cancelled'),
         txtCancel:  'Cancel'
       }
 
