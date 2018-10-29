@@ -279,6 +279,13 @@ actions['SAVE_SETTING']['MAX_THREADS_PER_PAGE'] = (max_threads_per_page) => {
   }
 }
 
+actions['SAVE_SETTING']['PUBLIC_KEY'] = (public_key) => {
+  return {
+    type: C.SAVE_SETTING.PUBLIC_KEY,
+    public_key
+  }
+}
+
 actions['SAVE_SETTING']['PRIVATE_KEY'] = (private_key) => {
   return {
     type: C.SAVE_SETTING.PRIVATE_KEY,
@@ -290,6 +297,13 @@ actions['SAVE_SETTING']['PRIVATE_KEY_STORAGE'] = (private_key_storage) => {
   return {
     type: C.SAVE_SETTING.PRIVATE_KEY_STORAGE,
     private_key_storage
+  }
+}
+
+actions['SAVE_SETTING']['IS_GENERATING_KEYPAIR'] = (is_generating_keypair) => {
+  return {
+    type: C.SAVE_SETTING.IS_GENERATING_KEYPAIR,
+    is_generating_keypair
   }
 }
 

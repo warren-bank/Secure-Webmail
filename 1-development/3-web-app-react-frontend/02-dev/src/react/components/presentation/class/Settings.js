@@ -1,6 +1,8 @@
 const React       = require('react')
 const PropTypes   = require('prop-types')
 
+const crypto      = require('redux/middleware/lib/crypto')
+
 const displayName = 'Settings'
 
 class Settings extends React.PureComponent {
@@ -28,7 +30,7 @@ class Settings extends React.PureComponent {
   get_state_from_props(props) {
     const {settings} = props
 
-    const state = {...settings, is_generating_keypair: false}
+    const state = {...settings}
     return state
   }
 
@@ -49,6 +51,53 @@ class Settings extends React.PureComponent {
     event.preventDefault()
 
     let {max_threads_per_page, private_key, private_key_storage} = this.state
+
+    // perform validation
+    const validation_result = this.does_private_match_public(private_key)
+
+    // validation has failed: show error message in alert dialog, then return
+    if (validation_result > 0) {
+      let msg
+
+      switch(validation_result) {
+        case 1:
+          msg = [
+            'The server reports that no "public key" is associated with the current Google user account.',
+            '',
+            'If this is incorrect, then please reload the webpage.',
+            '',
+            'Otherwise, you may generate a new keypair.',
+            'The server will automatically store the "public key".',
+            'You MUST save the "private key".',
+            'If you lose this value, then you will NOT be able to read the encrypted email sent to you.'
+          ].join("\n")
+          break
+
+        case 2:
+          msg = [
+            'The "private key" value entered is not valid.',
+            'Please try again.'
+          ].join("\n")
+          break
+
+        case 3:
+          msg = [
+            'ERROR:',
+            '',
+            'Redux state contains a "public key" value obtained from the server which is already associated with the current Google user account.',
+            '',
+            'The "private key" on this page cannot be saved because it does not form a valid cryptographic keypair.',
+            '',
+            'Please try again.'
+          ].join("\n")
+          break
+      }
+
+      if (msg)
+        window.alert(msg)
+
+      return
+    }
 
     // cast to correct data types
     max_threads_per_page = Number(max_threads_per_page)
@@ -74,16 +123,65 @@ class Settings extends React.PureComponent {
     this.setState(newState)
   }
 
+  does_private_match_public(private_key) {
+    let my_pubkey = this.state.public_key
+    let generated_pubkey
+
+    if (!my_pubkey) return 1  // don't allow the user to locally configure a private key if the server says there is no existing keypair
+
+    try {
+      generated_pubkey = crypto.RSA.get_public_key(private_key)
+    }
+    catch(err) {
+      return 2  // don't allow the user to save a private key that is invalid
+    }
+
+    // text comparison ignoring whitespace
+    const ignore_charset = /[\r\n\s\t]/g
+    my_pubkey            = my_pubkey.replace(ignore_charset, '')
+    generated_pubkey     = generated_pubkey.replace(ignore_charset, '')
+
+    if (my_pubkey !== generated_pubkey) return 3  // don't allow the user to save a private key that doesn't pair with the public key (obtained from the server)
+
+    return 0  // all good
+  }
+
+  should_keypair_allow_update() {
+    const my_pubkey = this.state.public_key
+
+    if (!my_pubkey) return false  // shouldn't be necessary
+
+    let msg = [
+      'WARNING:',
+      '',
+      'Redux state contains a "public key" value obtained from the server which is already associated with the current Google user account.',
+      '',
+      'Updating the associated keypair will cause your mailbox to diverge:',
+      '  (1) the previous "private key" will be required to decrypt older messages, and',
+      '  (2) the updated "private key" will be required to decrypt newer messages.',
+      '',
+      'You should only consider updating your keypair if either:',
+      '  (1) you have lost your "private key" and are no-longer able to read your encrypted messages, or',
+      '  (2) an untrusted 3rd party has gained access to your "private key".',
+      '',
+      'Proceed with creation of new keypair?'
+    ].join("\n")
+
+    const proceed = window.confirm(msg)
+
+    return proceed ? true : null  // return null when the user cancels the operation
+  }
+
   generate_keypair(event) {
     event.stopPropagation()
     event.preventDefault()
 
     if (this.state.is_generating_keypair === true) return
 
-    const allow_update = true
-    this.context.actions.GENERATE_KEYPAIR(allow_update)
+    const allow_update = this.should_keypair_allow_update()
+    if (allow_update === null) return
 
-    this.setState({is_generating_keypair: true})
+    this.context.actions.GENERATE_KEYPAIR(allow_update)
   }
 
   get_private_key_storage_options() {
@@ -112,7 +210,7 @@ class Settings extends React.PureComponent {
           <input id="max_threads_per_page" type="number" value={this.state.max_threads_per_page} onChange={this.eventHandlers.onChange} />
   
           <label for="private_key">Private RSA Encryption Key:</label>
-          <textarea id="private_key" value={this.state.private_key} onChange={this.eventHandlers.onChange} ></textarea>
+          <textarea id="private_key" value={this.state.private_key} onChange={this.eventHandlers.onChange} disabled={!this.state.public_key} ></textarea>
           {
             (this.state.is_generating_keypair !== true)
               ? <span className="icon button generate-keypair" role="img" title="Generate Keypair" onClick={this.eventHandlers.onClick.generate_keypair} ></span>

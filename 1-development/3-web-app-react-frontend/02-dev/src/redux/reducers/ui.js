@@ -38,6 +38,14 @@ RDCR['MAX_THREADS_PER_PAGE'] = (state, {max_threads_per_page}) => {
   return new_state
 }
 
+RDCR['PUBLIC_KEY'] = (state, {public_key}) => {
+  if (state.settings.public_key === public_key) return state  // noop
+
+  const new_state = {...state, settings: {...state.settings}}
+  Object.assign(new_state.settings, {public_key})
+  return new_state
+}
+
 RDCR['PRIVATE_KEY'] = (state, {private_key}) => {
   if (state.settings.private_key === private_key) return state  // noop
 
@@ -51,6 +59,14 @@ RDCR['PRIVATE_KEY_STORAGE'] = (state, {private_key_storage}) => {
 
   const new_state = {...state, settings: {...state.settings}}
   Object.assign(new_state.settings, {private_key_storage})
+  return new_state
+}
+
+RDCR['IS_GENERATING_KEYPAIR'] = (state, {is_generating_keypair}) => {
+  if (state.settings.is_generating_keypair === is_generating_keypair) return state  // noop
+
+  const new_state = {...state, settings: {...state.settings}}
+  Object.assign(new_state.settings, {is_generating_keypair})
   return new_state
 }
 
@@ -85,11 +101,17 @@ const ui = (state = {settings: {...constants.default_settings}}, action) => {
     case C.SAVE_SETTING.MAX_THREADS_PER_PAGE:
       return RDCR.MAX_THREADS_PER_PAGE(state, action)
 
+    case C.SAVE_SETTING.PUBLIC_KEY:
+      return RDCR.PUBLIC_KEY(state, action)
+
     case C.SAVE_SETTING.PRIVATE_KEY:
       return RDCR.PRIVATE_KEY(state, action)
 
     case C.SAVE_SETTING.PRIVATE_KEY_STORAGE:
       return RDCR.PRIVATE_KEY_STORAGE(state, action)
+
+    case C.SAVE_SETTING.IS_GENERATING_KEYPAIR:
+      return RDCR.IS_GENERATING_KEYPAIR(state, action)
 
     default:
       return state

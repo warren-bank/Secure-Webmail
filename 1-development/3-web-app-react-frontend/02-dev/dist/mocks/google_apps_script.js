@@ -97,6 +97,16 @@ window.google = {}
     return true
   }
 
+  let get_public_key = (email) => data.RSA_keypair.public_key
+
+  let get_public_keys = (emails) => {
+    const keys = {}
+    emails.forEach(email => {
+      keys[email] = data.RSA_keypair.public_key
+    })
+    return keys
+  }
+
   google.script = {}
   google.script.run = {
     get_folders:           do_run(data.folders),
@@ -105,8 +115,8 @@ window.google = {}
     update_thread:         do_run(update_thread),
     update_message:        do_run(update_message),
     set_public_key:        get_bool,
-    get_public_key:        get_str,
-    get_public_keys:       get_obj,
+    get_public_key:        do_run(get_public_key),
+    get_public_keys:       do_run(get_public_keys),
     send_reply_to_thread:  get_bool,
     send_new_email:        get_bool
   }

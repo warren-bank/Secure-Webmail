@@ -18,7 +18,7 @@ const component = ({thread_id, summary, settings, messages, participants}, {stor
 //if (settings.unread)
 //  actions.UPDATE_THREAD.MARK_UNREAD(thread_id, false)
 
-  if (settings.unread || !messages || !messages.length) {
+  if (!summary || !settings || settings.unread || !messages || !messages.length) {
     return (
       <div className={`component ${displayName.toLowerCase()}`}>
         <div className="loading">

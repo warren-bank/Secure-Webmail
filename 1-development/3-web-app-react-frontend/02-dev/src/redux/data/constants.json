@@ -1,75 +1,79 @@
 {
     "actions": {
-        "STORE_INITIALIZED":        "STORE_INITIALIZED",
-        "LOG_DEBUG_MESSAGE":        "LOG_DEBUG_MESSAGE",
+        "STORE_INITIALIZED":            "STORE_INITIALIZED",
+        "LOG_DEBUG_MESSAGE":            "LOG_DEBUG_MESSAGE",
 
-        "GET_FOLDERS":              "GET_FOLDERS",
-        "SAVE_FOLDERS":             "SAVE_FOLDERS",
+        "GET_FOLDERS":                  "GET_FOLDERS",
+        "SAVE_FOLDERS":                 "SAVE_FOLDERS",
 
-        "GET_THREADS_IN_FOLDER":    "GET_THREADS_IN_FOLDER",
-        "SAVE_THREADS_TO_FOLDER":   "SAVE_THREADS_TO_FOLDER",
-        "SAVE_THREADS":             "SAVE_THREADS",
+        "GET_THREADS_IN_FOLDER":        "GET_THREADS_IN_FOLDER",
+        "SAVE_THREADS_TO_FOLDER":       "SAVE_THREADS_TO_FOLDER",
+        "SAVE_THREADS":                 "SAVE_THREADS",
 
-        "GET_THREAD":               "GET_THREAD",
-        "SAVE_THREAD":              "SAVE_THREAD",
+        "GET_THREAD":                   "GET_THREAD",
+        "SAVE_THREAD":                  "SAVE_THREAD",
 
-        "SAVE_REPLY_TO_THREAD":     "SAVE_REPLY_TO_THREAD",
+        "SAVE_REPLY_TO_THREAD":         "SAVE_REPLY_TO_THREAD",
 
-        "UPDATE_THREAD":            "UPDATE_THREAD",
-        "SAVE_THREAD_UPDATE":       "SAVE_THREAD_UPDATE",
+        "UPDATE_THREAD":                "UPDATE_THREAD",
+        "SAVE_THREAD_UPDATE":           "SAVE_THREAD_UPDATE",
 
-        "UPDATE_MESSAGE":           "UPDATE_MESSAGE",
-        "SAVE_MESSAGE_UPDATE":      "SAVE_MESSAGE_UPDATE",
+        "UPDATE_MESSAGE":               "UPDATE_MESSAGE",
+        "SAVE_MESSAGE_UPDATE":          "SAVE_MESSAGE_UPDATE",
 
-        "SET_RSA_PUBLIC_KEY":       "SET_RSA_PUBLIC_KEY",
-        "GET_RSA_PUBLIC_KEYS":      "GET_RSA_PUBLIC_KEYS",
-        "SAVE_RSA_PUBLIC_KEYS":     "SAVE_RSA_PUBLIC_KEYS",
+        "SET_RSA_PUBLIC_KEY":           "SET_RSA_PUBLIC_KEY",
+        "GET_RSA_PUBLIC_KEYS":          "GET_RSA_PUBLIC_KEYS",
+        "SAVE_RSA_PUBLIC_KEYS":         "SAVE_RSA_PUBLIC_KEYS",
 
-        "UPDATE_SETTINGS":          "UPDATE_SETTINGS",
+        "UPDATE_SETTINGS":              "UPDATE_SETTINGS",
         "SAVE_SETTING": {
-            "FOLDER_NAME":          "SAVE_SETTING_FOLDER_NAME",
-            "THREAD_ID":            "SAVE_SETTING_THREAD_ID",
-            "START_THREADS_INDEX":  "SAVE_SETTING_START_THREADS_INDEX",
-            "MAX_THREADS_PER_PAGE": "SAVE_SETTING_MAX_THREADS_PER_PAGE",
-            "PRIVATE_KEY":          "SAVE_SETTING_PRIVATE_KEY",
-            "PRIVATE_KEY_STORAGE":  "SAVE_SETTING_PRIVATE_KEY_STORAGE"
+            "FOLDER_NAME":              "SAVE_SETTING_FOLDER_NAME",
+            "THREAD_ID":                "SAVE_SETTING_THREAD_ID",
+            "START_THREADS_INDEX":      "SAVE_SETTING_START_THREADS_INDEX",
+            "MAX_THREADS_PER_PAGE":     "SAVE_SETTING_MAX_THREADS_PER_PAGE",
+            "PUBLIC_KEY":               "SAVE_SETTING_PUBLIC_KEY",
+            "PRIVATE_KEY":              "SAVE_SETTING_PRIVATE_KEY",
+            "PRIVATE_KEY_STORAGE":      "SAVE_SETTING_PRIVATE_KEY_STORAGE",
+            "IS_GENERATING_KEYPAIR":    "SAVE_SETTING_IS_GENERATING_KEYPAIR"
         },
 
         "CRYPTO": {
             "RSA": {
-                "GENERATE_KEYPAIR": "CRYPTO_RSA_GENERATE_KEYPAIR"
+                "GENERATE_KEYPAIR":     "CRYPTO_RSA_GENERATE_KEYPAIR"
             },
             "AES": {
             }
         },
 
         "SEND_EMAIL": {
-            "REPLY":                "SEND_EMAIL_REPLY",
-            "NEW_MESSAGE":          "SEND_EMAIL_NEW_MESSAGE"
+            "REPLY":                    "SEND_EMAIL_REPLY",
+            "NEW_MESSAGE":              "SEND_EMAIL_NEW_MESSAGE"
         },
 
         "RESPOND_TO_USER_EVENT": {
-            "REDIRECT_URL":         "USER_EVENT_REDIRECT_URL",
-            "OPEN_FOLDER":          "USER_EVENT_OPEN_FOLDER",
-            "OPEN_THREAD":          "USER_EVENT_OPEN_THREAD",
-            "OPEN_COMPOSE_MESSAGE": "USER_EVENT_OPEN_COMPOSE_MESSAGE"
+            "REDIRECT_URL":             "USER_EVENT_REDIRECT_URL",
+            "OPEN_FOLDER":              "USER_EVENT_OPEN_FOLDER",
+            "OPEN_THREAD":              "USER_EVENT_OPEN_THREAD",
+            "OPEN_COMPOSE_MESSAGE":     "USER_EVENT_OPEN_COMPOSE_MESSAGE"
         }
     },
     "storage": {
-        "PRIVATE_KEY":              "PRIVATE_KEY"
+        "PRIVATE_KEY":                  "PRIVATE_KEY"
     },
     "encryption": {
         "RESERVED_ATTACHMENT_NAME": {
-            "CIPHERS":              "CIPHERS",
-            "BODY":                 "BODY"
+            "CIPHERS":                  "CIPHERS",
+            "BODY":                     "BODY"
         },
         "CLEARTEXT_CONTENT": {
-            "BODY":                 "Encrypted by: Secure Webmail\n\nhttps://secure-webmail.github.io/"
+            "BODY":                     "Encrypted by: Secure Webmail\n\nhttps://secure-webmail.github.io/"
         }
     },
     "default_settings": {
-        "max_threads_per_page":     25,
-        "private_key":              "",
-        "private_key_storage":      0
+        "max_threads_per_page":         25,
+        "public_key":                   "",
+        "private_key":                  "",
+        "private_key_storage":          0,
+        "is_generating_keypair":        false
     }
 }

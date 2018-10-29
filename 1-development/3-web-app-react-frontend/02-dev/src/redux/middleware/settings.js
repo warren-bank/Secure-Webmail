@@ -25,6 +25,23 @@ SETTINGS['INIT'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
+SETTINGS['SAVE_RSA_PUBLIC_KEYS'] = ({getState, dispatch, next, action}) => {
+  if (!action.public_keys) return
+
+  const state     = getState()
+  const my_email  = state.user.email_address
+  const my_pubkey = action.public_keys[my_email]
+
+  if (!my_email)  return
+  if (!my_pubkey) return
+
+  dispatch(
+    actions.SAVE_SETTING.PUBLIC_KEY(my_pubkey)
+  )
+}
+
+// -----------------------------------------------------------------------------
+
 SETTINGS['UPDATE_SETTINGS'] = ({getState, dispatch, next, action}) => {
   const {max_threads_per_page, private_key, private_key_storage} = Object.assign({}, constants.default_settings, action)
 
@@ -56,13 +73,20 @@ const SETTINGS_middleware = ({getState, dispatch}) => next => action => {
       SETTINGS.INIT({getState, dispatch, next, action})
       break
 
+    case C.SAVE_RSA_PUBLIC_KEYS:
+      SETTINGS.SAVE_RSA_PUBLIC_KEYS({getState, dispatch, next, action})
+      next(action)
+      break
+
     case C.UPDATE_SETTINGS:
       SETTINGS.UPDATE_SETTINGS({getState, dispatch, next, action})
       break
 
     case C.SAVE_SETTING.MAX_THREADS_PER_PAGE:
+    case C.SAVE_SETTING.PUBLIC_KEY:
     case C.SAVE_SETTING.PRIVATE_KEY:
     case C.SAVE_SETTING.PRIVATE_KEY_STORAGE:
+    case C.SAVE_SETTING.IS_GENERATING_KEYPAIR:
     default:
       next(action)
   }
