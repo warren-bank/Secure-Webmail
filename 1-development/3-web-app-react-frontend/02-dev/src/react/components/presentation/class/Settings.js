@@ -1,7 +1,7 @@
 const React       = require('react')
 const PropTypes   = require('prop-types')
 
-const crypto      = require('redux/middleware/lib/crypto')
+const crypto      = require('redux/lib/middleware/crypto')
 
 const displayName = 'Settings'
 

@@ -1,7 +1,7 @@
 const constants  = require('redux/data/constants')
 const actions    = require('redux/actions')
 
-const storage    = require('./lib/storage')
+const storage    = require('redux/lib/middleware/storage')
 
 const C = constants.actions
 
@@ -16,10 +16,10 @@ SETTINGS['INIT'] = ({getState, dispatch, next, action}) => {
   const {private_key, private_key_storage} = data
 
   dispatch(
-    actions.SAVE_SETTING.PRIVATE_KEY(private_key)
+    actions.SAVE_APP.SETTING.PRIVATE_KEY(private_key)
   )
   dispatch(
-    actions.SAVE_SETTING.PRIVATE_KEY_STORAGE(private_key_storage)
+    actions.SAVE_APP.SETTING.PRIVATE_KEY_STORAGE(private_key_storage)
   )
 }
 
@@ -36,7 +36,7 @@ SETTINGS['SAVE_RSA_PUBLIC_KEYS'] = ({getState, dispatch, next, action}) => {
   if (!my_pubkey) return
 
   dispatch(
-    actions.SAVE_SETTING.PUBLIC_KEY(my_pubkey)
+    actions.SAVE_APP.SETTING.PUBLIC_KEY(my_pubkey)
   )
 }
 
@@ -49,14 +49,14 @@ SETTINGS['UPDATE_SETTINGS'] = ({getState, dispatch, next, action}) => {
 
   if (max_threads_per_page > 0) {
     dispatch(
-      actions.SAVE_SETTING.MAX_THREADS_PER_PAGE(max_threads_per_page)
+      actions.SAVE_APP.SETTING.MAX_THREADS_PER_PAGE(max_threads_per_page)
     )
   }
   dispatch(
-    actions.SAVE_SETTING.PRIVATE_KEY(private_key)
+    actions.SAVE_APP.SETTING.PRIVATE_KEY(private_key)
   )
   dispatch(
-    actions.SAVE_SETTING.PRIVATE_KEY_STORAGE(private_key_storage)
+    actions.SAVE_APP.SETTING.PRIVATE_KEY_STORAGE(private_key_storage)
   )
 }
 
@@ -82,11 +82,11 @@ const SETTINGS_middleware = ({getState, dispatch}) => next => action => {
       SETTINGS.UPDATE_SETTINGS({getState, dispatch, next, action})
       break
 
-    case C.SAVE_SETTING.MAX_THREADS_PER_PAGE:
-    case C.SAVE_SETTING.PUBLIC_KEY:
-    case C.SAVE_SETTING.PRIVATE_KEY:
-    case C.SAVE_SETTING.PRIVATE_KEY_STORAGE:
-    case C.SAVE_SETTING.IS_GENERATING_KEYPAIR:
+    case C.SAVE_APP.SETTING.MAX_THREADS_PER_PAGE:
+    case C.SAVE_APP.SETTING.PUBLIC_KEY:
+    case C.SAVE_APP.SETTING.PRIVATE_KEY:
+    case C.SAVE_APP.SETTING.PRIVATE_KEY_STORAGE:
+    case C.SAVE_APP.SETTING.IS_GENERATING_KEYPAIR:
     default:
       next(action)
   }

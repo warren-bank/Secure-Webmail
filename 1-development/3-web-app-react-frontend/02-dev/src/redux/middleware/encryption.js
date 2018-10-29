@@ -1,7 +1,7 @@
 const constants  = require('redux/data/constants')
 const actions    = require('redux/actions')
 
-const crypto     = require('./lib/crypto')
+const crypto     = require('redux/lib/middleware/crypto')
 
 const C = constants.actions
 
@@ -15,7 +15,7 @@ const HELPER = {}
 
 RSA['GENERATE_KEYPAIR'] = ({getState, dispatch, next, action}) => {
   dispatch(
-    actions.SAVE_SETTING.IS_GENERATING_KEYPAIR(true)
+    actions.SAVE_APP.SETTING.IS_GENERATING_KEYPAIR(true)
   )
 
   crypto.RSA.generate_keypair()
@@ -26,19 +26,19 @@ RSA['GENERATE_KEYPAIR'] = ({getState, dispatch, next, action}) => {
 
     let state                 = getState()
     let max_threads_per_page  = 0  // "SETTINGS_middleware" only updates positive integer values
-    let {private_key_storage} = state.ui.settings
+    let {private_key_storage} = state.app.settings
 
     dispatch(
       actions.SET_RSA_PUBLIC_KEY(public_key, allow_update)
     )
     dispatch(
-      actions.SAVE_SETTING.PUBLIC_KEY(public_key)
+      actions.SAVE_APP.SETTING.PUBLIC_KEY(public_key)
     )
     dispatch(
       actions.UPDATE_SETTINGS(max_threads_per_page, private_key, private_key_storage)
     )
     dispatch(
-      actions.SAVE_SETTING.IS_GENERATING_KEYPAIR(false)
+      actions.SAVE_APP.SETTING.IS_GENERATING_KEYPAIR(false)
     )
   })
   .catch((err) => {})
@@ -54,7 +54,7 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
 
   const state        = getState()
   const my_email     = state.user.email_address
-  const my_pvtkey    = state.ui.settings.private_key
+  const my_pvtkey    = state.app.settings.private_key
 
   // sanity checks:
   if (!my_email)  throw new Error('ERROR: Redux action "DECRYPT_MESSAGES_IN_THREAD" requires that the global state contain the email address associated with the current Google user account.')

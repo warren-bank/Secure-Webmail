@@ -11,7 +11,7 @@ const component = ({state, component}) => {
   return (
     <div className={`top-component ${displayName.toLowerCase()}`}>
       <Header user={state.user} />
-      <Sidebar folders={state.folders} active_folder={state.ui.folder_name} />
+      <Sidebar folders={state.folders} active_folder={state.app.ui.folder_name} />
       {component}
     </div>
   )

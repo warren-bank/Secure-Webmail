@@ -212,3 +212,28 @@ note:
     state.app.draft_message
 
 --------------------------------------------------------------------------------
+
+updates:
+========
+
+* search:  state(\.ui\.(?:folder_name|thread_id|start_threads_index))
+  replace: state.app$1
+  note:    regex
+
+* search:  state.ui.settings
+  replace: state.app.settings
+  note:    text
+
+* search:  state.ui
+  replace: state.app.ui
+  note:    text
+
+* search:  (C|actions)\.SAVE_SETTING\.(FOLDER_NAME|THREAD_ID|START_THREADS_INDEX)
+  replace: $1.SAVE_APP.UI.$2
+  note:    regex
+
+* search:  (C|actions)\.SAVE_SETTING\.(MAX_THREADS_PER_PAGE|PUBLIC_KEY|PRIVATE_KEY|PRIVATE_KEY_STORAGE|IS_GENERATING_KEYPAIR)
+  replace: $1.SAVE_APP.SETTING.$2
+  note:    regex
+
+--------------------------------------------------------------------------------

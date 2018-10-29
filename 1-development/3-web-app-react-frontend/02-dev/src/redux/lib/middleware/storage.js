@@ -18,10 +18,10 @@ storage['SET']['PRIVATE_KEY'] = (getState, private_key, private_key_storage) => 
   const my_email = state.user.email_address
 
   if (typeof private_key_storage !== 'number') {
-    private_key_storage = state.ui.settings.private_key_storage
+    private_key_storage = state.app.settings.private_key_storage
   }
   if (typeof private_key !== 'string') {
-    private_key = state.ui.settings.private_key
+    private_key = state.app.settings.private_key
   }
 
   // sanity check

@@ -249,60 +249,67 @@ actions['UPDATE_SETTINGS'] = (max_threads_per_page, private_key, private_key_sto
   }
 }
 
-actions['SAVE_SETTING'] = {}
+actions['SAVE_APP'] = {
+  UI:      {},
+  SETTING: {}
+}
 
-actions['SAVE_SETTING']['FOLDER_NAME'] = (folder_name) => {
+// -----------------------------------------------------------------------------
+
+actions['SAVE_APP']['UI']['FOLDER_NAME'] = (folder_name) => {
   return {
-    type: C.SAVE_SETTING.FOLDER_NAME,
+    type: C.SAVE_APP.UI.FOLDER_NAME,
     folder_name
   }
 }
 
-actions['SAVE_SETTING']['THREAD_ID'] = (thread_id) => {
+actions['SAVE_APP']['UI']['THREAD_ID'] = (thread_id) => {
   return {
-    type: C.SAVE_SETTING.THREAD_ID,
+    type: C.SAVE_APP.UI.THREAD_ID,
     thread_id
   }
 }
 
-actions['SAVE_SETTING']['START_THREADS_INDEX'] = (start_threads_index) => {
+actions['SAVE_APP']['UI']['START_THREADS_INDEX'] = (start_threads_index) => {
   return {
-    type: C.SAVE_SETTING.START_THREADS_INDEX,
+    type: C.SAVE_APP.UI.START_THREADS_INDEX,
     start_threads_index
   }
 }
 
-actions['SAVE_SETTING']['MAX_THREADS_PER_PAGE'] = (max_threads_per_page) => {
+// -----------------------------------------------------------------------------
+
+actions['SAVE_APP']['SETTING']['MAX_THREADS_PER_PAGE'] = (max_threads_per_page) => {
   return {
-    type: C.SAVE_SETTING.MAX_THREADS_PER_PAGE,
+    type: C.SAVE_APP.SETTING.MAX_THREADS_PER_PAGE,
     max_threads_per_page
   }
 }
 
-actions['SAVE_SETTING']['PUBLIC_KEY'] = (public_key) => {
+actions['SAVE_APP']['SETTING']['PUBLIC_KEY'] = (public_key) => {
   return {
-    type: C.SAVE_SETTING.PUBLIC_KEY,
+    type: C.SAVE_APP.SETTING.PUBLIC_KEY,
     public_key
   }
 }
 
-actions['SAVE_SETTING']['PRIVATE_KEY'] = (private_key) => {
+actions['SAVE_APP']['SETTING']['PRIVATE_KEY'] = (private_key) => {
   return {
-    type: C.SAVE_SETTING.PRIVATE_KEY,
+    type: C.SAVE_APP.SETTING.PRIVATE_KEY,
     private_key
   }
 }
 
-actions['SAVE_SETTING']['PRIVATE_KEY_STORAGE'] = (private_key_storage) => {
+actions['SAVE_APP']['SETTING']['PRIVATE_KEY_STORAGE'] = (private_key_storage) => {
   return {
-    type: C.SAVE_SETTING.PRIVATE_KEY_STORAGE,
+    type: C.SAVE_APP.SETTING.PRIVATE_KEY_STORAGE,
     private_key_storage
   }
 }
 
-actions['SAVE_SETTING']['IS_GENERATING_KEYPAIR'] = (is_generating_keypair) => {
+actions['SAVE_APP']['SETTING']['IS_GENERATING_KEYPAIR'] = (is_generating_keypair) => {
   return {
-    type: C.SAVE_SETTING.IS_GENERATING_KEYPAIR,
+    type: C.SAVE_APP.SETTING.IS_GENERATING_KEYPAIR,
     is_generating_keypair
   }
 }

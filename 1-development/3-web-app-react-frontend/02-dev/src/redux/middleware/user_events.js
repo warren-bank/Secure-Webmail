@@ -13,21 +13,21 @@ EVENT['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
 
   const thread_id = ''
   const state     = getState()
-  const settings  = state.ui
+  const settings  = state.app.ui
 
   if (settings.folder_name !== folder_name)
     dispatch(
-      actions.SAVE_SETTING.FOLDER_NAME(folder_name)
+      actions.SAVE_APP.UI.FOLDER_NAME(folder_name)
     )
 
   if (settings.thread_id !== thread_id)
     dispatch(
-      actions.SAVE_SETTING.THREAD_ID(thread_id)
+      actions.SAVE_APP.UI.THREAD_ID(thread_id)
     )
 
   if (settings.start_threads_index !== start_threads_index)
     dispatch(
-      actions.SAVE_SETTING.START_THREADS_INDEX(start_threads_index)
+      actions.SAVE_APP.UI.START_THREADS_INDEX(start_threads_index)
     )
 }
 
@@ -38,11 +38,11 @@ EVENT['OPEN_THREAD'] = ({getState, dispatch, next, action}) => {
   if (!thread_id) return
 
   const state     = getState()
-  const settings  = state.ui
+  const settings  = state.app.ui
 
   if (settings.thread_id !== thread_id)
     dispatch(
-      actions.SAVE_SETTING.THREAD_ID(thread_id)
+      actions.SAVE_APP.UI.THREAD_ID(thread_id)
     )
 }
 

@@ -57,10 +57,12 @@ const initialState = {
   "public_keys": {
     "$email_address":				""					// String
   },
-  "ui": {
-    "folder_name":					"",					// String
-    "thread_id":					"",					// String
-    "start_threads_index":			0,					// Number
+  "app": {
+    "ui": {
+      "folder_name":				"",					// String
+      "thread_id":					"",					// String
+      "start_threads_index":		0					// Number
+    },
     "settings": {
       "max_threads_per_page":		25,					// Number
       "public_key":					"",					// String

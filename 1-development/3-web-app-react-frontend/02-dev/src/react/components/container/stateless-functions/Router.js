@@ -33,8 +33,8 @@ const component   = ({state}, {store, actions, constants, history}) => {
   if (!state.user.email_address)
     return <NoEmail />
 
-  if (!state.ui.settings.private_key)
-    return <Settings settings={state.ui.settings} />
+  if (!state.app.settings.private_key)
+    return <Settings settings={state.app.settings} />
 
   const folder_redirects = constants.folders.names.map((folder_name, i) => {
     const _render = ({history}) => {
@@ -46,10 +46,10 @@ const component   = ({state}, {store, actions, constants, history}) => {
 
   const default_redirect = (() => {
     const _render = ({history}) => {
-      if (state.ui.thread_id)
-        actions.OPEN_THREAD(state.ui.thread_id, history, false)
-      else if (state.ui.folder_name)
-        actions.OPEN_FOLDER(state.ui.folder_name, (state.ui.start_threads_index || 0), history, false)
+      if (state.app.ui.thread_id)
+        actions.OPEN_THREAD(state.app.ui.thread_id, history, false)
+      else if (state.app.ui.folder_name)
+        actions.OPEN_FOLDER(state.app.ui.folder_name, (state.app.ui.start_threads_index || 0), history, false)
       else
         actions.OPEN_FOLDER(constants.folders.default, 0, history, false)
       return null
@@ -87,7 +87,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
         actions.OPEN_FOLDER(folder_name, start_threads_index)  // `history` is not passed to prevent URL redirect
 
       const component = (
-        <Folder folder_name={folder_name} threads={state.threads} thread_ids={state.threads_in_folder[folder_name]} start={start_threads_index || 0} max={state.ui.settings.max_threads_per_page} />
+        <Folder folder_name={folder_name} threads={state.threads} thread_ids={state.threads_in_folder[folder_name]} start={start_threads_index || 0} max={state.app.settings.max_threads_per_page} />
       )
 
       return (<App state={state} component={component} />)
@@ -119,7 +119,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
 
   const settings_route = (() => {
     const _render = () => {
-      return <Settings settings={state.ui.settings} />
+      return <Settings settings={state.app.settings} />
     }
     return <Route exact strict path="/settings" render={_render} />
   })()
