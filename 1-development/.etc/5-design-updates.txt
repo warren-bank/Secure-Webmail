@@ -2,6 +2,7 @@
 
 additional Redux state data:
 ============================
+state.ui.settings.public_key
 state.ui.settings.is_generating_keypair
 
 state.ui.draft_message = {
