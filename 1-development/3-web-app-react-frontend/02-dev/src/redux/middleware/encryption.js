@@ -111,6 +111,7 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
+// throws
 HELPER['ENCRYPT_OUTBOUND_MESSAGE'] = ({recipient, body, cc, attachments}, getState) => {
   const action_update = {}
 
@@ -130,21 +131,34 @@ HELPER['ENCRYPT_OUTBOUND_MESSAGE'] = ({recipient, body, cc, attachments}, getSta
       all_emails = [...all_emails, ...cc]
   }
 
-  const ciphers   = {}
+  // pass #1
   const no_pubkey = []
   all_emails.forEach(email => {
     let pubkey = state.public_keys[email]
-
     if (!pubkey) {
       no_pubkey.push(email)
     }
-    else {
-      ciphers[email] = crypto.RSA.encrypt(secret, pubkey)
-    }
   })
 
-  if (no_pubkey.length)
-    console.log('WARNING: Redux action "ENCRYPT_OUTBOUND_MESSAGE" cannot encrypt ciphers for the following recipient email addresses because they are not associated with a public RSA encryption key:', no_pubkey)
+  // update Redux state, throw
+  if (no_pubkey.length) {
+    dispatch(
+      actions.DEBUG('WARNING: Redux action "ENCRYPT_OUTBOUND_MESSAGE" cannot encrypt ciphers for the following recipient email addresses because they are not associated with a public RSA encryption key:', no_pubkey)
+    )
+
+    let error_message = `The following email address${ (no_pubkey.length > 1) ? 'es are' : ' is' } not associated with a public encryption key:` + '<br><ul><li>' + no_pubkey.join('</li><li>') + '</li></ul>'
+    dispatch(
+      actions.SAVE_APP.DRAFT_MESSAGE.SET_STATUS(3, error_message)  // SENT_ERROR
+    )
+    throw ''
+  }
+
+  // pass #2
+  const ciphers = {}
+  all_emails.forEach(email => {
+    let pubkey = state.public_keys[email]
+    ciphers[email] = crypto.RSA.encrypt(secret, pubkey)
+  })
 
   // attach: CIPHERS
   new_attachments.push({
@@ -179,6 +193,7 @@ HELPER['ENCRYPT_OUTBOUND_MESSAGE'] = ({recipient, body, cc, attachments}, getSta
   return action_update
 }
 
+// throws
 FILTER['ENCRYPT_OUTBOUND_MESSAGE'] = ({getState, dispatch, next, action}) => {
   const action_update = HELPER.ENCRYPT_OUTBOUND_MESSAGE(action, getState)
   Object.assign(action, action_update)
@@ -200,8 +215,11 @@ const CRYPTO_middleware = ({getState, dispatch}) => next => action => {
 
     case C.SEND_EMAIL.REPLY:
     case C.SEND_EMAIL.NEW_MESSAGE:
-      FILTER.ENCRYPT_OUTBOUND_MESSAGE({getState, dispatch, next, action})
-      next(action)
+      try {
+        FILTER.ENCRYPT_OUTBOUND_MESSAGE({getState, dispatch, next, action})
+        next(action)
+      }
+      catch(err) {}
       break
 
     default:
