@@ -200,6 +200,7 @@ class Compose_Message extends React.PureComponent {
     attachments    = attachments.map(file => {return {...file}})
 
     // save draft
+    this.context.actions.DEBUG('SAVING DRAFT MESSAGE', {origin: displayName, old_draft: this.props.draft, new_draft: {is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments}})
     this.context.actions.SAVE_DRAFT_MESSAGE(is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments)
 
     // send message

@@ -15,8 +15,8 @@ scroller.scrollToBottom     = scroller.scrollToBottom.bind(scroller)
 const component = ({thread_id, summary, settings, messages, participants, draft_message}, {store, actions, history}) => {
   actions.DEBUG(`rendering: ${displayName}`, {thread_id, summary, settings})
 
-//if (settings.unread)
-//  actions.UPDATE_THREAD.MARK_UNREAD(thread_id, false)
+  if (settings && settings.unread)
+    actions.UPDATE_THREAD.MARK_UNREAD(thread_id, false)
 
   if (!summary || !settings || settings.unread || !messages || !messages.length) {
     return (
@@ -71,7 +71,7 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
 
     const is_new_draft   = () => {
       let dirty     = false
-      let new_draft = {is_reply, thread_id, recipient, subject, body}
+      let new_draft = {is_reply, thread_id, recipient}
       const keys    = Object.keys(new_draft)
 
       for (let i=0; !dirty && (i < keys.length); i++) {
@@ -86,22 +86,15 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
       dirty = dirty || (draft_message.cc_suggestions.length    !== cc_suggestions.length)
       dirty = dirty || (draft_message.cc_suggestions.join(',') !== cc_suggestions.join(',') )
 
-      dirty = dirty || (draft_message.attachments.length       !== attachments.length)
-
-      if (!dirty) {
-        for (let i=0; !dirty && (i < draft_message.attachments.length); i++) {
-          let old_file = draft_message.attachments[i]
-          let new_file = attachments[i]
-
-          dirty = dirty || (old_file.name !== new_file.name)
-          dirty = dirty || (old_file.data !== new_file.data)
-        }
-      }
-
       return dirty
     }
 
     const requires_update = is_new_draft()
+
+    if (requires_update)
+      actions.DEBUG('SAVING DRAFT MESSAGE', {origin: displayName, old_draft: draft_message, new_draft: {is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments}})
+    else
+      actions.DEBUG('DRAFT MESSAGE IS NOT MODIFIED', {origin: displayName, draft: draft_message})
 
     if (requires_update)
       actions.SAVE_DRAFT_MESSAGE(is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments)

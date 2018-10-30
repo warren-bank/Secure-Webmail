@@ -339,7 +339,7 @@ actions['SAVE_APP']['DRAFT_MESSAGE']['CLEAR'] = () => {
 
 actions['SAVE_APP']['DRAFT_MESSAGE']['SET_STATUS'] = (code, error_message="") => {
   return {
-    type: C.SAVE_APP.DRAFT_MESSAGE.STORE,
+    type: C.SAVE_APP.DRAFT_MESSAGE.SET_STATUS,
     status: {
       code,
       error_message

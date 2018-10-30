@@ -61,7 +61,8 @@ const component   = ({state}, {store, actions, constants, history}) => {
     const _render = ({location, history, match}) => {
       const {thread_id} = match.params
 
-      if (new_location(location, state))
+//    if (new_location(location, state))
+      if (state.app.ui.thread_id !== thread_id)
         actions.OPEN_THREAD(thread_id)  // `history` is not passed to prevent URL redirect
 
       const component = (
@@ -83,7 +84,8 @@ const component   = ({state}, {store, actions, constants, history}) => {
         return null
       }
 
-      if (new_location(location, state))
+//    if (new_location(location, state))
+      if (state.app.ui.folder_name !== folder_name)
         actions.OPEN_FOLDER(folder_name, start_threads_index)  // `history` is not passed to prevent URL redirect
 
       const component = (

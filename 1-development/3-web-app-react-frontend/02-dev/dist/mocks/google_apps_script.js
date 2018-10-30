@@ -102,6 +102,8 @@ window.google = {}
   let get_public_keys = (emails) => {
     const keys = {}
     emails.forEach(email => {
+      if (email === 'nopubkey@gmail.com') return
+
       keys[email] = data.RSA_keypair.public_key
     })
     return keys

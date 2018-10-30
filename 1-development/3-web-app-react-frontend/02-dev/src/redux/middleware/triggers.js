@@ -93,20 +93,6 @@ TRIGGERS['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
-TRIGGERS['OPEN_THREAD'] = ({getState, dispatch, next, action}) => {
-  dispatch(
-    actions.SAVE_APP.DRAFT_MESSAGE.CLEAR()
-  )
-}
-
-TRIGGERS['OPEN_COMPOSE_MESSAGE'] = ({getState, dispatch, next, action}) => {
-  dispatch(
-    actions.SAVE_APP.DRAFT_MESSAGE.CLEAR()
-  )
-}
-
-// -----------------------------------------------------------------------------
-
 TRIGGERS['SAVE_FOLDERS'] = ({getState, dispatch, next, action}) => {
   if (!action.folders || !Array.isArray(action.folders) || !action.folders.length) return
 
@@ -289,16 +275,6 @@ const TRIGGERS_middleware = ({getState, dispatch}) => next => action => {
 
     case C.RESPOND_TO_USER_EVENT.OPEN_FOLDER:
       TRIGGERS.OPEN_FOLDER({getState, dispatch, next, action})
-      next(action)
-      break
-
-    case C.RESPOND_TO_USER_EVENT.OPEN_THREAD:
-      TRIGGERS.OPEN_THREAD({getState, dispatch, next, action})
-      next(action)
-      break
-
-    case C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_MESSAGE:
-      TRIGGERS.OPEN_COMPOSE_MESSAGE({getState, dispatch, next, action})
       next(action)
       break
 
