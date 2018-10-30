@@ -28,15 +28,17 @@ SETTINGS['INIT'] = ({getState, dispatch, next, action}) => {
 SETTINGS['SAVE_RSA_PUBLIC_KEYS'] = ({getState, dispatch, next, action}) => {
   if (!action.public_keys) return
 
-  const state     = getState()
-  const my_email  = state.user.email_address
-  const my_pubkey = action.public_keys[my_email]
+  const state         = getState()
+  const my_email      = state.user.email_address
+  const my_old_pubkey = state.app.settings.public_key
+  const my_new_pubkey = action.public_keys[my_email]
 
-  if (!my_email)  return
-  if (!my_pubkey) return
+  if ( my_old_pubkey) return  // value is already saved
+  if (!my_email)      return
+  if (!my_new_pubkey) return  // value is not available
 
   dispatch(
-    actions.SAVE_APP.SETTING.PUBLIC_KEY(my_pubkey)
+    actions.SAVE_APP.SETTING.PUBLIC_KEY(my_new_pubkey)
   )
 }
 
