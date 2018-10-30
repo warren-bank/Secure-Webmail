@@ -90,8 +90,18 @@ const DRAFT_MESSAGE_middleware = ({getState, dispatch}) => next => action => {
       next(action)
       break
 
+    // should never occur
     case C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_MESSAGE:
       TRIGGERS.OPEN_COMPOSE_MESSAGE({getState, dispatch, next, action})
+      next(action)
+      break
+
+    case C.RESPOND_TO_USER_EVENT.REDIRECT_URL:
+      switch(action.target) {
+        case C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_MESSAGE:
+          TRIGGERS.OPEN_COMPOSE_MESSAGE({getState, dispatch, next, action})
+          break
+      }
       next(action)
       break
 
