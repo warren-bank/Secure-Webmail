@@ -1,0 +1,29 @@
+--------------------------------------------------------------------------------
+
+dir:
+  1-development/3-web-app-react-frontend/02-dev/src/redux
+grep search pattern:
+  actions\.(?:OPEN_FOLDER|OPEN_THREAD|OPEN_COMPOSE_MESSAGE|DEBUG|GENERATE_KEYPAIR|SAVE_DRAFT_MESSAGE|CLEAR_DRAFT_MESSAGE|SEND_NEW_MESSAGE|SEND_REPLY)
+type:
+  regex
+assertion:
+  0 matches
+description:
+  action aliases are only valid in React components (via context)
+
+--------------------------------------------------------------------------------
+
+dir:
+  1-development/3-web-app-react-frontend/02-dev/src/react
+grep search pattern:
+  actions\.(?!OPEN_FOLDER|OPEN_THREAD|OPEN_COMPOSE_MESSAGE|DEBUG|GENERATE_KEYPAIR|SAVE_DRAFT_MESSAGE|CLEAR_DRAFT_MESSAGE|SEND_NEW_MESSAGE|SEND_REPLY|UPDATE_SETTINGS|UPDATE_THREAD|UPDATE_MESSAGE)
+type:
+  regex
+assertion:
+  0 matches
+description:
+  only action aliases are valid in React components (via context)
+note:
+  negative lookahead assertion will only match actions that are NOT in whitelist
+
+--------------------------------------------------------------------------------
