@@ -686,6 +686,19 @@ html, body, .wrapper {
   margin-bottom: 1em;
   padding: 1em;
 }
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > .error_message div.encryption_error {
+  display: inline-block;
+  text-align: left;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > .error_message div.encryption_error > span.count_one {
+  font-style: italic;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > .error_message div.encryption_error > ul.count_many {
+  margin-top: 0.5em;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > .error_message div.encryption_error > ul.count_many > li {
+  font-style: italic;
+}
 
 .top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid {
   display: grid;
@@ -846,6 +859,19 @@ html, body, .wrapper {
 
   margin-bottom: 1em;
   padding: 1em;
+}
+.top-component.app > .component.compose_message.new_message > .error_message div.encryption_error {
+  display: inline-block;
+  text-align: left;
+}
+.top-component.app > .component.compose_message.new_message > .error_message div.encryption_error > span.count_one {
+  font-style: italic;
+}
+.top-component.app > .component.compose_message.new_message > .error_message div.encryption_error > ul.count_many {
+  margin-top: 0.5em;
+}
+.top-component.app > .component.compose_message.new_message > .error_message div.encryption_error > ul.count_many > li {
+  font-style: italic;
 }
 
 .top-component.app > .component.compose_message.new_message > form > .grid {

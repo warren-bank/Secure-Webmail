@@ -252,19 +252,6 @@ TRIGGERS['SAVE_THREAD'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
-TRIGGERS['SEND_EMAIL'] = {}
-
-TRIGGERS['SEND_EMAIL']['REPLY'] = ({getState, dispatch, next, action}) => {
-  const state = getState()
-  const from  = state.user.email_address
-
-  dispatch(
-    actions.SAVE_REPLY_TO_THREAD(action, from)
-  )
-}
-
-// -----------------------------------------------------------------------------
-
 const TRIGGERS_middleware = ({getState, dispatch}) => next => action => {
   switch (action.type) {
 
@@ -300,12 +287,6 @@ const TRIGGERS_middleware = ({getState, dispatch}) => next => action => {
 
     case C.SAVE_THREAD:
       TRIGGERS.SAVE_THREAD({getState, dispatch, next, action})
-      next(action)
-      break
-
-    case C.SEND_EMAIL.REPLY:
-      // "TRIGGERS_middleware" must run BEFORE "CRYPTO_middleware"
-      TRIGGERS.SEND_EMAIL.REPLY({getState, dispatch, next, action})
       next(action)
       break
 

@@ -295,8 +295,8 @@ const API_middleware = ({getState, dispatch}) => next => action => {
       break
 
     case C.SEND_EMAIL.REPLY:
-      // "TRIGGERS_middleware" will dispatch: `actions.SAVE_REPLY_TO_THREAD(action)` and must run before "CRYPTO_middleware"
-      // "CRYPTO_middleware" will modify the action payload: encrypt message
+      // [as the action travels toward the Redux reducer] "CRYPTO_middleware" will modify the action payload: encrypt message
+      // [as the action returns from   the Redux reducer] "DRAFT_MESSAGE_middleware" will dispatch: `actions.SAVE_REPLY_TO_THREAD(draft_message, from)`, but only if `draft_message.status.code` indicates that the message was sent successfully
       next(action)
 
       // send the encrypted payload

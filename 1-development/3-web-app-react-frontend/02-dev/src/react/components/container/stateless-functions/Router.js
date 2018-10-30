@@ -17,16 +17,6 @@ const Compose_Message          = require('react/components/presentation/class/Co
 const displayName = 'Router'
 const HashHistory = createHashHistory()
 
-const location_cache = {}
-const new_location   = (location, state) => {
-  const is_new = (location_cache.pathname !== location.pathname) || (location_cache.state !== state)
-  if (is_new) {
-    location_cache.pathname = location.pathname
-    location_cache.state    = state
-  }
-  return is_new
-}
-
 const component   = ({state}, {store, actions, constants, history}) => {
   actions.DEBUG(`rendering: ${displayName}`, {state})
 
@@ -58,10 +48,9 @@ const component   = ({state}, {store, actions, constants, history}) => {
   })()
 
   const thread_route = (() => {
-    const _render = ({location, history, match}) => {
+    const _render = ({history, match}) => {
       const {thread_id} = match.params
 
-//    if (new_location(location, state))
       if (state.app.ui.thread_id !== thread_id)
         actions.OPEN_THREAD(thread_id)  // `history` is not passed to prevent URL redirect
 
@@ -75,7 +64,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
   })()
 
   const folder_route = (() => {
-    const _render = ({location, history, match}) => {
+    const _render = ({history, match}) => {
       const {folder_name, start_threads_index} = match.params
 
       if (start_threads_index === undefined) {
@@ -84,7 +73,6 @@ const component   = ({state}, {store, actions, constants, history}) => {
         return null
       }
 
-//    if (new_location(location, state))
       if (state.app.ui.folder_name !== folder_name)
         actions.OPEN_FOLDER(folder_name, start_threads_index)  // `history` is not passed to prevent URL redirect
 

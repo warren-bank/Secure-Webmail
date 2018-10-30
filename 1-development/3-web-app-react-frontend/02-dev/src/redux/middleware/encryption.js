@@ -9,7 +9,6 @@ const RSA = {}
 const AES = {}
 
 const FILTER = {}
-const HELPER = {}
 
 // -----------------------------------------------------------------------------
 
@@ -46,6 +45,7 @@ RSA['GENERATE_KEYPAIR'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
+// throws
 FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
   if (!action.thread || !Array.isArray(action.thread.messages) || !action.thread.messages.length) return
 
@@ -57,8 +57,8 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
   const my_pvtkey    = state.app.settings.private_key
 
   // sanity checks:
-  if (!my_email)  throw new Error('ERROR: Redux action "DECRYPT_MESSAGES_IN_THREAD" requires that the global state contain the email address associated with the current Google user account.')
-  if (!my_pvtkey) throw new Error('ERROR: Redux action "DECRYPT_MESSAGES_IN_THREAD" requires that the global state contain the private RSA encryption key associated with the current Google user account.')
+  if (!my_email)  throw new Error('Redux state does not contain the email address associated with the current Google user account.')
+  if (!my_pvtkey) throw new Error('Redux state does not contain the private RSA encryption key associated with the current Google user account.')
 
   for (let i=0; i < messages.length; i++) {
     let contents = messages[i].contents
@@ -68,17 +68,18 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
     let index_ciphers = contents.attachments.findIndex(attachment => attachment.name === filename.CIPHERS)
     if ((typeof index_ciphers !== 'number') || (index_ciphers < 0)) continue  // next message
 
+    // intercept and ignore problems with individual messages. when in doubt, allow the message to pass through without decryption.
     try {
       const new_contents = {body: '', attachments: []}
 
       const ciphers = JSON.parse( contents.attachments[index_ciphers]['data'] )
-      if (!ciphers || (typeof ciphers !== 'object')) throw ''
+      if (!ciphers || (typeof ciphers !== 'object')) throw new Error(`Attachment "${filename.CIPHERS}" in message #${i+1} of thread ID "${action.thread_id}" contains invalid JSON and could not be parsed.`)
 
       const cipher = ciphers[my_email]
-      if (!cipher || (typeof cipher !== 'string')) throw ''
+      if (!cipher || (typeof cipher !== 'string')) throw new Error(`Attachment "${filename.CIPHERS}" in message #${i+1} of thread ID "${action.thread_id}" does not include an RSA encrypted cipher for the current Google user account.`)
 
       const secret = crypto.RSA.decrypt(cipher, my_pvtkey)
-      if (!secret || (typeof secret !== 'string') || (secret.length !== 256)) throw ''
+      if ((typeof secret !== 'string') || (secret.length !== crypto.AES.key_size)) throw new Error('RSA decryption failed')
 
       for (let j=0; j < contents.attachments.length; j++) {
         if (j === index_ciphers) continue  // next attachment
@@ -112,18 +113,13 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
 // -----------------------------------------------------------------------------
 
 // throws
-HELPER['ENCRYPT_OUTBOUND_MESSAGE'] = ({recipient, body, cc, attachments}, getState) => {
-  const action_update = {}
+FILTER['ENCRYPT_OUTBOUND_MESSAGE'] = ({getState, dispatch, next, action}) => {
+  const {recipient, body, cc, attachments} = action
+  const state = getState()
 
-  if (!recipient || !body) return action_update
+  if (!recipient || !body) return
 
-  const new_attachments = []
-
-  const secret     = crypto.AES.generate_secret()
-  const state      = getState()
-  const filename   = {...constants.encryption.RESERVED_ATTACHMENT_NAME}
-
-  let all_emails   = [recipient, state.user.email_address]
+  let all_emails = [recipient, state.user.email_address]
   if (cc) {
     if (typeof cc === 'string')
       all_emails.push(cc)
@@ -140,18 +136,20 @@ HELPER['ENCRYPT_OUTBOUND_MESSAGE'] = ({recipient, body, cc, attachments}, getSta
     }
   })
 
-  // update Redux state, throw
+  // add error code to Redux state, throw (to prevent `next(action)` from being called)
   if (no_pubkey.length) {
-    dispatch(
-      actions.DEBUG('WARNING: Redux action "ENCRYPT_OUTBOUND_MESSAGE" cannot encrypt ciphers for the following recipient email addresses because they are not associated with a public RSA encryption key:', no_pubkey)
-    )
-
-    let error_message = `The following email address${ (no_pubkey.length > 1) ? 'es are' : ' is' } not associated with a public encryption key:` + '<br><ul><li>' + no_pubkey.join('</li><li>') + '</li></ul>'
-    dispatch(
-      actions.SAVE_APP.DRAFT_MESSAGE.SET_STATUS(3, error_message)  // SENT_ERROR
-    )
-    throw ''
+    let error_message_txt = `The following email address${ (no_pubkey.length > 1) ? 'es are' : ' is' } not associated with a public encryption key:` + ' "' + no_pubkey.join('", "') + '"'
+    let error_message_htm = `<div class="encryption_error">The following email address${ (no_pubkey.length > 1) ? 'es are' : ' is' } not associated with a public encryption key:` + ((no_pubkey.length > 1) ? ('<ul class="count_many"><li>' + no_pubkey.join('</li><li>') + '</li></ul>') : ` <span class="count_one">"${no_pubkey[0]}"</span>`) + '</div>'
+    let err = new Error(error_message_txt)
+    err.error_message = error_message_htm
+    err.DRAFT_MESSAGE = true
+    throw err
   }
+
+  const secret          = crypto.AES.generate_secret()
+  const filename        = {...constants.encryption.RESERVED_ATTACHMENT_NAME}
+  const new_attachments = []
+  const action_update   = {}
 
   // pass #2
   const ciphers = {}
@@ -190,12 +188,7 @@ HELPER['ENCRYPT_OUTBOUND_MESSAGE'] = ({recipient, body, cc, attachments}, getSta
   action_update.body        = constants.encryption.CLEARTEXT_CONTENT.BODY
   action_update.attachments = new_attachments
 
-  return action_update
-}
-
-// throws
-FILTER['ENCRYPT_OUTBOUND_MESSAGE'] = ({getState, dispatch, next, action}) => {
-  const action_update = HELPER.ENCRYPT_OUTBOUND_MESSAGE(action, getState)
+  // monkey patch the `action` object that propogates down the middleware chain toward the Redux reducer
   Object.assign(action, action_update)
 }
 
@@ -209,8 +202,15 @@ const CRYPTO_middleware = ({getState, dispatch}) => next => action => {
       break
 
     case C.SAVE_THREAD:
-      FILTER.DECRYPT_MESSAGES_IN_THREAD({getState, dispatch, next, action})
-      next(action)
+      try {
+        FILTER.DECRYPT_MESSAGES_IN_THREAD({getState, dispatch, next, action})
+        next(action)
+      }
+      catch(err) {
+        dispatch(
+          actions.LOG_DEBUG_MESSAGE('ERROR: "DECRYPT_MESSAGES_IN_THREAD"', err.message)
+        )
+      }
       break
 
     case C.SEND_EMAIL.REPLY:
@@ -219,7 +219,14 @@ const CRYPTO_middleware = ({getState, dispatch}) => next => action => {
         FILTER.ENCRYPT_OUTBOUND_MESSAGE({getState, dispatch, next, action})
         next(action)
       }
-      catch(err) {}
+      catch(err) {
+        dispatch(
+          actions.LOG_DEBUG_MESSAGE('ERROR: "ENCRYPT_OUTBOUND_MESSAGE"', err.message)
+        )
+        dispatch(
+          actions.SAVE_APP.DRAFT_MESSAGE.SET_STATUS(3, err.error_message || err.message)  // SENT_ERROR
+        )
+      }
       break
 
     default:

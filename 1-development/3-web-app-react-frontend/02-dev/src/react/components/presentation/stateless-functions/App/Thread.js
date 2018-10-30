@@ -55,6 +55,8 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
   }
 
   const save_draft = () => {
+    if (draft_message.status.code) return
+
     const msg = messages[ messages.length - 1 ]
 
     const state    = store.getState()

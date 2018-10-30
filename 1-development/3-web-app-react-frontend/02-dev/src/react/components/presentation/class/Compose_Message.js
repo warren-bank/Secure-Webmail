@@ -241,7 +241,7 @@ class Compose_Message extends React.PureComponent {
 
         break
 
-      case 2:
+      case 3:
         this.setError( store.status.error_message )
         break
     }
@@ -260,6 +260,7 @@ class Compose_Message extends React.PureComponent {
   }
 
   render() {
+    this.context.actions.DEBUG(`rendering: ${displayName}`, {draft: this.props.draft})
 
     const cc_suggestions = this.state.cc_suggestions.map(email => {
       return (
@@ -279,12 +280,25 @@ class Compose_Message extends React.PureComponent {
       )
     })
 
+    let error_message
+    {
+      if (this.state.error_message !== null) {
+        if (this.state.error_message.indexOf('<div class="encryption_error">') === 0) {
+          // special case: the message contains raw html
+          error_message = <div dangerouslySetInnerHTML={{__html: this.state.error_message}} />
+        }
+        else {
+          error_message = <span>{this.state.error_message}</span>
+        }
+      }
+    }
+
     return (
       <div className={`component ${displayName.toLowerCase()} ${ this.state.is_reply ? 'reply' : 'new_message' }`} >
         {
-          (this.state.error_message !== null) &&
+          (error_message) &&
             <div className="error_message">
-              <span>{this.state.error_message}</span>
+              {error_message}
             </div>
         }
         {
