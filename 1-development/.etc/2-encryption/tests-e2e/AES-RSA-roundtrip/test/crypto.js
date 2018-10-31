@@ -9,7 +9,9 @@ crypto.AES.generate_secret = () => {
     uuidv4(null, buffer, offset)
   }
 
-  let secret = String.fromCharCode(...buffer)
+  let secret
+  secret = String.fromCharCode(...buffer)
+  secret = secret.substring(0, key_size)
   return secret
 }
 
