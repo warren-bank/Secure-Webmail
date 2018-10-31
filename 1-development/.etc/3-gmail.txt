@@ -127,6 +127,14 @@ https://developers.google.com/apps-script/reference/utilities/utilities#newBlob(
 
 --------------------------------------------------------------------------------
 
+sent threads:
+=============
+
+https://developers.google.com/apps-script/reference/gmail/gmail-app#searchquery-start-max
+  var threads = GmailApp.search('in:sent', 0, 25)
+
+--------------------------------------------------------------------------------
+
 https://developers.google.com/apps-script/advanced/gmail
 https://developers.google.com/gmail/api
 

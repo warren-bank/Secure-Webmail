@@ -53,8 +53,8 @@ function get_folders() {
       unread_count: GmailApp.getStarredUnreadCount()
     },
     {
-      folder_name:  "chat",
-      title:        "Chat",
+      folder_name:  "sent",
+      title:        "Sent",
       unread_count: 0
     },
     {
@@ -65,6 +65,11 @@ function get_folders() {
     {
       folder_name:  "trash",
       title:        "Trash",
+      unread_count: 0
+    },
+    {
+      folder_name:  "chat",
+      title:        "Chat",
       unread_count: 0
     }
   ]
@@ -132,14 +137,17 @@ function get_threads_in_folder(folder_name, body_length, start, max) {
       case 'starred':
         process_threads( GmailApp.getStarredThreads(start, max) )
         break
-      case 'chat':
-        process_threads( GmailApp.getChatThreads(start, max) )
+      case 'sent':
+        process_threads( GmailApp.search('in:sent', start, max) )
         break
       case 'spam':
         process_threads( GmailApp.getSpamThreads(start, max) )
         break
       case 'trash':
         process_threads( GmailApp.getTrashThreads(start, max) )
+        break
+      case 'chat':
+        process_threads( GmailApp.getChatThreads(start, max) )
         break
       default:
         throw new Error('ERROR [get_threads_in_folder]: Cannot find threads in unknown folder "' + folder_name + '"')
