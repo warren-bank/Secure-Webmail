@@ -50,6 +50,7 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
   if (!action.thread || !Array.isArray(action.thread.messages) || !action.thread.messages.length) return
 
   const messages     = action.thread.messages
+  const summary      = action.thread.summary
   const filename     = {...constants.encryption.RESERVED_ATTACHMENT_NAME}
 
   const state        = getState()
@@ -91,6 +92,8 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
 
         if (name === filename.BODY) {
           new_contents.body = cleartext
+
+          if (i===0) summary.body = cleartext.substring(0, 160)
         }
         else {
           const new_attachment = {
@@ -105,6 +108,8 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
       messages[i].contents = new_contents
     }
     catch(err) {
+      if (i===0) summary.body = contents.body.substring(0, 160)
+
       continue  // next message
     }
   }
