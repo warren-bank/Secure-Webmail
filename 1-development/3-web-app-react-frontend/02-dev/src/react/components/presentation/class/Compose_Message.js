@@ -180,8 +180,13 @@ class Compose_Message extends React.PureComponent {
 
     if (!this.validateReplyInput()) return
 
-    const {is_reply, thread_id, recipient, subject, body} = this.state
-    let {cc, cc_suggestions, attachments} = this.state
+    let {is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments} = this.state
+
+    // trim string values
+    recipient = recipient.trim()
+    cc        = cc.trim()
+    subject   = subject.trim()
+    body      = body.trim()
 
     // validate required fields
     const empty_required_fields = []
@@ -195,9 +200,20 @@ class Compose_Message extends React.PureComponent {
       return this.setError(`The following required field${ (empty_required_fields.length > 1) ? 's are' : ' is' } incomplete: "${empty_required_fields.join('", "')}"`)
 
     // format data, make deep copy of objects
-    cc             = cc.trim().split(/\s*[,\s]\s*/g).filter(val => val.length)
+    cc             = cc.split(/\s*[,\s]\s*/g).filter(val => val.length)
     cc_suggestions = [...cc_suggestions]
     attachments    = attachments.map(file => {return {...file}})
+
+    // if "recipient" contains multiple email addresses, keep the first and move the remainder to "cc"
+    recipient = recipient.split(/\s*[,\s]\s*/g).filter(val => val.length)
+    if (recipient.length > 1) {
+      let more_cc
+      ;[recipient, ...more_cc] = recipient
+      cc = [...cc, ...more_cc]
+    }
+    else {
+      recipient = recipient[0]
+    }
 
     // save draft
     this.context.actions.DEBUG('SAVING DRAFT MESSAGE', {origin: displayName, old_draft: this.props.draft, new_draft: {is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments}})
