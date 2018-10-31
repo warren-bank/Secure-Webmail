@@ -4,10 +4,12 @@ crypto.AES.key_size = 245
 
 crypto.AES.generate_secret = () => {
   const key_size = crypto.AES.key_size
-  const buffer = []
+
+  let buffer = []
   for (let offset=0; offset < key_size; offset+=16) {
     uuidv4(null, buffer, offset)
   }
+  buffer = buffer.map(c => (c < 128) ? c : (c - 128))
 
   let secret
   secret = String.fromCharCode(...buffer)
