@@ -6,6 +6,11 @@ window.mock_data = {
       unread_count: 2
     },
     {
+      folder_name:  "sent",
+      title:        "Sent",
+      unread_count: 0
+    },
+    {
       folder_name:  "trash",
       title:        "Trash",
       unread_count: 1
@@ -13,7 +18,8 @@ window.mock_data = {
   ],
   threads_in_folder: {
     inbox: ["t-1", "t-2"],
-    trash: ["t-3"]
+    trash: ["t-3"],
+    sent:  []
   },
   threads: {
     "t-1": {
