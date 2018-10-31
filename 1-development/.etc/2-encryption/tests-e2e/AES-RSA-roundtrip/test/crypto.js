@@ -5,7 +5,7 @@ crypto.AES.key_size = 245
 crypto.AES.generate_secret = () => {
   const key_size = crypto.AES.key_size
   const buffer = []
-  for (let offset=0; (offset + 16) <= key_size; offset+=16) {
+  for (let offset=0; offset < key_size; offset+=16) {
     uuidv4(null, buffer, offset)
   }
 
@@ -55,13 +55,13 @@ window.onload = () => {
     let {public_key, private_key} = window.mock_data.RSA_keypair
 
     let cleartext = crypto.AES.generate_secret()
-    log('AES secret [cleartext]:', cleartext)
+    log(`AES secret [length=${cleartext.length}; cleartext]:`, cleartext)
 
     let crypted = crypto.RSA.encrypt(cleartext, public_key)
     log('AES secret [crypted]:', crypted)
 
     let uncrypted = crypto.RSA.decrypt(crypted, private_key)
-    log('AES secret [uncrypted]:', uncrypted)
+    log(`AES secret [length=${uncrypted.length}; uncrypted]:`, uncrypted)
 
     log( (uncrypted === cleartext) ? 'SUCCESS' : 'FAILURE' )
   }
