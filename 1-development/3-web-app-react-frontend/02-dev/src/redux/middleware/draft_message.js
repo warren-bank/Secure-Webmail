@@ -45,29 +45,44 @@ HELPERS['PUBLIC_KEYS_NEEDED'] = ({getState, dispatch, next, action}, allow_state
 // -----------------------------------------------------------------------------
 
 HELPERS['SAVE_REPLY_TO_THREAD'] = ({getState, dispatch, next, action}, is_reply) => {
+  if (!is_reply) return
+
   const state = getState()
 
-  if (is_reply) {
-    const from          = state.user.email_address
-    const draft_message = state.app.draft_message
+  const from          = state.user.email_address
+  const draft_message = state.app.draft_message
 
-    // validate that action matches draft_message
-    let is_match = true
-    {
-      const {thread_id: a_thread_id, recipient: a_recipient, cc: a_cc} = action
-      const {thread_id: d_thread_id, recipient: d_recipient, cc: d_cc} = draft_message
+  // validate that action matches draft_message
+  let is_match = true
+  {
+    const {thread_id: a_thread_id, recipient: a_recipient, cc: a_cc} = action
+    const {thread_id: d_thread_id, recipient: d_recipient, cc: d_cc} = draft_message
 
-      is_match = is_match || (a_thread_id !== d_thread_id)
-      is_match = is_match || (a_recipient !== d_recipient)
-      is_match = is_match || (a_cc.length !== d_cc.length)
-    }
-
-    if (is_match) {
-      dispatch(
-        actions.SAVE_REPLY_TO_THREAD(draft_message, from)
-      )
-    }
+    is_match = is_match || (a_thread_id !== d_thread_id)
+    is_match = is_match || (a_recipient !== d_recipient)
+    is_match = is_match || (a_cc.length !== d_cc.length)
   }
+
+  if (is_match) {
+    dispatch(
+      actions.SAVE_REPLY_TO_THREAD(draft_message, from)
+    )
+  }
+}
+
+// -----------------------------------------------------------------------------
+
+HELPERS['UPDATE_SENT_FOLDER'] = ({getState, dispatch, next, action}, is_reply) => {
+  if (is_reply) return
+
+  const folder_name = 'sent'
+  const start       = 0
+  const max         = 1
+  const force       = true
+
+  dispatch(
+    actions.GET_THREADS_IN_FOLDER(folder_name, start, max, force)
+  )
 }
 
 // -----------------------------------------------------------------------------
@@ -121,6 +136,8 @@ TRIGGERS['SEND_EMAIL'] = ({getState, dispatch, next, action}, is_reply) => {
     )
 
     HELPERS.SAVE_REPLY_TO_THREAD({getState, dispatch, next, action}, is_reply)
+
+    HELPERS.UPDATE_SENT_FOLDER({getState, dispatch, next, action}, is_reply)
   }
 }
 
