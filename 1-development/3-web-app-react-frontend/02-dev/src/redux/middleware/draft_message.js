@@ -32,10 +32,10 @@ HELPERS['PUBLIC_KEYS_NEEDED'] = ({getState, dispatch, next, action}, allow_state
 
   if (no_pubkey.length && allow_state_transition) {
     dispatch(
-      actions.GET_RSA_PUBLIC_KEYS(no_pubkey)
+      actions.SAVE_APP.DRAFT_MESSAGE.SET_STATUS(1, "")  // BUSY_GETTING_PUBKEYS
     )
     dispatch(
-      actions.SAVE_APP.DRAFT_MESSAGE.SET_STATUS(1, "")  // BUSY_GETTING_PUBKEYS
+      actions.GET_RSA_PUBLIC_KEYS(no_pubkey)
     )
   }
 
@@ -174,9 +174,10 @@ const DRAFT_MESSAGE_middleware = ({getState, dispatch}) => next => action => {
       TRIGGERS.SEND_EMAIL({getState, dispatch, next, action}, false)
       break
 
+    // allow reducer to update state before attempting to resend the draft message
     case C.SAVE_RSA_PUBLIC_KEYS:
-      TRIGGERS.SAVE_RSA_PUBLIC_KEYS({getState, dispatch, next, action})
       next(action)
+      TRIGGERS.SAVE_RSA_PUBLIC_KEYS({getState, dispatch, next, action})
       break
 
     case C.RESPOND_TO_USER_EVENT.OPEN_THREAD:
