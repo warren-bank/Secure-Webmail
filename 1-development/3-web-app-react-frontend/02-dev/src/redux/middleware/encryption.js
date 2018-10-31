@@ -224,7 +224,7 @@ const CRYPTO_middleware = ({getState, dispatch}) => next => action => {
           actions.LOG_DEBUG_MESSAGE('ERROR: "ENCRYPT_OUTBOUND_MESSAGE"', err.message)
         )
         dispatch(
-          actions.SAVE_APP.DRAFT_MESSAGE.SET_STATUS(3, err.error_message || err.message)  // SENT_ERROR
+          actions.SAVE_APP.DRAFT_MESSAGE.SET_STATUS(4, err.error_message || err.message)  // SENT_ERROR
         )
       }
       break

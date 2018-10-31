@@ -84,7 +84,7 @@ const initialState = {
         "name":						""
       }],
       "status": {
-        "code":						0,					// Number (enumeration: [0=can_edit, 1=busy_sending, 2=sent_success, 3=sent_error])
+        "code":						0,					// Number (enumeration: [0=can_edit, 1=busy_getting_pubkeys, 2=busy_sending, 3=sent_success, 4=sent_error])
         "error_message":			""					// String
       }
     }

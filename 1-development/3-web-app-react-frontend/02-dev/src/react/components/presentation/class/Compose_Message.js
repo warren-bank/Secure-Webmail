@@ -218,10 +218,14 @@ class Compose_Message extends React.PureComponent {
         break
 
       case 1:
-        this.setError('Message is Sending...')
+        this.setError('Retrieving Public Encryption Keys...')
         break
 
       case 2:
+        this.setError('Message is Sending...')
+        break
+
+      case 3:
         this.setError('Message Sent')
 
         // wait 5 seconds, then remove success notification
@@ -241,7 +245,7 @@ class Compose_Message extends React.PureComponent {
 
         break
 
-      case 3:
+      case 4:
         this.setError( store.status.error_message )
         break
     }
