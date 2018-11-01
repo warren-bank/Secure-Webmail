@@ -9,7 +9,11 @@ window.google = {}
         : val
 
       if (google.script.run.cb) {
-        google.script.run.cb(_val)
+        let cb = google.script.run.cb
+        setTimeout(
+          () => cb(_val),
+          2500
+        )
         delete google.script.run.cb
       }
       return _val
