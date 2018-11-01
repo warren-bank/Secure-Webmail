@@ -13,8 +13,6 @@
         "GET_THREAD":                       "GET_THREAD",
         "SAVE_THREAD":                      "SAVE_THREAD",
 
-        "SAVE_REPLY_TO_THREAD":             "SAVE_REPLY_TO_THREAD",
-
         "UPDATE_THREAD":                    "UPDATE_THREAD",
         "SAVE_THREAD_UPDATE":               "SAVE_THREAD_UPDATE",
 

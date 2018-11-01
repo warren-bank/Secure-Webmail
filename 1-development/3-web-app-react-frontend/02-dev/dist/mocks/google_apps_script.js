@@ -66,10 +66,12 @@ window.google = {}
   }
 
   let update_thread = (thread_id, options) => {
-    const thread = data.threads[thread_id]
+    const thread       = data.threads[thread_id]
+    const old_settings = {...thread.settings}
+
     Object.assign(thread.settings, options)
 
-    if (options.unread !== undefined) {
+    if ((options.unread !== undefined) && (options.unread !== old_settings.unread)) {
       // update unread setting of all messages in thread
       thread.messages.forEach(message => {
         message.settings.unread = options.unread

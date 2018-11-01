@@ -44,30 +44,14 @@ HELPERS['PUBLIC_KEYS_NEEDED'] = ({getState, dispatch, next, action}, allow_state
 
 // -----------------------------------------------------------------------------
 
-HELPERS['SAVE_REPLY_TO_THREAD'] = ({getState, dispatch, next, action}, is_reply) => {
+HELPERS['UPDATE_THREAD'] = ({getState, dispatch, next, action}, is_reply) => {
   if (!is_reply) return
 
-  const state = getState()
+  const {thread_id} = action
 
-  const from          = state.user.email_address
-  const draft_message = state.app.draft_message
-
-  // validate that action matches draft_message
-  let is_match = true
-  {
-    const {thread_id: a_thread_id, recipient: a_recipient, cc: a_cc} = action
-    const {thread_id: d_thread_id, recipient: d_recipient, cc: d_cc} = draft_message
-
-    is_match = is_match || (a_thread_id !== d_thread_id)
-    is_match = is_match || (a_recipient !== d_recipient)
-    is_match = is_match || (a_cc.length !== d_cc.length)
-  }
-
-  if (is_match) {
-    dispatch(
-      actions.SAVE_REPLY_TO_THREAD(draft_message, from)
-    )
-  }
+  dispatch(
+    actions.GET_THREAD(thread_id)
+  )
 }
 
 // -----------------------------------------------------------------------------
@@ -135,7 +119,7 @@ TRIGGERS['SEND_EMAIL'] = ({getState, dispatch, next, action}, is_reply) => {
       actions.SAVE_APP.DRAFT_MESSAGE.SET_STATUS(3, "")  // SENT_SUCCESS
     )
 
-    HELPERS.SAVE_REPLY_TO_THREAD({getState, dispatch, next, action}, is_reply)
+    HELPERS.UPDATE_THREAD({getState, dispatch, next, action}, is_reply)
 
     HELPERS.UPDATE_SENT_FOLDER({getState, dispatch, next, action}, is_reply)
   }

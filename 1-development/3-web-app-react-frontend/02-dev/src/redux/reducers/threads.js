@@ -22,22 +22,6 @@ HELPER['NOOP']['SETTINGS'] = (old_settings, new_settings) => {
 
 // -----------------------------------------------------------------------------
 
-HELPER['UPDATE_THREAD_SUMMARY_FROM_LAST_MESSAGE'] = (new_thread) => {
-  if (!new_thread || !new_thread.summary || !Array.isArray(new_thread.messages) || !new_thread.messages.length) return
-
-  const last_message = new_thread.messages[ new_thread.messages.length - 1 ]
-
-  new_thread.summary           = {...new_thread.summary}
-  new_thread.summary.msg_count = new_thread.messages.length
-
-  if (last_message.contents.body)
-    new_thread.summary.body = last_message.contents.body.substring(0, 160)
-  if (last_message.summary.timestamp)
-    new_thread.summary.date_modified = last_message.summary.timestamp
-}
-
-// -----------------------------------------------------------------------------
-
 RDCR['SAVE_THREADS'] = (state, {threads}) => {
   if (!threads || !Array.isArray(threads) || !threads.length) return state  // noop
 
@@ -72,52 +56,6 @@ RDCR['SAVE_THREAD'] = (state, {thread_id, thread}) => {
   const new_state  = {...state}
 
   new_state[thread_id] = thread
-  return new_state
-}
-
-// -----------------------------------------------------------------------------
-
-RDCR['SAVE_REPLY_TO_THREAD'] = (state, {thread_id, from, recipient, body, cc, attachments}) => {
-  if (!thread_id) return state  // noop
-  if (! (body || (attachments && Array.isArray(attachments) && attachments.length)) ) return state  // noop
-
-  const old_thread = state[thread_id]
-  if (!old_thread || (typeof old_thread !== 'object') || !Array.isArray(old_thread.messages)) return state  // noop
-
-  const new_message = (() => {
-    let to = [recipient]
-    if (cc) {
-      if (typeof cc === 'string')
-        to.push(cc)
-      else if (Array.isArray(cc) && cc.length)
-        to = [...to, ...cc]
-    }
-
-    return {
-      message_id:     '',
-      summary: {
-        from,
-        to,
-        timestamp:    (new Date().getTime())
-      },
-      contents: {
-        body,
-        attachments
-      },
-      settings: {
-        star:         false,
-        unread:       false,
-        trash:        false 
-      }
-    }
-  })()
-
-  const new_state  = {...state}
-  const new_thread = {...old_thread, messages: [...old_thread.messages, new_message]}  // APPEND new message to thread
-
-  HELPER.UPDATE_THREAD_SUMMARY_FROM_LAST_MESSAGE(new_thread)
-
-  new_state[thread_id] = new_thread
   return new_state
 }
 
@@ -175,9 +113,6 @@ const threads = (state = {}, action) => {
 
     case C.SAVE_THREAD:
       return RDCR.SAVE_THREAD(state, action)
-
-    case C.SAVE_REPLY_TO_THREAD:
-      return RDCR.SAVE_REPLY_TO_THREAD(state, action)
 
     case C.SAVE_THREAD_UPDATE:
       return RDCR.SAVE_THREAD_UPDATE(state, action)
