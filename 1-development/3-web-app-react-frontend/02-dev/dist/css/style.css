@@ -967,3 +967,48 @@ html, body, .wrapper {
 }
 
 /* ------------------------------------------------------------------ */
+
+.top-component.noemail,
+.top-component.about {
+  padding: 1em;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.about {
+  font-size: 1.25em;
+  line-height: 1.75em;
+}
+
+.top-component.about > h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+.top-component.about > h4 {
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+  font-size: 1.1em;
+}
+.top-component.about > hr {
+  margin-top: 1.5em;
+  font-size: 1.1em;
+}
+.top-component.about > p {
+  margin: 0.5em 0;
+}
+
+.top-component.about a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dashed #555;
+}
+.top-component.about a:hover {
+  border-bottom-style: solid;
+}
+
+.top-component.about .small {
+  font-size: 0.75em;
+  vertical-align: middle;
+}
+
+/* ------------------------------------------------------------------ */
