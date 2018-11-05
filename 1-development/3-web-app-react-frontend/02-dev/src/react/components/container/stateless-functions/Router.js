@@ -65,13 +65,15 @@ const component   = ({state}, {store, actions, constants, history}) => {
 
   const folder_route = (() => {
     const _render = ({history, match}) => {
-      const {folder_name, start_threads_index} = match.params
+      let {folder_name, start_threads_index} = match.params
 
       if (start_threads_index === undefined) {
         // redirect:
         actions.OPEN_FOLDER(folder_name, 0, history, false)
         return null
       }
+
+      start_threads_index = Number(start_threads_index)
 
       if ((state.app.ui.folder_name !== folder_name) || (state.app.ui.start_threads_index !== start_threads_index))
         actions.OPEN_FOLDER(folder_name, start_threads_index)  // `history` is not passed to prevent URL redirect
