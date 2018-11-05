@@ -2,11 +2,17 @@ window.google = {}
 
 ;(function(google, data){
 
+  let shallow_copy = function(val) {
+    if (Array.isArray(val))    return [...val]
+    if (val instanceof Object) return {...val}
+    return val
+  }
+
   let do_run = function(val){
     return function(...args){
       let _val = (typeof val === 'function')
         ? val(...args)
-        : val
+        : shallow_copy(val)
 
       if (google.script.run.cb) {
         let cb = google.script.run.cb

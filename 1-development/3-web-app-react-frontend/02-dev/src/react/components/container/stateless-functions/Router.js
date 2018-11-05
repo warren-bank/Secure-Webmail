@@ -73,7 +73,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
         return null
       }
 
-      if (state.app.ui.folder_name !== folder_name)
+      if ((state.app.ui.folder_name !== folder_name) || (state.app.ui.start_threads_index !== start_threads_index))
         actions.OPEN_FOLDER(folder_name, start_threads_index)  // `history` is not passed to prevent URL redirect
 
       const component = (
