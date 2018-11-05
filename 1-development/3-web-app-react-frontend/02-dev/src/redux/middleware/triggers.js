@@ -252,6 +252,20 @@ TRIGGERS['SAVE_THREAD'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
+TRIGGERS['REDIRECT_URL'] = {}
+
+TRIGGERS['REDIRECT_URL']['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
+  const {is_refresh} = action
+
+  if (is_refresh !== true) return
+
+  dispatch(
+    actions.SAVE_APP.UI.START_THREADS_INDEX(-1)
+  )
+}
+
+// -----------------------------------------------------------------------------
+
 const TRIGGERS_middleware = ({getState, dispatch}) => next => action => {
   switch (action.type) {
 
@@ -287,6 +301,15 @@ const TRIGGERS_middleware = ({getState, dispatch}) => next => action => {
 
     case C.SAVE_THREAD:
       TRIGGERS.SAVE_THREAD({getState, dispatch, next, action})
+      next(action)
+      break
+
+    case C.RESPOND_TO_USER_EVENT.REDIRECT_URL:
+      switch(action.target) {
+        case C.RESPOND_TO_USER_EVENT.OPEN_FOLDER:
+          TRIGGERS.REDIRECT_URL.OPEN_FOLDER({getState, dispatch, next, action})
+          break
+      }
       next(action)
       break
 

@@ -377,7 +377,7 @@ actions['SEND_EMAIL']['NEW_MESSAGE'] = (recipient, subject, body, cc, attachment
 
 actions['RESPOND_TO_USER_EVENT'] = {}
 
-actions['RESPOND_TO_USER_EVENT']['OPEN_FOLDER'] = (folder_name, start_threads_index, history, is_push) => {
+actions['RESPOND_TO_USER_EVENT']['OPEN_FOLDER'] = (folder_name, start_threads_index, history, is_push, is_refresh) => {
   if (typeof start_threads_index !== 'number')
     start_threads_index = 0
 
@@ -388,7 +388,8 @@ actions['RESPOND_TO_USER_EVENT']['OPEN_FOLDER'] = (folder_name, start_threads_in
     return {
       type:   C.RESPOND_TO_USER_EVENT.REDIRECT_URL,
       target: C.RESPOND_TO_USER_EVENT.OPEN_FOLDER,
-      URL
+      URL,
+      is_refresh
     }
   }
 

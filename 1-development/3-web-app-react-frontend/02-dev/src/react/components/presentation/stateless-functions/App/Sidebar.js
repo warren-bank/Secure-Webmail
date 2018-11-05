@@ -16,7 +16,7 @@ const component = ({folders, active_folder}, {actions, history}) => {
 
   const folder_buttons = folders.map(
     folder => (
-      <Folder {...folder} key={folder.folder_name} onClick={actions.OPEN_FOLDER.bind(this, folder.folder_name, 0, history, true)} active={active_folder === folder.folder_name} />
+      <Folder {...folder} key={folder.folder_name} onClick={actions.OPEN_FOLDER.bind(this, folder.folder_name, 0, history, true, false)} active={active_folder === folder.folder_name} />
     )
   )
 
