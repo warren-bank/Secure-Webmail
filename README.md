@@ -87,8 +87,8 @@
 
 #### References
 
-1. https://trendblog.net/encrypt-gmail-openpgp/
-2. http://www.primalsecurity.net/pgp-encryption/
+1. [https://trendblog.net/encrypt-gmail-openpgp/](https://trendblog.net/encrypt-gmail-openpgp/)
+2. [http://www.primalsecurity.net/pgp-encryption/](http://www.primalsecurity.net/pgp-encryption/)
 
 - - - -
 

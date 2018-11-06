@@ -1008,7 +1008,11 @@ html, body, .wrapper {
 
 .top-component.about .small {
   font-size: 0.75em;
+  line-height: 1.75em;
   vertical-align: middle;
+}
+.top-component.about sup.small {
+  vertical-align: super;
 }
 
 /* ------------------------------------------------------------------ */

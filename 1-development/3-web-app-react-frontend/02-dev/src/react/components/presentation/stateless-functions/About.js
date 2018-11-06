@@ -35,7 +35,7 @@ const component = () => {
 
       <h4>Survey of Existing Solutions <em><sup className="small">[1-2]</sup></em></h4>
       <ul>
-        <li>Pretty Good Privacy (PGP) is the <a href="https://tools.ietf.org/html/rfc4880">standard</a> for securing email communication with encryption.
+        <li>Pretty Good Privacy (PGP) is the <a target="_blank" href="https://tools.ietf.org/html/rfc4880">standard</a> for securing email communication with encryption.
           <ul>
             <li>it works as a technical solution
               <ul>
@@ -46,8 +46,8 @@ const component = () => {
               <ul>
                 <li>there is no defacto keystore from which to obtain asymmetric public keys</li>
                 <li>support by popular email service providers (ex: Gmail) is non-existent</li>
-                <li>support by popular email clients (ex: <a href="https://support.mozilla.org/en-US/kb/digitally-signing-and-encrypting-messages">Thunderbird</a>) is very limited</li>
-                <li>support for basic features in experimental tools that only the technically-minded might use (ex: <a href="https://github.com/mailvelope/mailvelope/issues/608">mailvelope</a>) is incomplete</li>
+                <li>support by popular email clients (ex: <a target="_blank" href="https://support.mozilla.org/en-US/kb/digitally-signing-and-encrypting-messages">Thunderbird</a>) is very limited</li>
+                <li>support for basic features in experimental tools that only the technically-minded might use (ex: <a target="_blank" href="https://github.com/mailvelope/mailvelope/issues/608">mailvelope</a>) is incomplete</li>
               </ul>
             </li>
           </ul>
@@ -76,7 +76,7 @@ const component = () => {
 
       <h4>Technical Foundation</h4>
       <ul>
-        <li><a href="https://developers.google.com/apps-script/">"Google Apps Script"</a>
+        <li><a target="_blank" href="https://developers.google.com/apps-script/">"Google Apps Script"</a>
           <ul>
             <li>provides APIs to access data from Google services (ex: Gmail)</li>
             <li>scripts can run as the currently active Google account
@@ -103,7 +103,7 @@ const component = () => {
             </li>
           </ul>
         </li>
-        <li><a href="https://github.com/brix/crypto-js">"CryptoJS"</a>
+        <li><a target="_blank" href="https://github.com/brix/crypto-js">"CryptoJS"</a>
           <ul>
             <li>javascript implementation of AES symmetric key encryption
               <ul>
@@ -121,7 +121,7 @@ const component = () => {
             </li>
           </ul>
         </li>
-        <li><a href="https://github.com/travist/jsencrypt">"JSEncrypt"</a>
+        <li><a target="_blank" href="https://github.com/travist/jsencrypt">"JSEncrypt"</a>
           <ul>
             <li>javascript implementation of RSA asymmetric key encryption
               <ul>
@@ -175,16 +175,16 @@ const component = () => {
       </ul>
 
       <h4>References</h4>
-      <ol>
-        <li>https://trendblog.net/encrypt-gmail-openpgp/</li>
-        <li>http://www.primalsecurity.net/pgp-encryption/</li>
+      <ol className="small">
+        <li><a target="_blank" href="https://trendblog.net/encrypt-gmail-openpgp/">https://trendblog.net/encrypt-gmail-openpgp/</a></li>
+        <li><a target="_blank" href="http://www.primalsecurity.net/pgp-encryption/">http://www.primalsecurity.net/pgp-encryption/</a></li>
       </ol>
 
       <hr />
 
       <h4>About the Author</h4>
       <p><img src="https://avatars3.githubusercontent.com/u/6810270" alt="Warren Bank" /></p>
-      <p><span className="small">&copy;</span> <a href="https://github.com/warren-bank">Warren Bank</a></p>
+      <p><span className="small">&copy;</span> <a target="_blank" href="https://github.com/warren-bank">Warren Bank</a></p>
     </div>
   )
 }

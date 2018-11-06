@@ -27,3 +27,35 @@ note:
   negative lookahead assertion will only match actions that are NOT in whitelist
 
 --------------------------------------------------------------------------------
+
+// =====================================
+// purpose:
+//  * update mock server-side data to emulate a new email thread received in "inbox"
+// =====================================
+// usage:
+//  * open "inbox" folder
+//  * run the following script in javascript console
+//  * click "refresh" icon
+// =====================================
+
+const update_inbox = () => {
+  let inbox         = mock_data.threads_in_folder.inbox
+  let old_thread_id = inbox[inbox.length - 1]
+  let new_thread_id = `${old_thread_id}.1`
+  let old_thread    = mock_data.threads[old_thread_id]
+  let new_thread    = {
+    summary:      {...old_thread.summary},
+    settings:     {...old_thread.settings, unread: true},
+    messages:     [...old_thread.messages],
+    participants: [...old_thread.participants]
+  }
+
+  inbox.unshift(new_thread_id)
+
+  mock_data.threads[new_thread_id] = new_thread
+  mock_data.folders[0].unread_count++
+}
+
+update_inbox()
+
+--------------------------------------------------------------------------------
