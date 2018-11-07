@@ -63,7 +63,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
       if (state.app.ui.thread_id !== thread_id)
         actions.OPEN_THREAD(thread_id)  // `history` is not passed to prevent URL redirect
 
-      const component = wrapScrollToTop(
+      const component = /*wrapScrollToTop*/(
         <Thread thread_id={thread_id} {...state.threads[thread_id]} draft_message={state.app.draft_message} />
       )
 
