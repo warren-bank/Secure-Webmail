@@ -29,6 +29,7 @@ class Compose_Message extends React.PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const unset_error = (this.sent_msg_notification_timer === null)
+    const oldState    = this.state
     const newState    = this.get_state_from_props(nextProps, unset_error)
 
     this.setState(newState)
@@ -42,6 +43,9 @@ class Compose_Message extends React.PureComponent {
     while (this.callbackQueue.length) {
       ( this.callbackQueue.shift() )()
     }
+
+    if (this.state.onDomChange)
+      this.state.onDomChange()
   }
 
   get_state_from_props(props, unset_error=true) {
@@ -51,12 +55,13 @@ class Compose_Message extends React.PureComponent {
     const attachments    = draft.attachments.map(file => {return {...file}})
     const status         = {...draft.status}
 
-    const onSend         = ((typeof props.onSend   === 'function') ? props.onSend   : null)
-    const onCancel       = ((typeof props.onCancel === 'function') ? props.onCancel : null)
+    const onDomChange    = ((typeof props.onDomChange === 'function') ? props.onDomChange : null)
+    const onSend         = ((typeof props.onSend      === 'function') ? props.onSend      : null)
+    const onCancel       = ((typeof props.onCancel    === 'function') ? props.onCancel    : null)
     const txtCancel      = (props.txtCancel || 'Clear')
     const invalid_state  = false
 
-    const state = {...draft, cc, cc_suggestions, attachments, status, onSend, onCancel, txtCancel, invalid_state}
+    const state = {...draft, cc, cc_suggestions, attachments, status, onDomChange, onSend, onCancel, txtCancel, invalid_state}
 
     if (unset_error)
       state.error_message = null
@@ -249,7 +254,7 @@ class Compose_Message extends React.PureComponent {
           () => {
             this.sent_msg_notification_timer = null
 
-            this.setState({error_message: null})
+            this.setError(null)
           },
           5000
         )
@@ -372,19 +377,20 @@ class Compose_Message extends React.PureComponent {
 }
 
 Compose_Message.propTypes = {
-  draft:      PropTypes.object.isRequired,
+  draft:        PropTypes.object.isRequired,
 
-  onSend:     PropTypes.func,
-  onCancel:   PropTypes.func,
-  txtCancel:  PropTypes.string
+  onDomChange:  PropTypes.func,
+  onSend:       PropTypes.func,
+  onCancel:     PropTypes.func,
+  txtCancel:    PropTypes.string
 }
 
 Compose_Message.defaultProps = {
-  txtCancel:  'Clear'
+  txtCancel:    'Clear'
 }
 
 Compose_Message.contextTypes = {
-  actions:    PropTypes.object.isRequired
+  actions:      PropTypes.object.isRequired
 }
 
 module.exports = Compose_Message

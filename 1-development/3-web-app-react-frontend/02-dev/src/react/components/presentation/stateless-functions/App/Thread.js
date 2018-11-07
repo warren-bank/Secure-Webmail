@@ -40,6 +40,7 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
   {
     const props = {
       draft:           draft_message,
+      onDomChange:     scroller.scrollToBottom,
       onSend:          () => {
                          console.log('Reply Sent')
 
