@@ -43,6 +43,8 @@ const component = (props, {history}) => {
         </li>
       </ul>
 
+      <hr />
+
       <h4>Survey of Existing Solutions <em><sup className="small">[1-2]</sup></em></h4>
       <ul>
         <li>Pretty Good Privacy (PGP) is the <a target="_blank" href="https://tools.ietf.org/html/rfc4880">standard</a> for securing email communication with encryption.
@@ -71,6 +73,14 @@ const component = (props, {history}) => {
           </ul>
         </li>
       </ul>
+
+      <h4>References</h4>
+      <ol className="small">
+        <li><a target="_blank" href="https://trendblog.net/encrypt-gmail-openpgp/">https://trendblog.net/encrypt-gmail-openpgp/</a></li>
+        <li><a target="_blank" href="http://www.primalsecurity.net/pgp-encryption/">http://www.primalsecurity.net/pgp-encryption/</a></li>
+      </ol>
+
+      <hr />
 
       <h4>Proposal for New Solution</h4>
       <ul>
@@ -184,12 +194,6 @@ const component = (props, {history}) => {
         <li>Cannot send messages to non-Gmail recipients.</li>
       </ul>
 
-      <h4>References</h4>
-      <ol className="small">
-        <li><a target="_blank" href="https://trendblog.net/encrypt-gmail-openpgp/">https://trendblog.net/encrypt-gmail-openpgp/</a></li>
-        <li><a target="_blank" href="http://www.primalsecurity.net/pgp-encryption/">http://www.primalsecurity.net/pgp-encryption/</a></li>
-      </ol>
-
       <hr />
 
       <h4>About the Author</h4>
@@ -200,7 +204,7 @@ const component = (props, {history}) => {
 
       <h4>License</h4>
       <ul>
-          <li><a target="_blank" href="https://choosealicense.com/no-permission/">no license</a>
+          <li><a target="_blank" href="https://choosealicense.com/no-permission/">No license.</a>
               <ul>
                   <li>the source code is publicly available for the purpose of security audit</li>
                   <li>full copyright is held by the author
@@ -223,7 +227,7 @@ const component = (props, {history}) => {
                   </li>
               </ul>
           </li>
-          <li>a private license is available for purchase
+          <li>A private license is available for purchase.
               <ul>
                   <li>intended for use by a limited number of members belonging to a private organization</li>
                   <li>implications:

@@ -14,6 +14,8 @@
 * All asymmetric public encryption keys (ie: RSA) should be managed by the email application.
   * automatic storage on the server with a one-to-one association per user account
 
+- - - -
+
 #### Survey of Existing Solutions _<sup>[1-2]</sup>_
 
 * Pretty Good Privacy (PGP) is the [standard](https://tools.ietf.org/html/rfc4880) for securing email communication with encryption.
@@ -30,6 +32,13 @@
   * encryption can be performed on the client
   * decryption can be performed on the client
   * out-of-band communication between email participants is needed to share the symmetric encryption key required to decrypt the message
+
+#### References
+
+1. [https://trendblog.net/encrypt-gmail-openpgp/](https://trendblog.net/encrypt-gmail-openpgp/)
+2. [http://www.primalsecurity.net/pgp-encryption/](http://www.primalsecurity.net/pgp-encryption/)
+
+- - - -
 
 #### Proposal for New Solution
 
@@ -85,11 +94,6 @@
 
 * Cannot send messages to non-Gmail recipients.
 
-#### References
-
-1. [https://trendblog.net/encrypt-gmail-openpgp/](https://trendblog.net/encrypt-gmail-openpgp/)
-2. [http://www.primalsecurity.net/pgp-encryption/](http://www.primalsecurity.net/pgp-encryption/)
-
 - - - -
 
 #### About the Author
@@ -102,7 +106,7 @@
 
 #### License
 
-* [no license](https://choosealicense.com/no-permission/)
+* [No license.](https://choosealicense.com/no-permission/)
   * the source code is publicly available for the purpose of security audit
   * full copyright is held by the author
     * code contributions will __NOT__ be accepted, unless the contributor transfers copyright ownership to the author
@@ -113,7 +117,7 @@
       * minification
       * compilation
       * transcompilation
-* a private license is available for purchase
+* A private license is available for purchase.
   * intended for use by a limited number of members belonging to a private organization
   * implications:
     * when the source code is published, the new instance does not share the same &ldquo;Properties Service&rdquo; key-value store
