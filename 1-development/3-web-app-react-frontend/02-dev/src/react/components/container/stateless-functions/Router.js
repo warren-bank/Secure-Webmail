@@ -99,14 +99,16 @@ const component   = ({state}, {store, actions, constants, history}) => {
   const compose_route = (() => {
     const _render = ({history}) => {
       const props = {
-        draft:      state.app.draft_message,
-        onSend:     () => {
-                      console.log('Message Sent')
+        draft:        state.app.draft_message,
+        onDomChange:  null,
+        onNewMessage: null,
+        onSend:       () => {
+                        console.log('Message Sent')
 
-                      history.replace('/')
-                    },
-        onCancel:   () => console.log('Message Cancelled'),
-        txtCancel:  'Cancel'
+                        history.replace('/')
+                      },
+        onCancel:     () => console.log('Message Cancelled'),
+        txtCancel:    'Cancel'
       }
 
       const component = wrapScrollToTop(

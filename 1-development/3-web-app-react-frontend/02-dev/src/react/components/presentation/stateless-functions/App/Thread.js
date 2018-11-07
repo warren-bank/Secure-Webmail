@@ -40,7 +40,8 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
   {
     const props = {
       draft:           draft_message,
-      onDomChange:     scroller.scrollToBottom,
+      onDomChange:     null,
+      onNewMessage:    scroller.scrollToBottom,
       onSend:          () => {
                          console.log('Reply Sent')
 
@@ -113,6 +114,8 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
     trash:     settings.trash ? null : actions.UPDATE_THREAD.MOVE_TO_TRASH.bind(this, thread_id),
     spam:      settings.spam  ? null : actions.UPDATE_THREAD.MOVE_TO_SPAM.bind(this, thread_id)
   }
+
+  setTimeout(scroller.scrollToBottom, 0)
 
   return (
     <div className={`component ${displayName.toLowerCase()}`} ref={scroller.componentDidUpdate} >

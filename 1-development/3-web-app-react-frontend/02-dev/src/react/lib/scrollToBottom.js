@@ -10,13 +10,17 @@ class scrollToBottom {
     this.callbackQueue = []
   }
 
+  get_height(DOM_node) {
+    return ((DOM_node.offsetTop ? DOM_node.offsetTop : 0) + DOM_node.scrollHeight)
+  }
+
   scrollToBottom() {
     if (this.DOM_ref instanceof HTMLElement) {
-      window.scrollTo(0, this.DOM_ref.scrollHeight)
+      window.scrollTo(0, this.get_height(this.DOM_ref))
     }
     else {
       this.callbackQueue.push((DOM_node) => {
-        window.scrollTo(0, DOM_node.scrollHeight)
+        window.scrollTo(0, this.get_height(DOM_node))
       })
     }
   }
