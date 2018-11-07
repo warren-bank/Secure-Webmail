@@ -33,7 +33,7 @@ class scrollToBottom {
     if (!(DOM_node instanceof HTMLElement)) return 0
 
     const top    = this.get_top(DOM_node)
-    const height = DOM_node.scrollHeight
+    const height = DOM_node.offsetHeight
 
     if (this.logger)
       this.logger('scrollToBottom of HTMLElement', {top, height, HTMLElement: DOM_node})
