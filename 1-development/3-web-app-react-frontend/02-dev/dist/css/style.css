@@ -25,8 +25,9 @@ html, body, .wrapper {
 /* ------------------------------------------------------------------ */
 
 .top-component.noemail {}
-.top-component.settings {}
 .top-component.about {}
+.top-component.termsofservice {}
+.top-component.settings {}
 .top-component.app {}
 
 .top-component.app > .component.header {}
@@ -969,49 +970,59 @@ html, body, .wrapper {
 /* ------------------------------------------------------------------ */
 
 .top-component.noemail,
-.top-component.about {
+.top-component.about,
+.top-component.termsofservice {
   padding: 1em;
 }
 
 /* ------------------------------------------------------------------ */
 
-.top-component.about {
+.top-component.about,
+.top-component.termsofservice {
   font-size: 1.25em;
   line-height: 1.75em;
 }
 
-.top-component.about > h3 {
+.top-component.about > h3,
+.top-component.termsofservice > h3 {
   margin: 0;
   font-size: 1.2em;
 }
-.top-component.about > h4 {
+.top-component.about > h4,
+.top-component.termsofservice > h4 {
   margin-top: 1.5em;
   margin-bottom: 0.75em;
   font-size: 1.1em;
 }
-.top-component.about > hr {
+.top-component.about > hr,
+.top-component.termsofservice > hr {
   margin-top: 1.5em;
   font-size: 1.1em;
 }
-.top-component.about > p {
+.top-component.about > p,
+.top-component.termsofservice > p {
   margin: 0.5em 0;
 }
 
-.top-component.about a {
+.top-component.about a,
+.top-component.termsofservice a {
   color: inherit;
   text-decoration: none;
   border-bottom: 1px dashed #555;
 }
-.top-component.about a:hover {
+.top-component.about a:hover,
+.top-component.termsofservice a:hover {
   border-bottom-style: solid;
 }
 
-.top-component.about .small {
+.top-component.about .small,
+.top-component.termsofservice .small {
   font-size: 0.75em;
   line-height: 1.75em;
   vertical-align: middle;
 }
-.top-component.about sup.small {
+.top-component.about sup.small,
+.top-component.termsofservice sup.small {
   vertical-align: super;
 }
 

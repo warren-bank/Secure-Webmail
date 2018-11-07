@@ -7,7 +7,7 @@ const displayName = 'Header'
 const component = ({user}, {history}) => {
   const onClick = {
     settings: () => history.push('/settings'),
-    about:    () => history.push('/about'),
+    about:    () => history.push('/about')
   }
 
   return (

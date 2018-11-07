@@ -6,6 +6,7 @@ const {createHashHistory}      = require('history')
 const purify                   = require('react/components/higher-order/purify')
 
 const About                    = require('react/components/presentation/stateless-functions/About')
+const TOS                      = require('react/components/presentation/stateless-functions/About/TOS')
 const NoEmail                  = require('react/components/presentation/stateless-functions/NoEmail')
 const Settings                 = require('react/components/presentation/class/Settings')
 
@@ -124,6 +125,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
         {compose_route}
         {settings_route}
         <Route exact strict path="/about" component={About} />
+        <Route exact strict path="/about/TOS" component={TOS} />
         {folder_redirects}
         {default_redirect}
       </Switch>

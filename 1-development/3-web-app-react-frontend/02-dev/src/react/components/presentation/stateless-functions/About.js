@@ -1,12 +1,22 @@
 const React       = require('react')
+const PropTypes   = require('prop-types')
 
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'About'
 
-const component = () => {
+const component = (props, {history}) => {
+  const onClick = {
+    TOS:  (event) => {
+      event.stopPropagation()
+      event.preventDefault()
+
+      history.push('/about/TOS')
+    }
+  }
+
   return (
     <div className={`top-component ${displayName.toLowerCase()}`}>
-      <h3>Secure Webmail</h3>
+      <h3>&ldquo;Secure Webmail&rdquo;</h3>
 
       <h4>Purpose</h4>
       <ul>
@@ -65,18 +75,18 @@ const component = () => {
       <h4>Proposal for New Solution</h4>
       <ul>
         <li>Specialized service that layers on top of Gmail.</li>
-        <li>Uses "Google Apps Script" to:
+        <li>Uses &ldquo;Google Apps Script&rdquo; to:
           <ul>
             <li>determine the email address of the currently active Google account</li>
             <li>access the content of Gmail threads and messages</li>
-            <li>store the 1-to-1 association between each email address and an asymmetric public key in the Properties Service</li>
+            <li>store the 1-to-1 association between each email address and an asymmetric public key in the &ldquo;Properties Service&rdquo;</li>
           </ul>
         </li>
       </ul>
 
       <h4>Technical Foundation</h4>
       <ul>
-        <li><a target="_blank" href="https://developers.google.com/apps-script/">"Google Apps Script"</a>
+        <li><a target="_blank" href="https://developers.google.com/apps-script/">&ldquo;Google Apps Script&rdquo;</a>
           <ul>
             <li>provides APIs to access data from Google services (ex: Gmail)</li>
             <li>scripts can run as the currently active Google account
@@ -84,7 +94,7 @@ const component = () => {
                 <li>any permissions needed to access data from Google services must first be granted (ie: one-time)</li>
               </ul>
             </li>
-            <li>scripts can be published as a "web app"
+            <li>scripts can be published as a &ldquo;web app&rdquo;
               <ul>
                 <li>perfect for a single-page app (SPA)
                   <ul>
@@ -103,7 +113,7 @@ const component = () => {
             </li>
           </ul>
         </li>
-        <li><a target="_blank" href="https://github.com/brix/crypto-js">"CryptoJS"</a>
+        <li><a target="_blank" href="https://github.com/brix/crypto-js">&ldquo;CryptoJS&rdquo;</a>
           <ul>
             <li>javascript implementation of AES symmetric key encryption
               <ul>
@@ -121,7 +131,7 @@ const component = () => {
             </li>
           </ul>
         </li>
-        <li><a target="_blank" href="https://github.com/travist/jsencrypt">"JSEncrypt"</a>
+        <li><a target="_blank" href="https://github.com/travist/jsencrypt">&ldquo;JSEncrypt&rdquo;</a>
           <ul>
             <li>javascript implementation of RSA asymmetric key encryption
               <ul>
@@ -185,8 +195,61 @@ const component = () => {
       <h4>About the Author</h4>
       <p><img src="https://avatars3.githubusercontent.com/u/6810270" alt="Warren Bank" /></p>
       <p><span className="small">&copy;</span> <a target="_blank" href="https://github.com/warren-bank">Warren Bank</a></p>
+
+      <hr />
+
+      <h4>License</h4>
+      <ul>
+          <li><a target="_blank" href="https://choosealicense.com/no-permission/">no license</a>
+              <ul>
+                  <li>the source code is publicly available for the purpose of security audit</li>
+                  <li>full copyright is held by the author
+                      <ul>
+                          <li>code contributions will <strong>NOT</strong> be accepted, unless the contributor transfers copyright ownership to the author</li>
+                      </ul>
+                  </li>
+                  <li>permission is <strong>NOT</strong> granted to any other individual or business entity to host (publicly or privately) any of the source code (in its original form or in any derived form)
+                      <ul>
+                          <li>derivation includes but is not limited to:
+                              <ul>
+                                  <li>modification</li>
+                                  <li>obfuscation</li>
+                                  <li>minification</li>
+                                  <li>compilation</li>
+                                  <li>transcompilation</li>
+                              </ul>
+                          </li>
+                      </ul>
+                  </li>
+              </ul>
+          </li>
+          <li>a private license is available for purchase
+              <ul>
+                  <li>intended for use by a limited number of members belonging to a private organization</li>
+                  <li>implications:
+                      <ul>
+                          <li>when the source code is published, the new instance does not share the same &ldquo;Properties Service&rdquo; key-value store
+                              <ul>
+                                  <li>this store is used to associate each email address with its asymmetric public encryption key</li>
+                                  <li>this store will only contain the email addresses belonging to members of the private organization</li>
+                                  <li>encrypted messages can only be sent between members of this limited set of email addresses</li>
+                              </ul>
+                          </li>
+                      </ul>
+                  </li>
+              </ul>
+          </li>
+      </ul>
+
+      <hr />
+
+      <h4><a href="#TOS" onClick={onClick.TOS}>Terms of Service</a></h4>
     </div>
   )
+}
+
+component.contextTypes = {
+  history:  PropTypes.object.isRequired
 }
 
 component.displayName = displayName
