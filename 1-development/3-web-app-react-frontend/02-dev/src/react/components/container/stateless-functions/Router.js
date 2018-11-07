@@ -3,6 +3,8 @@ const PropTypes                = require('prop-types')
 const {Router, Switch, Route}  = require('react-router-dom')
 const {createHashHistory}      = require('history')
 
+const ScrollToTop              = require('react/components/container/class/ScrollToTop')
+
 const purify                   = require('react/components/higher-order/purify')
 
 const About                    = require('react/components/presentation/stateless-functions/About')
@@ -48,6 +50,12 @@ const component   = ({state}, {store, actions, constants, history}) => {
     return <Route render={_render} />
   })()
 
+  const wrapScrollToTop = component => (
+    <ScrollToTop location={HashHistory.location.pathname} >
+      {component}
+    </ScrollToTop>
+  )
+
   const thread_route = (() => {
     const _render = ({history, match}) => {
       const {thread_id} = match.params
@@ -55,7 +63,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
       if (state.app.ui.thread_id !== thread_id)
         actions.OPEN_THREAD(thread_id)  // `history` is not passed to prevent URL redirect
 
-      const component = (
+      const component = wrapScrollToTop(
         <Thread thread_id={thread_id} {...state.threads[thread_id]} draft_message={state.app.draft_message} />
       )
 
@@ -79,7 +87,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
       if ((state.app.ui.folder_name !== folder_name) || (state.app.ui.start_threads_index !== start_threads_index))
         actions.OPEN_FOLDER(folder_name, start_threads_index)  // `history` is not passed to prevent URL redirect
 
-      const component = (
+      const component = wrapScrollToTop(
         <Folder folder_name={folder_name} threads={state.threads} thread_ids={state.threads_in_folder[folder_name]} start={start_threads_index || 0} max={state.app.settings.max_threads_per_page} />
       )
 
@@ -101,7 +109,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
         txtCancel:  'Cancel'
       }
 
-      const component = (
+      const component = wrapScrollToTop(
         <Compose_Message {...props} />
       )
 
@@ -112,9 +120,35 @@ const component   = ({state}, {store, actions, constants, history}) => {
 
   const settings_route = (() => {
     const _render = () => {
-      return <Settings settings={state.app.settings} />
+      const component = wrapScrollToTop(
+        <Settings settings={state.app.settings} />
+      )
+
+      return component
     }
     return <Route exact strict path="/settings" render={_render} />
+  })()
+
+  const about_route = (() => {
+    const _render = () => {
+      const component = wrapScrollToTop(
+        <About />
+      )
+
+      return component
+    }
+    return <Route exact strict path="/about" render={_render} />
+  })()
+
+  const TOS_route = (() => {
+    const _render = () => {
+      const component = wrapScrollToTop(
+        <TOS />
+      )
+
+      return component
+    }
+    return <Route exact strict path="/about/TOS" render={_render} />
   })()
 
   return (
@@ -124,8 +158,8 @@ const component   = ({state}, {store, actions, constants, history}) => {
         {folder_route}
         {compose_route}
         {settings_route}
-        <Route exact strict path="/about" component={About} />
-        <Route exact strict path="/about/TOS" component={TOS} />
+        {about_route}
+        {TOS_route}
         {folder_redirects}
         {default_redirect}
       </Switch>
