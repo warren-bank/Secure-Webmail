@@ -6,12 +6,39 @@
 class scrollToBottom {
 
   constructor() {
+    this.logger        = null
     this.DOM_ref       = null
     this.callbackQueue = []
   }
 
+  set_logger(logger) {
+    this.logger = logger
+  }
+
+  get_top(DOM_node) {
+    if (!(DOM_node instanceof HTMLElement)) return 0
+
+    const top    = (DOM_node.offsetTop ? DOM_node.offsetTop : 0)
+    const parent = DOM_node.offsetParent
+
+    if (DOM_node === window.document.body)
+      return top
+    else if (parent === null)
+      return top
+    else
+      return top + this.get_top(parent)
+  }
+
   get_height(DOM_node) {
-    return ((DOM_node.offsetTop ? DOM_node.offsetTop : 0) + DOM_node.scrollHeight)
+    if (!(DOM_node instanceof HTMLElement)) return 0
+
+    const top    = this.get_top(DOM_node)
+    const height = DOM_node.scrollHeight
+
+    if (this.logger)
+      this.logger('scrollToBottom of HTMLElement', {top, height, HTMLElement: DOM_node})
+
+    return (top + height)
   }
 
   scrollToBottom() {

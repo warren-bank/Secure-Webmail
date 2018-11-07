@@ -14,6 +14,7 @@ scroller.scrollToBottom     = scroller.scrollToBottom.bind(scroller)
 
 const component = ({thread_id, summary, settings, messages, participants, draft_message}, {store, actions, history}) => {
   actions.DEBUG(`rendering: ${displayName}`, {thread_id, summary, settings})
+  scroller.set_logger( actions.DEBUG )
 
   if (settings && settings.unread)
     actions.UPDATE_THREAD.MARK_UNREAD(thread_id, false)
