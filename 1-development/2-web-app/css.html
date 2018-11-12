@@ -1,5 +1,15 @@
 * {
   box-sizing: border-box;
+
+  -webkit-margin-before: 0px;
+  -webkit-margin-after:  0px;
+  -webkit-margin-start:  0px;
+  -webkit-margin-end:    0px;
+}
+
+html, body, .wrapper {
+  margin: 0;
+  padding: 0;
 }
 
 .wrapper {
@@ -14,24 +24,134 @@
 
 /* ------------------------------------------------------------------ */
 
-.top-component.noemail  {}
+.top-component.noemail {}
+.top-component.about {}
+.top-component.termsofservice {}
 .top-component.settings {}
-.top-component.about    {}
-.top-component.app      {}
+.top-component.app {}
 
-.top-component.app .component.header  {}
-.top-component.app .component.sidebar {}
-.top-component.app .component.thread  {}
-.top-component.app .component.folder  {}
+.top-component.app > .component.header {}
+.top-component.app > .component.sidebar {}
+.top-component.app > .component.folder {}
+.top-component.app > .component.thread {}
+.top-component.app > .component.compose_message.new_message {}
 
-.top-component.app .component.sidebar .component.compose_new_email_button {}
-.top-component.app .component.sidebar .component.folder_select_button     {}
+.top-component.app > .component.sidebar > .component.compose_new {}
+.top-component.app > .component.sidebar > .component.folder {}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary {}
+
+.top-component.app > .component.thread > .messages > .component.message {}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary {}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents {}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment {}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply {}
 
 /* ------------------------------------------------------------------ */
 
-.top-component.app .component.header {
+.top-component.settings {
+  padding: 0 1em;
+}
+
+.top-component.settings > form > label,
+.top-component.settings > form > input,
+.top-component.settings > form > textarea,
+.top-component.settings > form > select {
+  display: block;
+  width: 100%;
+}
+
+.top-component.settings > form > input,
+.top-component.settings > form > textarea,
+.top-component.settings > form > select {
+  padding: 0.5em;
+}
+
+.top-component.settings > form > textarea {
+  height: 10em;
+}
+
+.top-component.settings > form > label {
+  margin-top: 1em;
+  padding: 0.5em 0;
+}
+
+.top-component.settings > form > .icon {
+  display: inline-block;
+  vertical-align: top;
+
+  margin: 0.25em;
+  height: 2em;
+  width:  2em;
+
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+  background-position: 0.2em 0.2em;
+}
+
+.top-component.settings > form > .icon.button {
+  background-color: #eee;
+  border: 1px outset #ccc;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+.top-component.settings > form > .icon.button:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
+}
+.top-component.settings > form > .icon.button.generate-keypair {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/add_black_36dp.png');
+}
+
+/* ===========================
+ * https://loading.io/css/
+ * ===========================
+ */
+.top-component.settings > form > .icon.loader {}
+.top-component.settings > form > .icon.loader:after {
+  content: " ";
+  display: block;
+  width:  1.5em;
+  height: 1.5em;
+  margin: 1px;
+  border-radius: 50%;
+  border: 0.15em solid #ccc;
+  border-color: #ccc transparent #ccc transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.top-component.settings > form > .buttons {
+  padding: 1.5em 0;
+  text-align: center;
+}
+.top-component.settings > form > .buttons > input {
+  display: inline-block;
+  margin: 0 0.75em;
+
+  font-size: 1.25em;
+  padding: 0.5em 1.5em;
+  border-radius: 0.4em;
+  outline: none;
+
+  cursor: pointer;
+}
+.top-component.settings > form > .buttons > input:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.header {
   position: fixed;
-  z-index: 1;
+  z-index: 3;
   top:   0px;
   left:  0px;
   right: 0px;
@@ -44,76 +164,866 @@
   border-color: #1995dc;
   color: #fff;
 
-  text-align: right;
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 
-.top-component.app .component.header span.title {
-  display: block;
-  float: left;
+.top-component.app > .component.header > span {
+  flex-basis: auto;
+}
+
+.top-component.app > .component.header span.settings_button {
+  flex-shrink: 0;
+
+  display: inline-block;
+  margin-right: 1em;
+  height: 2em;
+  width:  2em;
+
+  background-repeat: no-repeat;
+  background-size: 2em;
+  cursor: pointer;
+
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/menu_white_36dp.png');
+}
+
+.top-component.app > .component.header span.title {
+  flex-grow: 1;
+
   font-size: 1.5em;
+  cursor: pointer;
 }
 
-.top-component.app .component.header span.email_address {
+.top-component.app > .component.header span.email_address {
+  flex-shrink: 0;
+
   font-weight: bold;
+  padding-left: 0.5em;
 }
 
 /* ------------------------------------------------------------------ */
 
-.top-component.app .component.sidebar {
+.top-component.app > .component.sidebar {
   position: fixed;
-  z-index: 2;
-  top: 15px;
-  left: 15px;
+  z-index: 1;
+  top: 3em;
+  left: 1em;
 }
 
-.top-component.app .component.sidebar > .component {
+.top-component.app > .component.sidebar > .component {
   width: 15em;
-  padding: 10px 15px;
+  padding: 0.75em 1em;
   border: 1px solid #ddd;
+
+  text-align: center;
+  cursor: pointer;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.top-component.app .component.sidebar > .component:first-child {
+.top-component.app > .component.sidebar > .component:first-child {
   border-top-right-radius: 4px;
   border-top-left-radius:  4px;
 }
-.top-component.app .component.sidebar > .component:last-child {
+.top-component.app > .component.sidebar > .component:last-child {
   border-bottom-right-radius: 4px;
   border-bottom-left-radius:  4px;
 }
 
-.top-component.app .component.sidebar .component.compose_new_email_button {
+.top-component.app > .component.sidebar > .component + .component {
+  border-top-style: none;
+}
+
+.top-component.app > .component.sidebar > .component.compose_new {
   background-color: #2fa4e7;
   border-color: #2fa4e7;
   color: #fff;
 }
 
-.top-component.app .component.sidebar .component.folder_select_button span.unread_count {
-  display: inline-block;
-  float: right;
-
-  min-width: 10px;
-  padding: 3px 7px;
-  font-size: 9pt;
-  font-weight: 700;
-  color: #fff;
-  line-height: 1;
-  vertical-align: middle;
-  white-space: nowrap;
-  text-align: center;
-  background-color: #2fa4e7;
-  border-radius: 10px;
+.top-component.app > .component.sidebar > .component.folder.active {
+  background-color: #eee;
 }
 
-.top-component.app .component.sidebar .component.folder_select_button span.title {}
+.top-component.app > .component.sidebar > .component span {
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.top-component.app > .component.sidebar > .component.folder {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  flex-wrap: nowrap;
+}
+
+.top-component.app > .component.sidebar > .component.folder span.title {
+  flex-grow: 1;
+}
+
+.top-component.app > .component.sidebar > .component.folder span.unread_count {
+  flex-shrink: 0;
+
+  background-color: #2fa4e7;
+  color: #fff;
+  font-weight: 700;
+  vertical-align: middle;
+
+  font-size: 0.75em;
+  width: 2em;
+  height: 2em;
+  line-height: 1em;
+  border-radius: 1em;
+  padding: 0.5em;
+}
+.top-component.app > .component.sidebar > .component.folder span.unread_count.no_unread {
+  visibility: hidden;  /* `display:none` would cause the "title" to recenter, shifting to the right */
+}
 
 /* ------------------------------------------------------------------ */
 
-.top-component.app .component.thread,
-.top-component.app .component.folder {
+.top-component.app > .component.folder,
+.top-component.app > .component.thread,
+.top-component.app > .component.compose_message.new_message {
   position: absolute;
-  z-index: 3;
+  z-index: 2;
   top: 3em;
-  left: 16em;
+  left: 17em;
+  right: 1em;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > .loading,
+.top-component.app > .component.folder > .loading > img,
+.top-component.app > .component.thread > .loading,
+.top-component.app > .component.thread > .loading > img {
+  width: 441px;
+  height: 291px;
+  max-width: 100%;
+  display: block;
+  margin: 2em auto;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > h1,
+.top-component.app > .component.thread > h1 {
+  margin: 0;
+  margin-bottom: 0.45em;
+  padding: 0.45em 1em;
+
+  background-color: #eee;
+  border-top-right-radius: 6px;
+  border-top-left-radius:  6px;
+
+  font-size: 2em;
+  text-align: center;
+  font-weight: bold;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > .action_buttons,
+.top-component.app > .component.thread > .action_buttons {
+  position: absolute;
+  z-index: 1;
+  height: 2.9em;  /* same as <h1>: 2em(height) + .45em(padding-top) + .45em(padding-bottom) */
+  top: 0;
   right: 0;
+  text-align: right;
+}
+
+.top-component.app > .component.folder > .action_buttons > .button,
+.top-component.app > .component.thread > .action_buttons > .button {
+  display: inline-block;
+  margin: 0.45em;
+  height: 2em;
+  width: 2em;
+
+  background-repeat: no-repeat;
+  background-size: 2em;
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > h1 {}
+
+.top-component.app > .component.folder > .action_buttons > .button.back {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_back_black_36dp.png');
+}
+.top-component.app > .component.folder > .action_buttons > .button.refresh {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/refresh_black_36dp.png');
+}
+.top-component.app > .component.folder > .action_buttons > .button.forward {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_forward_black_36dp.png');
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary {
+  background-color: #eee;
+
+  border: 1px solid #ddd;
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary.unread {
+  background-color: #fff;
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover,
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary.unread:hover {
+  background-color: rgba(242,245,245,0.8);
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:first-child {
+  border-top-right-radius: 4px;
+  border-top-left-radius:  4px;
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:last-child {
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius:  4px;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary + .component.thread_summary {
+  border-top-style: none;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > .thread_summaries {
+  display: table;
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary {
+  display: table-row;
+
+  cursor: pointer;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col {
+  display: table-cell;
+
+  padding: 0.2em 1em;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_1 {
+  width: 3em;
+  padding-right: 0;
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_1 > span.msg_count {
+  font-size: 0.75em;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_2 {
+  width: 20%;
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_2 > span.from {}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_3 {
+  width: 80%;
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_3 > span.subject {
+  padding-right: 0.25em;
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_3 > span.body {
+  padding-left: 0.25em;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_4 {
+  width: 8em;
+  text-align: right;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .settings_buttons {
+  display: none;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.folder > .thread_summaries,
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary,
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover {
+  /* hack */
+  transform: scale(1);
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary,
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover {
+  position: relative;
+  z-index: 1;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons {
+  display: block;
+
+  position: absolute;
+  z-index: 1;
+  top:    2px;
+  bottom: 2px;
+  right:  2px;
+
+  background-color: rgba(242,245,245,1.0);
+  cursor: default;
+  overflow: hidden;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button {
+  display: inline-block;
+  margin: 0 0.25em;
+  height: 1.5em;
+  width: 1.5em;
+
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+  cursor: pointer;
+}
+
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.unread.is_unread {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/mail_black_36dp.png');
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.unread.not_unread {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/drafts_black_36dp.png');
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.important.is_important {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/star_black_36dp.png');
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.important.not_important {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/star_border_black_36dp.png');
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.inbox {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/move_to_inbox_black_36dp.png');
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.trash {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/delete_black_36dp.png');
+}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary:hover > .settings_buttons > .button.spam {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/block_black_36dp.png');
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.thread > h1 {}
+
+.top-component.app > .component.thread > .action_buttons > .button.unread {
+  display: none !important;
+}
+.top-component.app > .component.thread > .action_buttons > .button.unread.is_unread {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/mail_black_36dp.png');
+}
+.top-component.app > .component.thread > .action_buttons > .button.unread.not_unread {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/drafts_black_36dp.png');
+}
+.top-component.app > .component.thread > .action_buttons > .button.important.is_important {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/star_black_36dp.png');
+}
+.top-component.app > .component.thread > .action_buttons > .button.important.not_important {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/star_border_black_36dp.png');
+}
+.top-component.app > .component.thread > .action_buttons > .button.inbox {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/move_to_inbox_black_36dp.png');
+}
+.top-component.app > .component.thread > .action_buttons > .button.trash {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/delete_black_36dp.png');
+}
+.top-component.app > .component.thread > .action_buttons > .button.spam {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/block_black_36dp.png');
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.thread > .messages > .component.message {
+  padding: 1em 0;
+  border-bottom: 1px solid #eee;
+}
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary {
+  cursor: pointer;
+}
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row > .col {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col {
+  flex-basis: auto;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_1 {
+  flex-grow: 1;
+
+  font-weight: bold;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_2,
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 {
+  flex-shrink: 0;
+}
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons {
+  padding-left: 1em;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons > .button {
+  display: inline-block;
+  margin: 0 0.25em;
+  height: 1.5em;
+  width: 1.5em;
+
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+  cursor: pointer;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons > .button.unread {
+  display: none !important;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons > .button.unread.is_unread {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/mail_black_36dp.png');
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons > .button.unread.not_unread {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/drafts_black_36dp.png');
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons > .button.star.is_star {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/star_black_36dp.png');
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons > .button.star.not_star {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/star_border_black_36dp.png');
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_1 > .col_3 > .settings_buttons > .button.trash {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/delete_black_36dp.png');
+}
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_2 > span.to,
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_3 > span.body {
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .body,
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment {
+  margin-top: 1em;
+}
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .body {
+  white-space: pre-wrap;
+}
+
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment {
+  flex-basis: auto;
+  justify-content: space-between;
+
+  height: 2em;
+  line-height: 2em;
+  padding: 0 0.5em;
+
+  background-color: #eee;
+  border: 1px outset #ccc;
+  border-radius: 4px;
+  outline: none;
+
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment > .icon,
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment > .name {
+  display: inline-block;
+  vertical-align: top;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment > .icon {
+  margin: 0.25em;
+  height: 1.5em;
+  width:  1.5em;
+
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/attachment_black_36dp.png');
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments > .component.message_attachment > .name {
+  margin-left: 0.25em;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.thread > .compose_reply {
+  padding: 1em 0;
+}
+
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > .error_message {
+  font-size: 1.25em;
+  text-align: center;
+  background-color: rgba(242,245,245,0.8);
+
+  margin-bottom: 1em;
+  padding: 1em;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > .error_message div.encryption_error {
+  display: inline-block;
+  text-align: left;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > .error_message div.encryption_error > span.count_one {
+  font-style: italic;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > .error_message div.encryption_error > ul.count_many {
+  margin-top: 0.5em;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > .error_message div.encryption_error > ul.count_many > li {
+  font-style: italic;
+}
+
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-row-gap: 0.5em;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > label {
+  padding-right: 1em;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > input,
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > textarea {
+  padding: 0.25em;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > textarea {
+  height: 15em;
+}
+
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions {}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions > .cc_suggestion {}
+
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments {}
+
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .buttons {
+  text-align: center;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .buttons > input {
+  display: inline-block;
+  margin: 0 0.75em;
+
+  font-size: 1.25em;
+  padding: 0.5em 1.5em;
+  border-radius: 0.4em;
+  outline: none;
+
+  cursor: pointer;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .buttons > input:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > label[for=subject],
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > input#subject {
+  display: none;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions > .cc_suggestion {
+  flex-basis: auto;
+  justify-content: space-between;
+
+  height: 2em;
+  line-height: 2em;
+  padding: 0 0.5em;
+
+  background-color: #eee;
+  border: 1px outset #ccc;
+  border-radius: 4px;
+  outline: none;
+
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions > .cc_suggestion:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions > .cc_suggestion > .icon,
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions > .cc_suggestion > .email {
+  display: inline-block;
+  vertical-align: top;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions > .cc_suggestion > .icon {
+  margin: 0.25em;
+  height: 1.5em;
+  width:  1.5em;
+
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/add_black_36dp.png');
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .cc_suggestions > .cc_suggestion > .email {
+  margin-left: 0.25em;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment {
+  flex-basis: auto;
+  justify-content: space-between;
+
+  height: 2em;
+  line-height: 2em;
+  padding: 0 0.5em;
+
+  background-color: #eee;
+  border: 1px outset #ccc;
+  border-radius: 4px;
+  outline: none;
+
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment > .icon,
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment > .filename {
+  display: inline-block;
+  vertical-align: top;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment > .icon {
+  margin: 0.25em;
+  height: 1.5em;
+  width:  1.5em;
+
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment > .icon.icon-add {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/add_black_36dp.png');
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment > .icon.icon-remove {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/close_black_36dp.png');
+}
+.top-component.app > .component.thread > .compose_reply > .component.compose_message.reply > form > .grid > .attachments > .attachment > .filename {
+  margin-left: 0.25em;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.compose_message.new_message {
+  padding: 1em 0;
+}
+
+.top-component.app > .component.compose_message.new_message > .error_message {
+  font-size: 1.25em;
+  text-align: center;
+  background-color: rgba(242,245,245,0.8);
+
+  margin-bottom: 1em;
+  padding: 1em;
+}
+.top-component.app > .component.compose_message.new_message > .error_message div.encryption_error {
+  display: inline-block;
+  text-align: left;
+}
+.top-component.app > .component.compose_message.new_message > .error_message div.encryption_error > span.count_one {
+  font-style: italic;
+}
+.top-component.app > .component.compose_message.new_message > .error_message div.encryption_error > ul.count_many {
+  margin-top: 0.5em;
+}
+.top-component.app > .component.compose_message.new_message > .error_message div.encryption_error > ul.count_many > li {
+  font-style: italic;
+}
+
+.top-component.app > .component.compose_message.new_message > form > .grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-row-gap: 0.5em;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > label {
+  padding-right: 1em;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > input,
+.top-component.app > .component.compose_message.new_message > form > .grid > textarea {
+  padding: 0.25em;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > textarea {
+  height: 15em;
+}
+
+.top-component.app > .component.compose_message.new_message > form > .grid > .cc_suggestions {
+  display: none;
+}
+
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments {}
+
+.top-component.app > .component.compose_message.new_message > form > .grid > .buttons {
+  text-align: center;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .buttons > input {
+  display: inline-block;
+  margin: 0 0.75em;
+
+  font-size: 1.25em;
+  padding: 0.5em 1.5em;
+  border-radius: 0.4em;
+  outline: none;
+
+  cursor: pointer;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .buttons > input:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment {
+  flex-basis: auto;
+  justify-content: space-between;
+
+  height: 2em;
+  line-height: 2em;
+  padding: 0 0.5em;
+
+  background-color: #eee;
+  border: 1px outset #ccc;
+  border-radius: 4px;
+  outline: none;
+
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment:hover {
+  box-shadow: inset 0px 0px 10px #ccc;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment > .icon,
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment > .filename {
+  display: inline-block;
+  vertical-align: top;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment > .icon {
+  margin: 0.25em;
+  height: 1.5em;
+  width:  1.5em;
+
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment > .icon.icon-add {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/add_black_36dp.png');
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment > .icon.icon-remove {
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/close_black_36dp.png');
+}
+.top-component.app > .component.compose_message.new_message > form > .grid > .attachments > .attachment > .filename {
+  margin-left: 0.25em;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.noemail,
+.top-component.about,
+.top-component.termsofservice {
+  padding: 1em;
+}
+
+/* ------------------------------------------------------------------ */
+
+.top-component.about,
+.top-component.termsofservice {
+  font-size: 1.25em;
+  line-height: 1.75em;
+}
+
+.top-component.about > h3,
+.top-component.termsofservice > h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+.top-component.about > h4,
+.top-component.termsofservice > h4 {
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+  font-size: 1.1em;
+}
+.top-component.about > hr,
+.top-component.termsofservice > hr {
+  margin-top: 1.5em;
+  font-size: 1.1em;
+}
+.top-component.about > p,
+.top-component.termsofservice > p {
+  margin: 0.5em 0;
+}
+
+.top-component.about a,
+.top-component.termsofservice a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dashed #555;
+}
+.top-component.about a:hover,
+.top-component.termsofservice a:hover {
+  border-bottom-style: solid;
+}
+
+.top-component.about .small,
+.top-component.termsofservice .small {
+  font-size: 0.75em;
+  line-height: 1.75em;
+  vertical-align: middle;
+}
+.top-component.about sup.small,
+.top-component.termsofservice sup.small {
+  vertical-align: super;
 }
 
 /* ------------------------------------------------------------------ */

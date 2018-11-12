@@ -16,10 +16,10 @@ var app = {
 }
 
 // reminder: URL needs to be added to "urlFetchWhitelist" in "appsscript.json"
-var webapp_URL = 'https://script.google.com/macros/s/AKfycbxnc0ZHqZ-Yp-DYABFGTOc0xztb1l4iJ2T0rVmVk2WL3W09ay4/exec?tid='
+var webapp_URL = 'https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec?tid='
 
 var spreadsheet_id = {
-  errors: '1SxaglFJxy8z1ViwWDsrMZM2TiXzUw43Cco1D9r2DVzk'
+  errors: '1s4EQmS3glbUHb8x37FgzLiULwRC7i7A3SSk3Z5MWAcQ'
 }
 
 var user = {
