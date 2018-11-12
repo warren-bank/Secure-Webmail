@@ -1,3 +1,15 @@
+/** @license Secure Webmail
+ *
+ * Copyright (c) 2018-present, Warren R. Bank
+ *
+ * canonical source code git repository:
+ *   https://github.com/warren-bank/Secure-Webmail
+ *
+ * This source code is not licensed.
+ * This source code is made available to the general public
+ * for the purpose of security audit only.
+ */
+
 var app = {
   title:   'Secure Webmail',
   version: '0.1.0'
