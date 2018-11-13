@@ -10,7 +10,7 @@ const ExpandCollapse    = require('react/components/presentation-abstract/statel
 const Message_Summary   = require(`./${displayName}/Message_Summary`)
 const Message_Contents  = require(`./${displayName}/Message_Contents`)
 
-const component = ({thread_id, message_id, summary, settings, contents, start_expanded}) => {
+const component = ({thread_id, message_id, summary, settings, contents, start_expanded, onExpandCollapse}) => {
 
   if (!(
     contents &&
@@ -29,18 +29,19 @@ const component = ({thread_id, message_id, summary, settings, contents, start_ex
 
   return (
     <div className={`component ${displayName.toLowerCase()}`}>
-      <ExpandCollapse {...{label, content, start_expanded}} />
+      <ExpandCollapse {...{label, content, start_expanded, onExpandCollapse}} />
     </div>
   )
 }
 
 component.propTypes = {
-  thread_id:       PropTypes.string.isRequired,
-  message_id:      PropTypes.string.isRequired,
-  summary:         PropTypes.object.isRequired,
-  settings:        PropTypes.object.isRequired,
-  contents:        PropTypes.object.isRequired,
-  start_expanded:  PropTypes.bool
+  thread_id:        PropTypes.string.isRequired,
+  message_id:       PropTypes.string.isRequired,
+  summary:          PropTypes.object.isRequired,
+  settings:         PropTypes.object.isRequired,
+  contents:         PropTypes.object.isRequired,
+  start_expanded:   PropTypes.bool,
+  onExpandCollapse: PropTypes.func
 }
 
 component.displayName = displayName

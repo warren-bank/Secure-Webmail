@@ -32,9 +32,10 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
 
   const Messages = messages.map((message, i) => {
     const start_expanded = (message.settings.star === true) || (i === (messages.length - 1))
+    const onExpandCollapse = resizeParentIframe.bind(this, false)
 
     return (
-      <Message key={message.message_id} {...message} {...{thread_id, start_expanded}} />
+      <Message key={message.message_id} {...message} {...{thread_id, start_expanded, onExpandCollapse}} />
     )
   })
 
