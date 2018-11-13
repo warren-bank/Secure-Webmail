@@ -339,6 +339,9 @@ html, body, .wrapper {
   top: 0;
   right: 0;
   text-align: right;
+
+  background-color: #eee;
+  padding-left: 0.55em;
 }
 
 .top-component.app > .component.folder > .action_buttons > .button,
