@@ -36,21 +36,23 @@ const component = ({thread_id, summary, settings}, {actions, constants, history}
       <div className="col col_4">
         <span className="date_modified">{date_modified}</span>
       </div>
-      <div className="settings_buttons">
-        <div className={`button unread    ${ (settings.unread)    ? 'is_unread'    : 'not_unread' }`}    onClick={onClick.unread}    role="img" title={`${ (settings.unread)    ? 'Mark Read'        : 'Mark Unread'    }`}></div>
-        <div className={`button important ${ (settings.important) ? 'is_important' : 'not_important' }`} onClick={onClick.important} role="img" title={`${ (settings.important) ? 'Mark Unimportant' : 'Mark Important' }`}></div>
-        {
-          (onClick.inbox !== null) &&
-            <div className="button inbox" onClick={onClick.inbox} role="img" title="Move to Inbox"></div>
-        }
-        {
-          (onClick.trash !== null) &&
-            <div className="button trash" onClick={onClick.trash} role="img" title="Move to Trash"></div>
-        }
-        {
-          (onClick.spam !== null) &&
-            <div className="button spam" onClick={onClick.spam}   role="img" title="Move to Spam"></div>
-        }
+      <div className="col col_5">
+        <div className="settings_buttons">
+          <div className={`button unread    ${ (settings.unread)    ? 'is_unread'    : 'not_unread' }`}    onClick={onClick.unread}    role="img" title={`${ (settings.unread)    ? 'Mark Read'        : 'Mark Unread'    }`}></div>
+          <div className={`button important ${ (settings.important) ? 'is_important' : 'not_important' }`} onClick={onClick.important} role="img" title={`${ (settings.important) ? 'Mark Unimportant' : 'Mark Important' }`}></div>
+          {
+            (onClick.inbox !== null) &&
+              <div className="button inbox" onClick={onClick.inbox} role="img" title="Move to Inbox"></div>
+          }
+          {
+            (onClick.trash !== null) &&
+              <div className="button trash" onClick={onClick.trash} role="img" title="Move to Trash"></div>
+          }
+          {
+            (onClick.spam !== null) &&
+              <div className="button spam" onClick={onClick.spam}   role="img" title="Move to Spam"></div>
+          }
+        </div>
       </div>
     </div>
   )
