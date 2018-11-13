@@ -1,7 +1,20 @@
 const React      = require('react')
 const PropTypes  = require('prop-types')
 
+const resizeParentIframe = require('react/lib/resizeParentIframe').global_resizeParentIframe
+
 const purify = function(stateless_func) {
+    const postRender = () => {
+        let key = 'postRender'
+        let val = stateless_func[key]
+        if (typeof val === 'function') {
+            val()
+        }
+        else {
+            resizeParentIframe()
+        }
+    }
+
     class PureComponentWrap extends React.PureComponent {
 
         // validate that the application includes an action creator for each "action" the stateless function needs the ability to dispatch
@@ -26,6 +39,14 @@ const purify = function(stateless_func) {
         // only called by the update lifecycle when "props" have changed
         render() {
             return stateless_func(this.props, this.context)
+        }
+
+        componentDidMount() {
+            postRender()
+        }
+
+        componentDidUpdate() {
+            postRender()
         }
     }
 

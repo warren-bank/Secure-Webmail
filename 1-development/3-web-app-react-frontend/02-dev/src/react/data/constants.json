@@ -5,6 +5,16 @@
         "default": "inbox"
     },
     "months": [
-      "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"
+        "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"
+    ],
+    "resizeParentIframe_cssSelector": [
+        ".top-component.noemail",
+        ".top-component.settings",
+        ".top-component.about",
+        ".top-component.termsofservice",
+        ".top-component.app > .component.sidebar",
+        ".top-component.app > .component.compose_message.new_message",
+        ".top-component.app > .component.folder",
+        ".top-component.app > .component.thread"
     ]
 }

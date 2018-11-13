@@ -6,17 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?!= app.title ?></title>
     <link rel="canonical" href="https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec" />
-    <?!= helpers.include('css'); ?>
+    <?!= helpers.include('css/style'); ?>
     <?!= helpers.include('lib/jsencrypt-min-js') ?>
     <?!= helpers.include('lib/crypto-js-min-js') ?>
     <?!= helpers.include('lib/uuidv4-min-js') ?>
-    <script>
-      var init_data = {
-        email_address: "<?!= state.email_address ?>",
-        thread_id:     "<?!= state.thread_id ?>"
-      }
-    </script>
-    <?!= helpers.include('bundle-js') ?>
+    <?!= helpers.include('js/init-data-js') ?>
+    <?!= helpers.include('js/bundle-js') ?>
   </head>
   <body>
     <div class="wrapper">

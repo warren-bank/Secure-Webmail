@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Secure Webmail</title>
+  <script>
+
+// https://www.dyn-web.com/tutorials/iframes/postmessage/height/
+var onMessage = function(event){
+  var iframe_origin = window.location.origin
+  if (event.origin !== iframe_origin) return
+
+  var resizeParentIframe = function(height) {
+    var iframe = window.document.getElementById('secure_webmail_frame')
+    iframe.style.height = height + 'px'
+  }
+
+  var scrollToBottom = function() {
+    var iframe = window.document.getElementById('secure_webmail_frame')
+    var height = iframe.offsetHeight
+    window.scrollTo(0, height)
+  }
+
+  try {
+    var data = JSON.parse(event.data)
+    if (!(data instanceof Object)) return
+
+    switch(data.type) {
+      case 'resizeParentIframe':
+        if ((typeof data.height === 'number') && (data.height > 0))
+          resizeParentIframe(data.height)
+        break
+      case 'scrollToBottom':
+        scrollToBottom()
+        break
+      default:
+        break
+    }
+  }
+  catch(err){}
+}
+
+window.addEventListener('message', onMessage, false)
+
+  </script>
+</head>
+<body>
+  <iframe
+    id="secure_webmail_frame"
+    src="index.html"
+    frameborder="0"
+    width="100%"
+    marginheight="0"
+    marginwidth="0"
+    scrolling="no"
+  ></iframe>
+</body>
+</html>

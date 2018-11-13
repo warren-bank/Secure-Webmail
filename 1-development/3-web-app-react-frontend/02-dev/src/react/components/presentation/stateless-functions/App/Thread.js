@@ -4,9 +4,10 @@ const PropTypes   = require('prop-types')
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'Thread'
 
-const Message          = require(`./${displayName}/Message`)
-const Compose_Message  = require('react/components/presentation/class/Compose_Message')
-const scrollToBottom   = require('react/lib/scrollToBottom')
+const Message            = require(`./${displayName}/Message`)
+const Compose_Message    = require('react/components/presentation/class/Compose_Message')
+const scrollToBottom     = require('react/lib/scrollToBottom')
+const resizeParentIframe = require('react/lib/resizeParentIframe').global_resizeParentIframe
 
 const scroller              = new scrollToBottom()
 scroller.componentDidUpdate = scroller.componentDidUpdate.bind(scroller)
@@ -42,7 +43,10 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
     const props = {
       draft:           draft_message,
       onDomChange:     null,
-      onNewMessage:    scroller.scrollToBottom,
+      onNewMessage:    () => {
+                         scroller.scrollToBottom()
+                         resizeParentIframe(true)
+                       },
       onSend:          () => {
                          console.log('Reply Sent')
 
@@ -163,6 +167,8 @@ component.contextTypes = {
 }
 
 component.requireActions = ['DEBUG', 'UPDATE_THREAD', 'SAVE_DRAFT_MESSAGE']
+
+component.postRender = resizeParentIframe.bind(this, true)
 
 component.displayName = displayName
 

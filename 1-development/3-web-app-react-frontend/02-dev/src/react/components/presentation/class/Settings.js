@@ -5,6 +5,8 @@ const crypto      = require('redux/lib/middleware/crypto')
 
 const displayName = 'Settings'
 
+const resizeParentIframe = require('react/lib/resizeParentIframe').global_resizeParentIframe
+
 class Settings extends React.PureComponent {
 
   constructor(props) {
@@ -20,6 +22,14 @@ class Settings extends React.PureComponent {
         generate_keypair: this.generate_keypair.bind(this)
       }
     }
+  }
+
+  componentDidMount() {
+    resizeParentIframe()
+  }
+
+  componentDidUpdate() {
+    resizeParentIframe()
   }
 
   componentWillReceiveProps(nextProps) {
