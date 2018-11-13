@@ -31,11 +31,11 @@ helpers.include = function(filename) {
 }
 
 helpers.get_response = function(filename) {
-  return HtmlService.createTemplateFromFile(filename).evaluate().setTitle(app.title).setSandboxMode(HtmlService.SandboxMode.NATIVE)
+  return HtmlService.createTemplateFromFile(filename).evaluate().setTitle(app.title).setSandboxMode(HtmlService.SandboxMode.IFRAME).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
 }
 
 helpers.get_error_response = function(msg) {
-  return HtmlService.createHtmlOutput().setTitle(app.title).setContent(msg).setSandboxMode(HtmlService.SandboxMode.NATIVE)
+  return HtmlService.createHtmlOutput().setTitle(app.title).setContent(msg).setSandboxMode(HtmlService.SandboxMode.IFRAME)
 }
 
 function doGet(e) {

@@ -24,7 +24,7 @@ const get_height = (DOM_node) => {
 }
 
 const resizeParentIframe = (css_selector) => {
-  if (!window.parent || (window.parent === window)) return
+  if (!window.top || (window.top === window)) return
   if (!css_selector || (typeof css_selector !== 'string')) return
 
   const DOM_nodes = window.document.querySelectorAll(css_selector)
@@ -43,14 +43,14 @@ const resizeParentIframe = (css_selector) => {
     type: "resizeParentIframe",
     height
   }
-  window.parent.postMessage(JSON.stringify(message), '*')
+  window.top.postMessage(JSON.stringify(message), '*')
 }
 
 const scrollToBottom = () => {
   const message = {
     type: "scrollToBottom"
   }
-  window.parent.postMessage(JSON.stringify(message), '*')
+  window.top.postMessage(JSON.stringify(message), '*')
 }
 
 const global_resizeParentIframe = (do_scrollToBottom) => {

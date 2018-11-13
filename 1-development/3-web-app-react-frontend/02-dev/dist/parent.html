@@ -7,8 +7,6 @@
 
 // https://www.dyn-web.com/tutorials/iframes/postmessage/height/
 var onMessage = function(event){
-  var iframe_origin = window.location.origin
-  if (event.origin !== iframe_origin) return
 
   var resizeParentIframe = function(height) {
     var iframe = window.document.getElementById('secure_webmail_frame')
