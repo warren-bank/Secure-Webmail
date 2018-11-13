@@ -6,28 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?!= app.title ?></title>
     <link rel="canonical" href="https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec" />
-    <style>
-      <?!= HtmlService.createHtmlOutputFromFile('css').getContent(); ?>
-    </style>
+    <?!= helpers.include('css'); ?>
+    <?!= helpers.include('lib/jsencrypt-min-js') ?>
+    <?!= helpers.include('lib/crypto-js-min-js') ?>
+    <?!= helpers.include('lib/uuidv4-min-js') ?>
     <script>
-      try {
-        var init_data = {
-          email_address: "<?!= state.email_address ?>",
-          thread_id:     "<?!= state.thread_id ?>"
-        }
-
-        <?!= HtmlService.createHtmlOutputFromFile('lib/jsencrypt-min-js').getContent() ?>
-
-        <?!= HtmlService.createHtmlOutputFromFile('lib/crypto-js-min-js').getContent() ?>
-
-        <?!= HtmlService.createHtmlOutputFromFile('lib/uuidv4-min-js').getContent() ?>
-
-        <?!= HtmlService.createHtmlOutputFromFile('bundle-js').getContent() ?>
-      }
-      catch(e) {
-        google.script.run.log_client_error(e.toString())
+      var init_data = {
+        email_address: "<?!= state.email_address ?>",
+        thread_id:     "<?!= state.thread_id ?>"
       }
     </script>
+    <?!= helpers.include('bundle-js') ?>
   </head>
   <body>
     <div class="wrapper">

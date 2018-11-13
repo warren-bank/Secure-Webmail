@@ -26,6 +26,14 @@ var state = {
 
 var helpers = {}
 
+helpers.include = function(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename).getContent()
+}
+
+helpers.get_response = function(filename) {
+  return HtmlService.createTemplateFromFile(filename).evaluate().setTitle(app.title).setSandboxMode(HtmlService.SandboxMode.NATIVE)
+}
+
 helpers.get_error_response = function(msg) {
   return HtmlService.createHtmlOutput().setTitle(app.title).setContent(msg).setSandboxMode(HtmlService.SandboxMode.NATIVE)
 }
@@ -37,7 +45,7 @@ function doGet(e) {
       state.thread_id = e.parameter.tid
     }
 
-    html = HtmlService.createTemplateFromFile('index').evaluate().setTitle(app.title).setSandboxMode(HtmlService.SandboxMode.NATIVE)
+    html = helpers.get_response('index')
   }
   catch(err) {
     log_server_error(err)
