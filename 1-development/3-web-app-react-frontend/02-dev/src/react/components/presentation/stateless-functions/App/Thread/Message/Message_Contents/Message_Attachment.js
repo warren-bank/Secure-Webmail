@@ -4,7 +4,7 @@ const PropTypes   = require('prop-types')
 const purify      = require('react/components/higher-order/purify')
 const displayName = 'Message_Attachment'
 
-const download_data_url  = require('react/lib/download_data_url')
+const {get_data_url, download_data_url}  = require('react/lib/download_data_url')
 
 const component = ({attachment}) => {
 
@@ -12,7 +12,9 @@ const component = ({attachment}) => {
     event.stopPropagation()
     event.preventDefault()
 
-    download_data_url(attachment.data, attachment.name)
+    let dataurl = get_data_url(attachment.data, attachment.contentType)
+
+    download_data_url(dataurl, attachment.name)
   }
 
   return (
