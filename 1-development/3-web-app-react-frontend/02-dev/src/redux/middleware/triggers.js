@@ -229,7 +229,7 @@ TRIGGERS['OPEN_THREAD'] = ({getState, dispatch, next, action}) => {
         actions.UPDATE_THREAD.MARK_UNREAD(thread_id, false)
       )
 
-    if (thread && thread.summary && thread.settings && thread.messages && thread.participants && thread.messages.length && thread.participants.length) return
+    if (thread && thread.summary && thread.settings && Array.isArray(thread.messages) && Array.isArray(thread.participants) && thread.messages.length) return
 
     dispatch(
       actions.GET_THREAD(thread_id)

@@ -68,7 +68,7 @@ API['GET_THREAD'] = ({getState, dispatch, next, action}) => {
     if (
       !thread              || (typeof thread !== 'object')                                       ||
       !thread.messages     || !Array.isArray(thread.messages)     || !thread.messages.length     ||
-      !thread.participants || !Array.isArray(thread.participants) || !thread.participants.length
+      !thread.participants || !Array.isArray(thread.participants)
     ) return
 
     // catch unneeded updates
