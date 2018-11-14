@@ -34,6 +34,7 @@ note:
 // =====================================
 // usage:
 //  * open "inbox" folder
+//      file://../1-development/3-web-app-react-frontend/02-dev/dist/index.html
 //  * run the following script in javascript console
 //  * click "refresh" icon
 // =====================================
@@ -57,5 +58,33 @@ const update_inbox = () => {
 }
 
 update_inbox()
+
+--------------------------------------------------------------------------------
+
+// =====================================
+// purpose:
+//  * query and display real server-side data
+// =====================================
+// usage:
+//  * open "inbox" folder
+//      https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec
+//  * run the following script(s) in javascript console
+// =====================================
+
+google.script.run.withSuccessHandler(console.log).get_folders()
+
+google.script.run.withSuccessHandler(console.log).get_threads_in_folder('inbox', 0, 0, 10)
+
+let thread_ids = {
+  "unencrypted w/o attachment": "167115dc1b737d3f",
+  "unencrypted w/ attachment":  "1670ebd4888d5bf2",
+  "encrypted w/ attachment":    "1670eb635f2f2a6f"
+}
+
+google.script.run.withSuccessHandler(console.log).get_thread( thread_ids["unencrypted w/o attachment"] )
+google.script.run.withSuccessHandler(console.log).get_thread( thread_ids["unencrypted w/ attachment"] )
+google.script.run.withSuccessHandler(console.log).get_thread( thread_ids["encrypted w/ attachment"] )
+
+google.script.run.withSuccessHandler(console.log).get_public_keys([init_data.email_address])
 
 --------------------------------------------------------------------------------
