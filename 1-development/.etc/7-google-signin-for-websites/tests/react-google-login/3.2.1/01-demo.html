@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>react-google-login Demo</title>
+  <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script>
+    window.react = window.React
+  </script>
+  <script src="lib/google-login.min.js"></script>
+  <style>
+    html,
+    body,
+    #app_container,
+    #app_container > #root,
+    #app_container > #root > .app,
+    #app_container > #root > .app > .no_session,
+    #app_container > #root > .app > .active_session {
+      margin: 0;
+      padding: 0;
+    }
+
+    #app_container > #root > .app > .no_session > button,
+    #app_container > #root > .app > .active_session > button,
+    #app_container > #root > .app > .active_session > span {
+      display: inline-block;
+      margin: 0.5em;
+    }
+  </style>
+</head>
+<body>
+
+<div id="app_container">
+  <div id="root"></div>
+</div>
+
+<script type="text/babel">
+const {GoogleLogin, GoogleLogout} = window.GoogleLogin
+
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {account: null}
+
+    this.clientId = '133752900170-96kd1367qdladljtl6isd7i2mo2pvi0c.apps.googleusercontent.com'  // https://secure-webmail.github.io/01-demo.html
+
+    this.default_login_props = {
+      clientId:         this.clientId,
+      scope:            "profile email",
+      onSuccess:        this.onSuccess.bind(this),
+      onFailure:        this.onFailure.bind(this),
+      onRequest:        this.onRequest.bind(this)
+    }
+
+    this.default_logout_props = {
+      buttonText:       "Logout",
+      onLogoutSuccess:  this.onLogoutSuccess.bind(this)
+    }
+
+    this.buttons = {
+      login:           (<GoogleLogin  {...this.default_login_props} buttonText="Login" prompt="consent" />),
+      switch_account:  (<GoogleLogin  {...this.default_login_props} buttonText="Switch Account" prompt="select_account" />),
+      logout:          (<GoogleLogout {...this.default_logout_props} />)
+    }
+  }
+
+  setAccount(account) {
+    this.setState({account})
+  }
+
+  onSuccess(response) {
+    console.log('onSuccess:', response)
+
+    this.setAccount(response.profileObj.email)
+  }
+
+  onFailure(response) {
+    console.error('onFailure:', response)
+  }
+
+  onRequest() {
+    console.log('onRequest')
+  }
+
+  onLogoutSuccess() {
+    console.log('onLogoutSuccess')
+
+    this.setAccount(null)
+  }
+
+  render() {
+    return (
+      <div className="app">
+        {
+          this.state.account &&
+          <div className="active_session">
+            <span>logged in as: {this.state.account}</span>
+            {this.buttons.switch_account}
+            {this.buttons.logout}
+          </div>
+        }
+        {
+          !this.state.account &&
+          <div className="no_session">
+            {this.buttons.login}
+          </div>
+        }
+      </div>
+    )
+  }
+}
+
+window.ReactDOM.render(<App />, document.getElementById('root'))
+</script>
+
+</body>
+</html>

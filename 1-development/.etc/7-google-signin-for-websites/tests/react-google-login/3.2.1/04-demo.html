@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>react-google-login Demo</title>
+  <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script>
+    window.react = window.React
+  </script>
+  <script src="lib/google-login.min.js"></script>
+  <style>
+    html,
+    body,
+    #app_container,
+    #app_container > #root,
+    #app_container > #root > .app,
+    #app_container > #root > .app > .no_session,
+    #app_container > #root > .app > .active_session {
+      margin: 0;
+      padding: 0;
+    }
+
+    #app_container > #root > .app > .no_session > button.google,
+    #app_container > #root > .app > .active_session > button.google,
+    #app_container > #root > .app > .active_session > span {
+      display: inline-block;
+      margin: 0.5em;
+    }
+
+    #app_container > #root > .app > .no_session > button.google.login,
+    #app_container > #root > .app > .active_session > button.google.switch,
+    #app_container > #root > .app > .active_session > button.google.logout {
+    }
+
+    @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+    #app_container > #root > .app button.google {
+      display: inline-block;
+      padding: 1px 6px;
+      background-color: #fff;
+      transition: background-color .5s ease-in-out;
+      color: #444;
+      border-radius: 5px;
+      border: thin solid #888;
+      box-shadow: 1px 1px 1px grey;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    #app_container > #root > .app button.google:hover {
+      background-color: #eee;
+    }
+
+    #app_container > #root > .app button.google > span.icon {
+      background: url('https://www.androidpolice.com/wp-content/cache/wp-appbox/080fa0042dbc8367611501cd5069e82f/ai-ce2e9683756736c58388718296c4d274') transparent center/100% no-repeat;
+      display: inline-block;
+      vertical-align: middle;
+      width:  42px;
+      height: 42px;
+    }
+    #app_container > #root > .app button.google > span.buttonText {
+      display: inline-block;
+      font-size: 18px;
+      letter-spacing: 0.015em;
+      font-weight: bold;
+      font-family: 'Roboto', sans-serif;
+      vertical-align: middle;
+      padding: 0 1em;
+    }
+  </style>
+</head>
+<body>
+
+<div id="app_container">
+  <div id="root"></div>
+</div>
+
+<script type="text/babel">
+const {GoogleLogin, GoogleLogout} = window.GoogleLogin
+
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {account: null}
+
+    this.clientId = '133752900170-96kd1367qdladljtl6isd7i2mo2pvi0c.apps.googleusercontent.com'  // https://secure-webmail.github.io/04-demo.html
+
+    this.default_login_props = {
+      clientId:         this.clientId,
+      scope:            "profile email",
+      onSuccess:        this.onSuccess.bind(this),
+      onFailure:        this.onFailure.bind(this),
+      onRequest:        this.onRequest.bind(this)
+    }
+
+    this.default_logout_props = {
+      onLogoutSuccess:  this.onLogoutSuccess.bind(this)
+    }
+
+    this.buttons = {
+      login: (
+        <GoogleLogin  className="google login"  {...this.default_login_props} prompt="consent" >
+          <span className="icon"></span>
+          <span class="buttonText">Login</span>
+        </GoogleLogin>
+      ),
+      switch_account: (
+        <GoogleLogin  className="google switch" {...this.default_login_props} prompt="select_account" >
+          <span className="icon"></span>
+          <span class="buttonText">Switch Account</span>
+        </GoogleLogin>
+      ),
+      logout: (
+        <GoogleLogout className="google logout" {...this.default_logout_props} >
+          <span className="icon"></span>
+          <span class="buttonText">Logout</span>
+        </GoogleLogout>
+      )
+    }
+  }
+
+  setAccount(account) {
+    this.setState({account})
+  }
+
+  onSuccess(response) {
+    console.log('onSuccess:', response)
+
+    this.setAccount(response.profileObj.email)
+  }
+
+  onFailure(response) {
+    console.error('onFailure:', response)
+  }
+
+  onRequest() {
+    console.log('onRequest')
+  }
+
+  onLogoutSuccess() {
+    console.log('onLogoutSuccess')
+
+    this.setAccount(null)
+  }
+
+  render() {
+    return (
+      <div className="app">
+        {
+          this.state.account &&
+          <div className="active_session">
+            <span>logged in as: {this.state.account}</span>
+            {this.buttons.switch_account}
+            {this.buttons.logout}
+          </div>
+        }
+        {
+          !this.state.account &&
+          <div className="no_session">
+            {this.buttons.login}
+          </div>
+        }
+      </div>
+    )
+  }
+}
+
+window.ReactDOM.render(<App />, document.getElementById('root'))
+</script>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+notes:
+======
+* React app includes a component: "NoEmail"
+* React app wraps React Router in a component that:
+  * determines email address of user
+    * if undefined:
+      * display: <NoEmail />
+
+observations:
+=============
+* when the web app is opened (inside iframe):
+    https://secure-webmail.github.io/
+* when there is no active Google account session (cookie)
+* the page appears empty
+  * the iframe contains an empty document
+  * React app does not load
+
+observations:
+=============
+* when the web app is opened (directly):
+    https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec
+* when there is no active Google account session (cookie)
+* the browser window is redirected to:
+    https://accounts.google.com/signin/v2/identifier?passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&continue=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV%2Fexec&followup=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV%2Fexec
+* query string params:
+  * continue = encodeURIComponent(url)
+  * followup = encodeURIComponent(url)
+
+observations:
+=============
+* this redirect URL cannot be customized
+* customization:
+  * encodeURIComponent('https://secure-webmail.github.io/') === "https%3A%2F%2Fsecure-webmail.github.io%2F"
+* attempts:
+    https://accounts.google.com/signin/v2/identifier?passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&continue=https%3A%2F%2Fsecure-webmail.github.io%2F&followup=https%3A%2F%2Fsecure-webmail.github.io%2F
+    https://accounts.google.com/signin/v2/identifier?passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&continue=https%3A%2F%2Fsecure-webmail.github.io%2F
+    https://accounts.google.com/signin/v2/identifier?passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&followup=https%3A%2F%2Fsecure-webmail.github.io%2F
+
+official API: "Google Sign-In for Websites"
+===========================================
+https://developers.google.com/identity/sign-in/web/
+https://developers.google.com/identity/sign-in/web/sign-in
+https://developers.google.com/identity/sign-in/web/listeners
+https://developers.google.com/identity/sign-in/web/reference
+
+https://developers.google.com/identity/sign-in/web/build-button
+https://google-developers.appspot.com/identity/sign-in/web/demos/signin_custom?hl=en
+
+workflow:
+=========
+* iframe parent is javascript driven
+* steps to render iframe:
+  * extract "tid" from "window.location.search"
+  * delete "window.location.search"
+      if (tid) window.history.replaceState(null, null, window.location.pathname)
+  * construct iframe element and update DOM
+      let url = 'https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec'
+      if (tid) url += '?tid=' + tid
+* initial state:
+  * Google Sign-In button
+* if already logged in:
+  * render iframe
+* when login occurs
+  * render iframe
+* when active account changes
+  * re-render iframe
+
+libraries to assist with workflow:
+==================================
+
+* react-google-login
+    https://github.com/anthonyjgrove/react-google-login
+    https://github.com/anthonyjgrove/react-google-login/releases
+    https://github.com/anthonyjgrove/react-google-login/releases/tag/v3.2.1
+    https://github.com/anthonyjgrove/react-google-login/raw/v3.2.1/dist/google-login.js
+    https://cdn.jsdelivr.net/npm/react-google-login@3.2.1/dist/google-login.js
