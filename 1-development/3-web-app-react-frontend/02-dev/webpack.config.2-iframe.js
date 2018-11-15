@@ -2,16 +2,16 @@ const webpack = require('webpack')
 const path    = require('path')
 
 module.exports = {
-   entry: './src/index.js',
+   entry: './src/2-iframe/index.js',
     output: {
-        path: path.resolve(__dirname, 'dist', '1-app', 'js'),
+        path: path.resolve(__dirname, 'dist', '2-iframe', 'js'),
         filename: 'bundle.js',
         sourceMapFilename: 'bundle.map'
     },
     devtool: '#source-map',
     resolve: {
         modules: [
-            path.resolve('./src'),
+            path.resolve('./src/2-iframe'),
             path.resolve('./node_modules')
         ]
     },

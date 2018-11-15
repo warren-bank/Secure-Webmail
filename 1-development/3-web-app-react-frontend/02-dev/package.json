@@ -7,6 +7,7 @@
     "prop-types": "15.6.0",
     "react": "16.2.0",
     "react-dom": "16.2.0",
+    "react-google-login": "3.2.1",
     "react-router-dom": "4.2.2",
     "redux": "3.7.2"
   },
@@ -24,7 +25,9 @@
   },
   "scripts": {
     "test": "cd tests && npm run test",
-    "build": "webpack"
+    "build:app": "webpack --config webpack.config.1-app.js",
+    "build:iframe": "webpack --config webpack.config.2-iframe.js",
+    "build": "npm run build:app && npm run build:iframe"
   },
   "author": {
     "name": "Warren R. Bank",
