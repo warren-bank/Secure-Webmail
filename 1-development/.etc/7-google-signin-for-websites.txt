@@ -157,12 +157,8 @@ Thank you.. hope to see you again before next year's anniversary!
 
 --------------------------------------------------------------------------------
 
-next steps:
-===========
-* I'm going to change the methodology
-
-upcoming design methodology:
-============================
+updated design methodology:
+===========================
 * parent document contains:
   * React app
     * Google Sign-In For Websites
