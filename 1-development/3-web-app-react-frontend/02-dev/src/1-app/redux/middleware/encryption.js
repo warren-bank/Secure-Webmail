@@ -96,6 +96,11 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
           if (i===0) summary.body = cleartext.substring(0, 160)
         }
         else {
+          name = name.replace(/\.txt$/, '')
+          name = name.replace('-', '/')
+          name = window.atob(name)
+          name = crypto.AES.decrypt(name, secret)
+
           const new_attachment = {
             data:        cleartext,                                      // data URI format: 'data:[<mediatype>][;base64],<data>'
             contentType: cleartext.substring(5, cleartext.indexOf(';')),
@@ -181,9 +186,15 @@ FILTER['ENCRYPT_OUTBOUND_MESSAGE'] = ({getState, dispatch, next, action}) => {
     attachments.forEach(attachment => {
       let {data, name} = attachment
 
+      data = crypto.AES.encrypt(data, secret)
+      name = crypto.AES.encrypt(name, secret)
+      name = window.btoa(name)
+      name = name.replace('/', '-')
+      name = name + '.txt'
+
       // attach
       new_attachments.push({
-        data:         crypto.AES.encrypt(data, secret),
+        data,
         contentType: 'text/plain',
         name
       })
