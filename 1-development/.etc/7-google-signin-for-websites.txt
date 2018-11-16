@@ -139,7 +139,8 @@ does anyone have a "best practice" for the following use case:
 * a google apps script is deployed as a web app (ex: "https://script.google.com/macros/s/xxx/exec")
 * the script is hosted on another domain (ex: "https://myapp.com") and contained within an iframe element
 * when a visitor loads the iframe but is not presently already logged into any Google account, the iframe contains an empty document
-* this is in contrast to what happens when the web app is loaded directly (outside of any iframe) and the window automatically redirects to a login screen (ex: "https://accounts.google.com/signin/v2/identifier?continue=https://script.google.com/macros/s/xxx/exec")
+  * console shows the error: "Refused to display 'https://accounts.google.com/ServiceLogin?passive=xxx&continue=https://script.google.com/macros/s/xxx/exec&followup=https://script.google.com/macros/s/xxx/exec' in a frame because it set 'X-Frame-Options' to 'deny'."
+* this is in contrast to what happens when the web app is loaded directly (outside of any iframe) and the window automatically redirects to a login screen
 
 I tried using Google Sign-in for Websites, obtaining a clientID for the custom domain:
 * when the visitor comes to the domain and is not presently already logged into any Google account, this will allow the visitor to log in (ex: account #0).. after which, the content in the iframe can load properly

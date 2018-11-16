@@ -4,61 +4,12 @@
   <meta charset="utf-8" />
   <title>Secure Webmail</title>
   <link rel="shortcut icon" type="image/x-icon" href="https://ssl.gstatic.com/ui/v1/icons/mail/images/favicon5.ico" />
-  <style>
-
-html, body, iframe {
-  margin:0;
-  padding:0;
-}
-
-  </style>
-  <script>
-
-var onMessage = function(event){
-
-  var resizeParentIframe = function(height) {
-    var iframe = window.document.getElementById('secure_webmail_frame')
-    iframe.style.height = height + 'px'
-  }
-
-  var scrollToBottom = function() {
-    var iframe = window.document.getElementById('secure_webmail_frame')
-    var height = iframe.offsetHeight
-    window.scrollTo(0, height)
-  }
-
-  try {
-    var data = JSON.parse(event.data)
-    if (!(data instanceof Object)) return
-
-    switch(data.type) {
-      case 'resizeParentIframe':
-        if ((typeof data.height === 'number') && (data.height > 0))
-          resizeParentIframe(data.height)
-        break
-      case 'scrollToBottom':
-        scrollToBottom()
-        break
-      default:
-        break
-    }
-  }
-  catch(err){}
-}
-
-window.addEventListener('message', onMessage, false)
-
-  </script>
+  <link href="css/style.css" rel="stylesheet" />
+  <script src="js/bundle.js"></script>
 </head>
 <body>
-  <iframe
-    id="secure_webmail_frame"
-    src="https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec"
-    frameborder="0"
-    width="100%"
-    marginheight="0"
-    marginwidth="0"
-    scrolling="no"
-  ></iframe>
+  <div class="wrapper">
+    <div id="root"></div>
+  </div>
 </body>
 </html>

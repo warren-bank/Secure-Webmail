@@ -43,6 +43,8 @@
   const {history, Router}  = require('react/components/container/stateless-functions/Router')
   const Context            = require('react/components/container/class/Context')
 
+  const loginParentIframe  = require('react/lib/loginParentIframe')
+
   //window.React = React
   //window.store = store
 
@@ -59,6 +61,8 @@
       <Context {...props}  />,
       document.getElementById('root')
     )
+
+    loginParentIframe()
   }
 
   switch(document.readyState) {

@@ -3,7 +3,8 @@ const PropTypes   = require('prop-types')
 
 const {GoogleLogin, GoogleLogout} = require('react-google-login')
 
-const constants = require('react/data/constants')
+const constants         = require('react/data/constants')
+const addEventListener  = require('react/lib/loginParentIframe')
 
 class App extends React.Component {
   constructor(props) {
@@ -14,12 +15,7 @@ class App extends React.Component {
       clientId:         constants.clientId,
       scope:            "profile email",
       onSuccess:        this.onSuccess.bind(this),
-      onFailure:        this.onFailure.bind(this),
-      onRequest:        this.onRequest.bind(this)
-    }
-
-    this.default_logout_props = {
-      onLogoutSuccess:  this.onLogoutSuccess.bind(this)
+      onFailure:        this.onFailure.bind(this)
     }
 
     this.buttons = {
@@ -28,18 +24,6 @@ class App extends React.Component {
           <span className="icon"></span>
           <span class="buttonText">Login</span>
         </GoogleLogin>
-      ),
-      switch_account: (
-        <GoogleLogin  className="google switch" {...this.default_login_props} prompt="select_account" >
-          <span className="icon"></span>
-          <span class="buttonText">Switch Account</span>
-        </GoogleLogin>
-      ),
-      logout: (
-        <GoogleLogout className="google logout" {...this.default_logout_props} >
-          <span className="icon"></span>
-          <span class="buttonText">Logout</span>
-        </GoogleLogout>
       )
     }
 
@@ -55,6 +39,8 @@ class App extends React.Component {
       }
       return null
     })()
+
+    addEventListener( this.setAccount.bind(this) )
   }
 
   setAccount(account) {
@@ -71,52 +57,40 @@ class App extends React.Component {
     console.error('onFailure:', response)
   }
 
-  onRequest() {
-    console.log('onRequest')
-  }
-
-  onLogoutSuccess() {
-    console.log('onLogoutSuccess')
-
-    this.setAccount(null)
-  }
-
   render() {
-    let url = constants.urls.iframe_source
-    if (this.tid) url += '?tid=' + this.tid
-
-    if (this.state.account) {
-      return (
-          <div className="app">
-            <div className="header active_session">
-              {this.buttons.switch_account}
-              {this.buttons.logout}
-            </div>
-            <div className="iframe_container">
-              <iframe
-                x-data-account={this.state.account}
-                id={this.props.iframe_id}
-                src={url}
-                frameborder="0"
-                width="100%"
-                marginheight="0"
-                marginwidth="0"
-                scrolling="no"
-              ></iframe>
-            </div>
-          </div>
-      )
-    }
-    else {
-      return (
-          <div className="app">
-            <div className="header no_session">
-              {this.buttons.login}
-            </div>
-          </div>
-      )
+    let url    = constants.urls.iframe_source
+    let params = []
+    if (this.tid)
+      params.push(`tid=${this.tid}`)
+    if (this.state.account)
+      params.push(`email=${this.state.account}`)
+    if (params.length) {
+      params = params.join('&')
+      params = window.encodeURIComponent(params)
+      url += '?' + params
     }
 
+    return (
+      <div className="app">
+      {
+        !this.state.account &&
+        <div className="header">
+          {this.buttons.login}
+        </div>
+      }
+        <div className="iframe_container">
+          <iframe
+            id={this.props.iframe_id}
+            src={url}
+            frameborder="0"
+            width="100%"
+            marginheight="0"
+            marginwidth="0"
+            scrolling="no"
+          ></iframe>
+        </div>
+      </div>
+    )
   }
 }
 
