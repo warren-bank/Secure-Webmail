@@ -74,3 +74,115 @@ libraries to assist with workflow:
     https://github.com/anthonyjgrove/react-google-login/releases/tag/v3.2.1
     https://github.com/anthonyjgrove/react-google-login/raw/v3.2.1/dist/google-login.js
     https://cdn.jsdelivr.net/npm/react-google-login@3.2.1/dist/google-login.js
+
+--------------------------------------------------------------------------------
+
+commit: f19e0ae4ddf98961731d7efd9b884e2a1ceed85a
+
+status:
+=======
+* parent document contains:
+  * React app
+    * Google Sign-In For Websites
+      * visitor is not logged into a Google account
+        * display: "login" button
+      * visitor is logged into a Google account, and site is not authorized
+        * display: "login" button
+      * visitor is logged into a Google account, and site is authorized
+        * display: "switch account" and "logout" buttons
+        * display: iframe
+
+notes:
+======
+* "logout" button:
+  * does not log visitor out of Google account
+  * revokes site authorization
+
+* "login" and "switch account" buttons:
+  * displays a list of all Google accounts for which the visitor is logged in, or
+  * displays login form
+
+* when a visitor is logged into multiple accounts
+  * it doesn't matter which account the visitor uses to authorize the site
+  * the account used by Google Apps Script within the iframe is always account #0
+
+related issue:
+==============
+* https://code.google.com/p/google-apps-script-issues/
+
+* https://issuetracker.google.com/bookmark-groups/78025
+  https://issuetracker.google.com/savedsearches/566222
+
+* https://issuetracker.google.com/issues/69270374
+
+related articles:
+=================
+* https://sites.google.com/site/scriptsexamples/home/announcements/multiple-accounts-issue-with-google-apps-script
+* https://github.com/Blueprinter/Authorization-Error-Multiple-Accounts
+* https://stackoverflow.com/questions/28364248/google-oauth2-and-app-script-in-iframe-sandbox
+
+--------------------------------------------------------------------------------
+
+my comment on related issue:
+============================
+* https://issuetracker.google.com/issues/69270374#comment54
+    date: Nov 15, 2018 03:05PM
+    note: the issue was originally opened on Nov 13, 2017.
+          other recent comments were joking about the fact that the issue was celebrating its 1-year birthday,
+          and that Google product developers haven't commented on the issue in nearly as long.
+
+Happy Birthday!  ..but nobody came to the party?.. I don't think any of the developers like you much!
+
+on a related issue..
+does anyone have a "best practice" for the following use case:
+
+* a google apps script is deployed as a web app (ex: "https://script.google.com/macros/s/xxx/exec")
+* the script is hosted on another domain (ex: "https://myapp.com") and contained within an iframe element
+* when a visitor loads the iframe but is not presently already logged into any Google account, the iframe contains an empty document
+* this is in contrast to what happens when the web app is loaded directly (outside of any iframe) and the window automatically redirects to a login screen (ex: "https://accounts.google.com/signin/v2/identifier?continue=https://script.google.com/macros/s/xxx/exec")
+
+I tried using Google Sign-in for Websites, obtaining a clientID for the custom domain:
+* when the visitor comes to the domain and is not presently already logged into any Google account, this will allow the visitor to log in (ex: account #0).. after which, the content in the iframe can load properly
+* when the visitor is already logged into one single Google account (ie: #0), the visitor would still be required to click the "log in" button.. and then select the account (ie: #0).. in order to authorize the site
+* when the visitor is already logged into multiple Google accounts (ie: #0, #1, #2, ...), the visitor would still be required to click the "log in" button.. and then select an account from a list.. however regardless of which account is selected.. the content that loads in the iframe will always see the "active" account (ie: #0)
+
+I'm still trying to figure out an adequate workaround for this situation.. and haven't found any that would be satisfactory to visitors..
+
+Google: please fix this issue on the backend.. and add support to Google Apps Script for selecting between multiple active user accounts.
+
+Also, it would be VERY helpful if web apps loaded within an iframe could follow the same authorization workflow as occurs outside of an iframe.. which is to manage the login process when needed.
+
+Thank you.. hope to see you again before next year's anniversary!
+
+--------------------------------------------------------------------------------
+
+next steps:
+===========
+* I'm going to change the methodology
+
+upcoming design methodology:
+============================
+* parent document contains:
+  * React app
+    * Google Sign-In For Websites
+
+      * visitor is logged into a Google account
+        * display: iframe
+
+      * visitor is not logged into a Google account, OR site is not authorized
+        * display: "login" button
+        * display: iframe
+
+        * if: visitor is not logged into a Google account
+          * the iframe content is empty
+          * visitor will need to log in by clicking "login" button
+
+        * if: visitor is logged into a Google account, but site is not authorized
+          * the iframe content will:
+            * have access to account #0
+            * pass a message to the top window containing the email address for account #0
+          * the parent window will receive this message
+            * React app will update state
+            * hide: "login" button
+
+--------------------------------------------------------------------------------
