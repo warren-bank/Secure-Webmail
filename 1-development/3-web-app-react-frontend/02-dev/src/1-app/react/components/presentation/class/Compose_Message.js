@@ -3,6 +3,7 @@ const PropTypes   = require('prop-types')
 
 const displayName = 'Compose_Message'
 
+const constants          = require('react/data/constants')
 const read_file_content  = require('react/lib/read_file_content')
 
 class Compose_Message extends React.PureComponent {
@@ -260,7 +261,7 @@ class Compose_Message extends React.PureComponent {
 
             this.setError(null)
           },
-          5000
+          constants.timer_periods.reply.msg_notification
         )
 
         if (store.onSend)

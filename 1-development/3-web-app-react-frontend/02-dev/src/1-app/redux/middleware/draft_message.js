@@ -47,10 +47,15 @@ HELPERS['PUBLIC_KEYS_NEEDED'] = ({getState, dispatch, next, action}, allow_state
 HELPERS['UPDATE_THREAD'] = ({getState, dispatch, next, action}, is_reply) => {
   if (!is_reply) return
 
-  const {thread_id} = action
+  window.setTimeout(
+    () => {
+      const {thread_id} = action
 
-  dispatch(
-    actions.GET_THREAD(thread_id)
+      dispatch(
+        actions.GET_THREAD(thread_id)
+      )
+    },
+    constants.timer_periods.reply.thread_update
   )
 }
 

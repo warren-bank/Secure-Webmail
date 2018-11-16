@@ -81,5 +81,10 @@
         "private_key":                      "",
         "private_key_storage":              0,
         "is_generating_keypair":            false
+    },
+    "timer_periods": {
+        "reply": {
+            "thread_update":                5000
+        }
     }
 }

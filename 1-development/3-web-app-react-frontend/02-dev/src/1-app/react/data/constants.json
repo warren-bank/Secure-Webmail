@@ -16,5 +16,10 @@
         ".top-component.app > .component.compose_message.new_message",
         ".top-component.app > .component.folder",
         ".top-component.app > .component.thread"
-    ]
+    ],
+    "timer_periods": {
+        "reply": {
+            "msg_notification": 5000
+        }
+    }
 }
