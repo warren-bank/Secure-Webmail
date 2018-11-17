@@ -63,12 +63,11 @@ class App extends React.Component {
     if (url.indexOf('data:text/html;base64,') !== 0) {
       let params = []
       if (this.tid)
-        params.push(`tid=${this.tid}`)
+        params.push(`tid=${window.encodeURIComponent(this.tid)}`)
       if (this.state.account)
-        params.push(`email=${this.state.account}`)
+        params.push(`email=${window.encodeURIComponent(this.state.account)}`)
       if (params.length) {
         params = params.join('&')
-        params = window.encodeURIComponent(params)
         url += '?' + params
       }
     }

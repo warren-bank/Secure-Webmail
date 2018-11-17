@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Secure Webmail</title>
+  <link href="css/style.css" rel="stylesheet" />
+  <script>
+    var init_data = {
+      email_address: "john.smith@gmail.com",
+      thread_id:     "t-1"
+    }
+  </script>
+  <script src="deps/jsencrypt.min.js"></script>
+  <script src="deps/crypto-js.min.js"></script>
+  <script src="deps/uuidv4.min.js"></script>
+
+  <script src="mocks/data.js"></script>
+  <script src="mocks/google_apps_script.js"></script>
+
+  <script src="js/bundle.js"></script>
+</head>
+<body>
+  <div class="wrapper">
+    <div id="root"></div>
+  </div>
+</body>
+</html>

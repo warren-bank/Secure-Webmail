@@ -56,15 +56,22 @@ HELPERS['folders']['find_foldernames_by_threadid'] = (thread_id, state) => {
    */
 
 TRIGGERS['INIT'] = ({getState, dispatch, next, action}) => {
-  const state    = getState()
-  const my_email = state.user.email_address
+  const state      = getState()
+  const thread_id  = state.app.ui.thread_id
+  const has_pvtkey = state.app.settings.private_key.length
+  const my_email   = state.user.email_address
 
   dispatch(
     actions.GET_FOLDERS()
   )
-  dispatch(
-    actions.GET_RSA_PUBLIC_KEYS([my_email])
-  )
+  if (thread_id && has_pvtkey)
+    dispatch(
+      actions.GET_THREAD(thread_id)
+    )
+  if (my_email)
+    dispatch(
+      actions.GET_RSA_PUBLIC_KEYS([my_email])
+    )
 }
 
 TRIGGERS['OPEN_FOLDER'] = ({getState, dispatch, next, action}) => {
@@ -266,6 +273,26 @@ TRIGGERS['REDIRECT_URL']['OPEN_FOLDER'] = ({getState, dispatch, next, action}) =
 
 // -----------------------------------------------------------------------------
 
+TRIGGERS['SAVE_APP'] = {
+  SETTING: {}
+}
+
+TRIGGERS['SAVE_APP']['SETTING']['PRIVATE_KEY'] = ({getState, dispatch, next, action}) => {
+  const state      = getState()
+  const thread_id  = state.app.ui.thread_id
+  const has_pvtkey = state.app.settings.private_key.length
+  const thread     = state.threads[thread_id]
+
+  if (thread && thread.summary && thread.settings && Array.isArray(thread.messages) && Array.isArray(thread.participants) && thread.messages.length) return
+
+  if (thread_id && has_pvtkey)
+    dispatch(
+      actions.GET_THREAD(thread_id)
+    )
+}
+
+// -----------------------------------------------------------------------------
+
 const TRIGGERS_middleware = ({getState, dispatch}) => next => action => {
   switch (action.type) {
 
@@ -311,6 +338,11 @@ const TRIGGERS_middleware = ({getState, dispatch}) => next => action => {
           break
       }
       next(action)
+      break
+
+    case C.SAVE_APP.SETTING.PRIVATE_KEY:
+      next(action)
+      TRIGGERS.SAVE_APP.SETTING.PRIVATE_KEY({getState, dispatch, next, action})
       break
 
     default:
