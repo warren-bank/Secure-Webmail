@@ -22,6 +22,14 @@ actions['LOG_DEBUG_MESSAGE'] = (...message) => {
   }
 }
 
+actions['PROPOGATE_SERVER_API_ERROR'] = (target, error) => {
+  return {
+    type: C.PROPOGATE_SERVER_API_ERROR,
+    target,
+    error
+  }
+}
+
 // -----------------------------------------------------------------------------
 
 actions['GET_FOLDERS'] = () => {

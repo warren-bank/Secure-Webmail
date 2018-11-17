@@ -38,6 +38,11 @@ helpers.get_error_response = function(msg) {
   return HtmlService.createHtmlOutput().setTitle(app.title).setContent(msg).setSandboxMode(HtmlService.SandboxMode.IFRAME)
 }
 
+helpers.disallow_account_mismatch = function(active_email_address) {
+  if (active_email_address !== state.email_address)
+    throw 'Account Mismatch Error'
+}
+
 function doGet(e) {
   var html
   try {
@@ -55,7 +60,9 @@ function doGet(e) {
   return html
 }
 
-function get_folders() {
+function get_folders(active_email_address) {
+  helpers.disallow_account_mismatch(active_email_address)
+
   var folders = [
     {
       folder_name:  "inbox",
@@ -97,7 +104,9 @@ function get_folders() {
   return folders
 }
 
-function get_threads_in_folder(folder_name, body_length, start, max) {
+function get_threads_in_folder(active_email_address, folder_name, body_length, start, max) {
+  helpers.disallow_account_mismatch(active_email_address)
+
   start = start ||  0
   max   = max   || 25
 
@@ -181,7 +190,9 @@ function get_threads_in_folder(folder_name, body_length, start, max) {
   return threads
 }
 
-function get_thread(thread_id, current_message_count, body_length) {
+function get_thread(active_email_address, thread_id, current_message_count, body_length) {
+  helpers.disallow_account_mismatch(active_email_address)
+
   var thread = {
     summary:      null,
     settings:     null,
@@ -331,7 +342,9 @@ function get_thread(thread_id, current_message_count, body_length) {
   return thread
 }
 
-function update_thread(thread_id, options) {
+function update_thread(active_email_address, thread_id, options) {
+  helpers.disallow_account_mismatch(active_email_address)
+
   try {
     if (!thread_id || !options || typeof options !== 'object') return false
 
@@ -383,7 +396,9 @@ function update_thread(thread_id, options) {
   }
 }
 
-function update_message(message_id, options) {
+function update_message(active_email_address, message_id, options) {
+  helpers.disallow_account_mismatch(active_email_address)
+
   try {
     if (!message_id || !options || typeof options !== 'object') return false
 
@@ -424,23 +439,27 @@ function update_message(message_id, options) {
 }
 
 // throws
-function set_public_key(public_key, allow_update) {
+function set_public_key(active_email_address, public_key, allow_update) {
+  helpers.disallow_account_mismatch(active_email_address)
+
   dataStore.set_public_key(state.email_address, public_key, allow_update)
   return true
 }
 
 // throws
-function get_public_key(email_address) {
+function get_public_key_(email_address) {
   return dataStore.get_public_key(email_address)
 }
 
-function get_public_keys(emails) {
+function get_public_keys(active_email_address, emails) {
+  helpers.disallow_account_mismatch(active_email_address)
+
   var keys = {}
 
   if (emails && Array.isArray(emails) && emails.length) {
     emails.forEach(function(email_address){
       try {
-        keys[email_address] = get_public_key(email_address)
+        keys[email_address] = get_public_key_(email_address)
       }
       catch(err) {}
     })
@@ -472,7 +491,9 @@ helpers.get_compose_email_options = function(cc, attachments) {
   return options
 }
 
-function send_reply_to_thread(thread_id, body, cc, attachments) {
+function send_reply_to_thread(active_email_address, thread_id, body, cc, attachments) {
+  helpers.disallow_account_mismatch(active_email_address)
+
   try {
     if (!thread_id || !body) return false
 
@@ -497,7 +518,9 @@ function send_reply_to_thread(thread_id, body, cc, attachments) {
   }
 }
 
-function send_new_email(recipient, subject, body, cc, attachments) {
+function send_new_email(active_email_address, recipient, subject, body, cc, attachments) {
+  helpers.disallow_account_mismatch(active_email_address)
+
   try {
     if (!recipient || !subject || !body) return false
 

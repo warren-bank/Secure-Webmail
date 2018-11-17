@@ -3,7 +3,74 @@ const actions    = require('redux/actions')
 
 const C = constants.actions
 
-const API = {}
+const HELPERS  = {}
+const TRIGGERS = {}
+const API      = {}
+
+// -----------------------------------------------------------------------------
+
+HELPERS['FailureHandler'] = (dispatch, action) => (error) => {
+  dispatch(
+    actions.PROPOGATE_SERVER_API_ERROR(action.type, error)
+  )
+}
+
+HELPERS['get_email'] = (getState) => {
+  const state = getState()
+  return state.user.email_address
+}
+
+// -----------------------------------------------------------------------------
+
+TRIGGERS['PROPOGATE_SERVER_API_ERROR'] = ({getState, dispatch, next, action}) => {
+  const {target, error} = action
+
+  // occurs when the visitor is no-longer logged into any Google account
+  if ((typeof error === 'string') && (error === 'NetworkError: Connection failure due to HTTP 401')) {
+    const win = window.top || window
+    win.location.reload(true)
+    return
+  }
+
+  // returned by server API when the visitor has changed their "active" Google account
+  if ((typeof error === 'string') && (error === 'Account Mismatch Error')) {
+    const win = window.top || window
+    win.location.reload(true)
+    return
+  }
+
+  let show_alert    = false
+  let debug_message = null
+
+  switch(type) {
+    case C.SET_RSA_PUBLIC_KEY:
+      show_alert    = true
+      debug_message = [
+        'WARNING: Redux action "SET_RSA_PUBLIC_KEY" failed on the server.',
+        'The most likely reason is that a "public_key" is already associated with the current Google user account.',
+        'Updating the associated keypair will cause your mailbox to diverge: (1) the previous "private_key" will be required to decrypt older messages, and (2) the updated "private_key" will be required to decrypt newer messages.',
+        'You should only consider updating your keypair if either: (1) you have lost your "private_key" and are no-longer able to read your encrypted messages, or (2) an untrusted 3rd party has gained access to your "private_key".'
+      ].join(' ')
+
+      break
+    default:
+      break
+  }
+
+  if (debug_message) {
+    dispatch(
+      actions.LOG_DEBUG_MESSAGE(`SERVER-SIDE ERROR: "API_middleware" -> "${target}":`, debug_message, {error})
+    )
+
+    if (show_alert)
+      window.alert(debug_message)
+  }
+  else {
+    dispatch(
+      actions.LOG_DEBUG_MESSAGE(`SERVER-SIDE ERROR: "API_middleware" -> "${target}":`, {error})
+    )
+  }
+}
 
 // -----------------------------------------------------------------------------
 
@@ -16,7 +83,10 @@ API['GET_FOLDERS'] = ({getState, dispatch, next, action}) => {
     )
   }
 
-  google.script.run.withSuccessHandler(onSuccess).get_folders()
+  const onFailure = HELPERS.FailureHandler(dispatch, action)
+  const my_email  = HELPERS.get_email(getState)
+
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).get_folders(my_email)
 }
 
 // -----------------------------------------------------------------------------
@@ -54,7 +124,10 @@ API['GET_THREADS_IN_FOLDER'] = ({getState, dispatch, next, action}) => {
     )
   }
 
-  google.script.run.withSuccessHandler(onSuccess).get_threads_in_folder(folder_name, body_length, start, max)
+  const onFailure = HELPERS.FailureHandler(dispatch, action)
+  const my_email  = HELPERS.get_email(getState)
+
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).get_threads_in_folder(my_email, folder_name, body_length, start, max)
 }
 
 // -----------------------------------------------------------------------------
@@ -95,6 +168,9 @@ API['GET_THREAD'] = ({getState, dispatch, next, action}) => {
     )
   }
 
+  const onFailure = HELPERS.FailureHandler(dispatch, action)
+  const my_email  = HELPERS.get_email(getState)
+
   const current_message_count = (() => {
     const state  = getState()
     const thread = state.threads[thread_id]
@@ -102,7 +178,7 @@ API['GET_THREAD'] = ({getState, dispatch, next, action}) => {
     return (!thread || !thread.messages) ? 0 : thread.messages.length
   })()
 
-  google.script.run.withSuccessHandler(onSuccess).get_thread(thread_id, current_message_count)
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).get_thread(my_email, thread_id, current_message_count)
 }
 
 // -----------------------------------------------------------------------------
@@ -122,11 +198,14 @@ API['UPDATE_THREAD'] = ({getState, dispatch, next, action}) => {
       )
     }
     else {
-      console.log('WARNING: Redux action "UPDATE_THREAD" failed on the server.')
+      onFailure('WARNING: Redux action "UPDATE_THREAD" failed on the server.')
     }
   }
 
-  google.script.run.withSuccessHandler(onSuccess).update_thread(thread_id, options)
+  const onFailure = HELPERS.FailureHandler(dispatch, action)
+  const my_email  = HELPERS.get_email(getState)
+
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).update_thread(my_email, thread_id, options)
 }
 
 // -----------------------------------------------------------------------------
@@ -147,11 +226,14 @@ API['UPDATE_MESSAGE'] = ({getState, dispatch, next, action}) => {
       )
     }
     else {
-      console.log('WARNING: Redux action "UPDATE_MESSAGE" failed on the server.')
+      onFailure('WARNING: Redux action "UPDATE_MESSAGE" failed on the server.')
     }
   }
 
-  google.script.run.withSuccessHandler(onSuccess).update_message(message_id, options)
+  const onFailure = HELPERS.FailureHandler(dispatch, action)
+  const my_email  = HELPERS.get_email(getState)
+
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).update_message(my_email, message_id, options)
 }
 
 // -----------------------------------------------------------------------------
@@ -164,18 +246,6 @@ API['SET_RSA_PUBLIC_KEY'] = ({getState, dispatch, next, action}) => {
 
   allow_update = !!allow_update  // cast to a boolean
 
-  const onFailure = () => {
-    let msg = [
-      'WARNING: Redux action "SET_RSA_PUBLIC_KEY" failed on the server.',
-      'The most likely reason is that a "public_key" is already associated with the current Google user account.',
-      'Updating the associated keypair will cause your mailbox to diverge: (1) the previous "private_key" will be required to decrypt older messages, and (2) the updated "private_key" will be required to decrypt newer messages.',
-      'You should only consider updating your keypair if either: (1) you have lost your "private_key" and are no-longer able to read your encrypted messages, or (2) an untrusted 3rd party has gained access to your "private_key".'
-    ].join(' ')
-
-    console.log(msg)
-    window.alert(msg)
-  }
-
   const onSuccess = result => {
     if (typeof result !== 'boolean') return
 
@@ -183,8 +253,6 @@ API['SET_RSA_PUBLIC_KEY'] = ({getState, dispatch, next, action}) => {
 
     // save to store
 
-    const state       = getState()
-    const my_email    = state.user.email_address
     const public_keys = {[my_email]: public_key}
 
     dispatch(
@@ -192,7 +260,10 @@ API['SET_RSA_PUBLIC_KEY'] = ({getState, dispatch, next, action}) => {
     )
   }
 
-  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).set_public_key(public_key, allow_update)
+  const onFailure = HELPERS.FailureHandler(dispatch, action)
+  const my_email  = HELPERS.get_email(getState)
+
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).set_public_key(my_email, public_key, allow_update)
 }
 
 API['GET_RSA_PUBLIC_KEYS'] = ({getState, dispatch, next, action}) => {
@@ -221,7 +292,10 @@ API['GET_RSA_PUBLIC_KEYS'] = ({getState, dispatch, next, action}) => {
     )
   }
 
-  google.script.run.withSuccessHandler(onSuccess).get_public_keys(filtered_emails)
+  const onFailure = HELPERS.FailureHandler(dispatch, action)
+  const my_email  = HELPERS.get_email(getState)
+
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).get_public_keys(my_email, filtered_emails)
 }
 
 // -----------------------------------------------------------------------------
@@ -238,10 +312,13 @@ API['SEND_EMAIL']['REPLY'] = ({getState, dispatch, next, action}) => {
     if (typeof result !== 'boolean') return
 
     if (!result)
-      console.log('WARNING: Redux action "SEND_EMAIL_REPLY" failed on the server.')
+      onFailure('WARNING: Redux action "SEND_EMAIL_REPLY" failed on the server.')
   }
 
-  google.script.run.withSuccessHandler(onSuccess).send_reply_to_thread(thread_id, body, cc, attachments)
+  const onFailure = HELPERS.FailureHandler(dispatch, action)
+  const my_email  = HELPERS.get_email(getState)
+
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).send_reply_to_thread(my_email, thread_id, body, cc, attachments)
 }
 
 API['SEND_EMAIL']['NEW_MESSAGE'] = ({getState, dispatch, next, action}) => {
@@ -255,16 +332,23 @@ API['SEND_EMAIL']['NEW_MESSAGE'] = ({getState, dispatch, next, action}) => {
     if (typeof result !== 'boolean') return
 
     if (!result)
-      console.log('WARNING: Redux action "SEND_EMAIL_NEW_MESSAGE" failed on the server.')
+      onFailure('WARNING: Redux action "SEND_EMAIL_NEW_MESSAGE" failed on the server.')
   }
 
-  google.script.run.withSuccessHandler(onSuccess).send_new_email(recipient, subject, body, cc, attachments)
+  const onFailure = HELPERS.FailureHandler(dispatch, action)
+  const my_email  = HELPERS.get_email(getState)
+
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).send_new_email(my_email, recipient, subject, body, cc, attachments)
 }
 
 // -----------------------------------------------------------------------------
 
 const API_middleware = ({getState, dispatch}) => next => action => {
   switch (action.type) {
+
+    case C.PROPOGATE_SERVER_API_ERROR:
+      TRIGGERS.PROPOGATE_SERVER_API_ERROR({getState, dispatch, next, action})
+      break
 
     case C.GET_FOLDERS:
       API.GET_FOLDERS({getState, dispatch, next, action})

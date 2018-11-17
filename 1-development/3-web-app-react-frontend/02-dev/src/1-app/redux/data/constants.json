@@ -2,6 +2,7 @@
     "actions": {
         "STORE_INITIALIZED":                "STORE_INITIALIZED",
         "LOG_DEBUG_MESSAGE":                "LOG_DEBUG_MESSAGE",
+        "PROPOGATE_SERVER_API_ERROR":       "PROPOGATE_SERVER_API_ERROR",
 
         "GET_FOLDERS":                      "GET_FOLDERS",
         "SAVE_FOLDERS":                     "SAVE_FOLDERS",
