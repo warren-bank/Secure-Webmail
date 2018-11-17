@@ -3,8 +3,8 @@ const PropTypes   = require('prop-types')
 
 const {GoogleLogin, GoogleLogout} = require('react-google-login')
 
-const constants         = require('react/data/constants')
 const addEventListener  = require('react/lib/loginParentIframe')
+const constants         = window.constants
 
 class App extends React.Component {
   constructor(props) {
@@ -59,15 +59,18 @@ class App extends React.Component {
 
   render() {
     let url    = constants.urls.iframe_source
-    let params = []
-    if (this.tid)
-      params.push(`tid=${this.tid}`)
-    if (this.state.account)
-      params.push(`email=${this.state.account}`)
-    if (params.length) {
-      params = params.join('&')
-      params = window.encodeURIComponent(params)
-      url += '?' + params
+
+    if (url.indexOf('data:text/html;base64,') !== 0) {
+      let params = []
+      if (this.tid)
+        params.push(`tid=${this.tid}`)
+      if (this.state.account)
+        params.push(`email=${this.state.account}`)
+      if (params.length) {
+        params = params.join('&')
+        params = window.encodeURIComponent(params)
+        url += '?' + params
+      }
     }
 
     return (

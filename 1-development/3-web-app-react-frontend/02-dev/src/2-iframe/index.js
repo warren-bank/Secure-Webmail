@@ -17,8 +17,8 @@
 
   const App               = require('react/components/presentation/class/App')
   const addEventListener  = require('react/lib/resizeParentIframe')
-  const constants         = require('react/data/constants')
 
+  const constants         = window.constants
   const iframe_id         = 'secure_webmail_iframe'
   const container_id      = 'root'
 
