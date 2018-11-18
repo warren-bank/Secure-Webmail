@@ -16,7 +16,10 @@
   const ReactDOM          = require('react-dom')
 
   const App               = require('react/components/presentation/class/App')
-  const addEventListener  = require('react/lib/resizeParentIframe')
+  const addEventListener  = {
+    resize:                 require('react/lib/resizeParentIframe'),
+    reload:                 require('react/lib/reloadParentIframe')
+  }
 
   const constants         = window.constants
   const iframe_id         = 'secure_webmail_iframe'
@@ -30,7 +33,8 @@
       document.getElementById(container_id)
     )
 
-    addEventListener(iframe_id, container_id)
+    addEventListener.resize(iframe_id, container_id)
+    addEventListener.reload()
   }
 
   if (`${top.location.protocol}//${top.location.hostname}/` !== constants.urls.iframe_parent) {

@@ -71,9 +71,11 @@ update_inbox()
 //  * run the following script(s) in javascript console
 // =====================================
 
-google.script.run.withSuccessHandler(console.log).get_folders()
+const active_email_address = window.init_data.email_address
 
-google.script.run.withSuccessHandler(console.log).get_threads_in_folder('inbox', 0, 0, 10)
+google.script.run.withSuccessHandler(console.log).get_folders(active_email_address)
+
+google.script.run.withSuccessHandler(console.log).get_threads_in_folder(active_email_address, 'inbox', 0, 0, 10)
 
 let thread_ids = {
   "unencrypted w/o attachment": "167115dc1b737d3f",
@@ -81,10 +83,32 @@ let thread_ids = {
   "encrypted w/ attachment":    "1670eb635f2f2a6f"
 }
 
-google.script.run.withSuccessHandler(console.log).get_thread( thread_ids["unencrypted w/o attachment"] )
-google.script.run.withSuccessHandler(console.log).get_thread( thread_ids["unencrypted w/ attachment"] )
-google.script.run.withSuccessHandler(console.log).get_thread( thread_ids["encrypted w/ attachment"] )
+google.script.run.withSuccessHandler(console.log).get_thread( active_email_address, thread_ids["unencrypted w/o attachment"] )
+google.script.run.withSuccessHandler(console.log).get_thread( active_email_address, thread_ids["unencrypted w/ attachment"] )
+google.script.run.withSuccessHandler(console.log).get_thread( active_email_address, thread_ids["encrypted w/ attachment"] )
 
-google.script.run.withSuccessHandler(console.log).get_public_keys([init_data.email_address])
+google.script.run.withSuccessHandler(console.log).get_public_keys(active_email_address, [active_email_address])
+
+--------------------------------------------------------------------------------
+
+// =====================================
+// purpose:
+//  * log error that occurs when Google account is modified (out-of-band)
+// =====================================
+// usage:
+//  * open "inbox" folder
+//      https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec
+//  * run the following script(s) in javascript console
+// =====================================
+
+const active_email_address = 'mismatch_' + window.init_data.email_address
+
+const onFailure = (error) => {
+  console.log('typeof error:', (typeof error))
+  console.log('toJSON:', JSON.stringify(error, null, 4))
+  console.log('raw:', {error})
+}
+
+google.script.run.withFailureHandler(onFailure).withSuccessHandler(console.log).get_folders(active_email_address)
 
 --------------------------------------------------------------------------------

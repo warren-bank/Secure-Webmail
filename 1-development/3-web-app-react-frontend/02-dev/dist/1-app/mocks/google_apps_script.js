@@ -9,7 +9,7 @@ window.google = {}
   }
 
   let do_run = function(val){
-    return function(...args){
+    return function(active_email_address, ...args){
       let _val = (typeof val === 'function')
         ? val(...args)
         : shallow_copy(val)

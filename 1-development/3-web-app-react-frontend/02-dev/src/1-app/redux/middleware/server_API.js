@@ -20,29 +20,36 @@ HELPERS['get_email'] = (getState) => {
   return state.user.email_address
 }
 
+HELPERS['reload_app'] = () => {
+  if (!window.top || (window.top === window)) {
+    window.location.reload(true)
+  }
+  else {
+    require('react/lib/reloadParentIframe')()
+  }
+}
+
 // -----------------------------------------------------------------------------
 
 TRIGGERS['PROPOGATE_SERVER_API_ERROR'] = ({getState, dispatch, next, action}) => {
   const {target, error} = action
 
   // occurs when the visitor is no-longer logged into any Google account
-  if ((typeof error === 'string') && (error === 'NetworkError: Connection failure due to HTTP 401')) {
-    const win = window.top || window
-    win.location.reload(true)
-    return
-  }
+  if ((typeof error === 'string') && (error === 'NetworkError: Connection failure due to HTTP 401'))
+    HELPERS.reload_app()
+
+  // occurs when the visitor has changed their "active" Google account
+  if ((typeof error === 'object') && (error !== null) && (error.name === 'ScriptError') && (error.message === 'Authorization is required to perform that action.'))
+    HELPERS.reload_app()
 
   // returned by server API when the visitor has changed their "active" Google account
-  if ((typeof error === 'string') && (error === 'Account Mismatch Error')) {
-    const win = window.top || window
-    win.location.reload(true)
-    return
-  }
+  if ((typeof error === 'object') && (error !== null) && (error.message === 'Account Mismatch Error'))
+    HELPERS.reload_app()
 
   let show_alert    = false
   let debug_message = null
 
-  switch(type) {
+  switch(target) {
     case C.SET_RSA_PUBLIC_KEY:
       show_alert    = true
       debug_message = [

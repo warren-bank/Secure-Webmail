@@ -69,3 +69,9 @@ body,
 }
 
 /* ------------------------------------------------------------------ */
+
+#root > .app > .iframe_container > iframe {
+  min-height: 500px;  /* required for initial Google user authorization prompt */
+}
+
+/* ------------------------------------------------------------------ */
