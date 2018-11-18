@@ -20,7 +20,7 @@ const format_to = (to, store) => {
   return result
 }
 
-const component = ({thread_id, message_id, body, summary, settings}, {store, actions}) => {
+const component = ({thread_id, message_id, has_attachments, body, summary, settings}, {store, actions}) => {
   actions.DEBUG(`rendering: ${displayName}`, {message_id, summary, settings})
 
   const timestamp = format_date(summary.timestamp)
@@ -56,6 +56,7 @@ const component = ({thread_id, message_id, body, summary, settings}, {store, act
         <span className="to" role="tooltip" title={to}>{to}</span>
       </div>
       <div className="row row_3 checked_collapse">
+        <span className={has_attachments ? 'has_attachments' : 'no_attachments'}></span>
         <span className="body">{body}</span>
       </div>
     </div>
@@ -63,11 +64,12 @@ const component = ({thread_id, message_id, body, summary, settings}, {store, act
 }
 
 component.propTypes = {
-  thread_id:   PropTypes.string.isRequired,
-  message_id:  PropTypes.string.isRequired,
-  body:        PropTypes.string.isRequired,
-  summary:     PropTypes.object.isRequired,
-  settings:    PropTypes.object.isRequired
+  thread_id:        PropTypes.string.isRequired,
+  message_id:       PropTypes.string.isRequired,
+  has_attachments:  PropTypes.bool.isRequired,
+  body:             PropTypes.string.isRequired,
+  summary:          PropTypes.object.isRequired,
+  settings:         PropTypes.object.isRequired
 }
 
 component.contextTypes = {

@@ -12,19 +12,14 @@ const Message_Contents  = require(`./${displayName}/Message_Contents`)
 
 const component = ({thread_id, message_id, summary, settings, contents, start_expanded, onExpandCollapse}) => {
 
+  const has_attachments = !!(contents && Array.isArray(contents.attachments) && contents.attachments.length)
+
   if (!(
-    contents &&
-    (
-      contents.body ||
-      (
-        Array.isArray(contents.attachments) && contents.attachments.length
-      )
-    )
+    contents && (contents.body || has_attachments)
   )) return null
 
   const body     = sanitize_html( contents.body.substring(0, 160) )
-
-  const label   = <Message_Summary  {...{thread_id, message_id, body, summary, settings}} />
+  const label   = <Message_Summary  {...{thread_id, message_id, has_attachments, body, summary, settings}} />
   const content = <Message_Contents {...{contents}} />
 
   return (

@@ -616,6 +616,25 @@ html, body, .wrapper {
   font-style: italic;
 }
 
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_3 > span.has_attachments,
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_3 > span.no_attachments {
+  display: inline-block;
+  width:  2em;
+  height: 1em;
+  vertical-align: middle;
+  margin-right: 0.5em;
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_3 > span.has_attachments {
+  background-repeat: no-repeat;
+  background-size: 2em;
+  background-position: center;
+
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/attachment_black_36dp.png');
+}
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_summary > .row_3 > span.no_attachments {
+  visibility: hidden;
+}
+
 /* ------------------------------------------------------------------ */
 
 .top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .body,
