@@ -206,7 +206,7 @@ const component = (props, {history}) => {
       <ul>
           <li><a target="_blank" href="https://choosealicense.com/no-permission/">No license.</a>
               <ul>
-                  <li>the source code is publicly available for the purpose of security audit</li>
+                  <li>the <a target="_blank" href="https://github.com/warren-bank/Secure-Webmail">source code</a> is publicly available for the purpose of security audit</li>
                   <li>full copyright is held by the author
                       <ul>
                           <li>code contributions will <strong>NOT</strong> be accepted, unless the contributor transfers copyright ownership to the author</li>
@@ -227,7 +227,7 @@ const component = (props, {history}) => {
                   </li>
               </ul>
           </li>
-          <li>A private license is available for purchase.
+          <li>A private license is <a target="_blank" href="mailto:secure.webmail.addon@gmail.com?subject=private-license">available for purchase</a>.
               <ul>
                   <li>intended for use by a limited number of members belonging to a private organization</li>
                   <li>implications:
