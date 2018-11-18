@@ -39,6 +39,9 @@ RSA['GENERATE_KEYPAIR'] = ({getState, dispatch, next, action}) => {
     dispatch(
       actions.SAVE_APP.SETTING.IS_GENERATING_KEYPAIR(false)
     )
+    dispatch(
+      actions.RESPOND_TO_USER_EVENT.DOWNLOAD_PRIVATE_KEY(private_key)
+    )
   })
   .catch((err) => {})
 }

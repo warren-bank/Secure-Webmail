@@ -48,6 +48,23 @@ EVENT['OPEN_THREAD'] = ({getState, dispatch, next, action}) => {
 
 // -----------------------------------------------------------------------------
 
+EVENT['DOWNLOAD_PRIVATE_KEY'] = ({getState, dispatch, next, action}) => {
+  let {private_key} = action
+  if (!private_key) {
+    const state = getState()
+    private_key = state.app.ui.settings.private_key
+  }
+  if (!private_key) return
+
+  const {get_data_url, download_data_url} = require('react/lib/download_data_url')
+
+  const dataurl  = get_data_url(private_key, 'text/plain')
+  const filename = constants.export_filenames.PRIVATE_KEY
+  download_data_url(dataurl, filename)
+}
+
+// -----------------------------------------------------------------------------
+
 const EVENT_middleware = ({getState, dispatch}) => next => action => {
   switch (action.type) {
 
@@ -57,6 +74,10 @@ const EVENT_middleware = ({getState, dispatch}) => next => action => {
 
     case C.RESPOND_TO_USER_EVENT.OPEN_THREAD:
       EVENT.OPEN_THREAD({getState, dispatch, next, action})
+      break
+
+    case C.RESPOND_TO_USER_EVENT.DOWNLOAD_PRIVATE_KEY:
+      EVENT.DOWNLOAD_PRIVATE_KEY({getState, dispatch, next, action})
       break
 
     case C.RESPOND_TO_USER_EVENT.OPEN_COMPOSE_MESSAGE:

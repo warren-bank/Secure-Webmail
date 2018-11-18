@@ -443,6 +443,13 @@ actions['RESPOND_TO_USER_EVENT']['OPEN_COMPOSE_MESSAGE'] = (history, is_push) =>
   }
 }
 
+actions['RESPOND_TO_USER_EVENT']['DOWNLOAD_PRIVATE_KEY'] = (private_key) => {
+  return {
+    type: C.RESPOND_TO_USER_EVENT.DOWNLOAD_PRIVATE_KEY,
+    private_key
+  }
+}
+
 // -----------------------------------------------------------------------------
 
 module.exports = actions
