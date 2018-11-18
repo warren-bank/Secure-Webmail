@@ -52,7 +52,7 @@ EVENT['DOWNLOAD_PRIVATE_KEY'] = ({getState, dispatch, next, action}) => {
   let {private_key} = action
   if (!private_key) {
     const state = getState()
-    private_key = state.app.ui.settings.private_key
+    private_key = state.app.settings.private_key
   }
   if (!private_key) return
 
