@@ -1,3 +1,5 @@
+const {reloadWindow} = require('react/lib/querystring')
+
 const onMessage = function(event){
 
   try {
@@ -6,7 +8,7 @@ const onMessage = function(event){
 
     switch(data.type) {
       case 'reloadParentIframe':
-        window.location.reload(true)
+        reloadWindow(['env', 'debug'])
         break
       default:
         break

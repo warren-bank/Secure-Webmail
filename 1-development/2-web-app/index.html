@@ -13,7 +13,8 @@
     <script>
       var init_data = {
         email_address: "<?!= state.email_address ?>",
-        thread_id:     "<?!= state.thread_id ?>"
+        thread_id:     "<?!= state.thread_id ?>",
+        debug:          <?!= state.debug ? 'true' : 'false' ?>
       }
     </script>
     <?!= helpers.include('js/bundle-js') ?>

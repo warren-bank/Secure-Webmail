@@ -1,7 +1,7 @@
 const constants  = require('redux/data/constants')
 
 const C       = constants.actions
-const debug   = (window.location.protocol === 'file:') && window.mock_data
+const debug   = ((window.location.protocol === 'file:') && window.mock_data) || (window.init_data && window.init_data.debug)
 const verbose = false
 
 const LOGGER_middleware = ({getState, dispatch}) => next => action => {

@@ -35,8 +35,11 @@ note:
 // usage:
 //  * open "inbox" folder
 //      file://../1-development/3-web-app-react-frontend/02-dev/dist/index.html
-//  * run the following script in javascript console
-//  * click "refresh" icon
+//  * open the javascript console
+//  * select the window:
+//      top
+//  * run the following script..
+//  * click the "refresh" icon
 // =====================================
 
 const update_inbox = () => {
@@ -68,7 +71,10 @@ update_inbox()
 // usage:
 //  * open "inbox" folder
 //      https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec
-//  * run the following script(s) in javascript console
+//  * open the javascript console
+//  * select the window:
+//      top > sandboxFrame > userHtmlFrame
+//  * run the following script(s):
 // =====================================
 
 const active_email_address = window.init_data.email_address
@@ -98,7 +104,10 @@ google.script.run.withSuccessHandler(console.log).get_public_keys(active_email_a
 // usage:
 //  * open "inbox" folder
 //      https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec
-//  * run the following script(s) in javascript console
+//  * open the javascript console
+//  * select the window:
+//      top > sandboxFrame > userHtmlFrame
+//  * run the following script(s):
 // =====================================
 
 const active_email_address = 'mismatch_' + window.init_data.email_address
@@ -110,5 +119,23 @@ const onFailure = (error) => {
 }
 
 google.script.run.withFailureHandler(onFailure).withSuccessHandler(console.log).get_folders(active_email_address)
+
+--------------------------------------------------------------------------------
+
+// =====================================
+// development account:
+// =====================================
+
+https://secure-webmail.github.io/?env=test
+https://secure-webmail.github.io/?env=test&debug=1
+https://secure-webmail.github.io/?env=test&debug=1&tid=1670eb635f2f2a6f
+
+// =====================================
+// production account:
+//   -> currently displays a 503 (service unavailable) status response message
+// =====================================
+
+https://secure-webmail.github.io/?debug=1
+https://secure-webmail.github.io/?debug=1&tid=1670eb635f2f2a6f
 
 --------------------------------------------------------------------------------

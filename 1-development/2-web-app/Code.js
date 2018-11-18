@@ -21,7 +21,8 @@ var spreadsheet_id = {
 
 var state = {
   email_address: Session.getEffectiveUser().getEmail().toLowerCase(),
-  thread_id:     ''
+  thread_id:     '',
+  debug:         false
 }
 
 var helpers = {}
@@ -48,6 +49,10 @@ function doGet(e) {
   try {
     if (e && e.parameter && e.parameter.tid) {
       state.thread_id = e.parameter.tid
+    }
+
+    if (e && e.parameter && e.parameter.debug) {
+      state.debug = true
     }
 
     html = helpers.get_response('index')
