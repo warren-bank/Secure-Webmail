@@ -16,7 +16,7 @@
     "https://www.googleapis.com/auth/gmail.addons.current.action.compose"
   ],
   "urlFetchWhitelist": [
-    "https://secure-webmail.github.io"
+    "https://secure-webmail.github.io/"
   ],
   "gmail": {
     "name": "Secure Webmail",
