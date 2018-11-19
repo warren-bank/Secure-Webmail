@@ -10,8 +10,8 @@
  * for the purpose of security audit only.
  */
 
-var user = {
-  email: Session.getEffectiveUser().getEmail().toLowerCase()
+var state = {
+  email_address: Session.getEffectiveUser().getEmail().toLowerCase()
 }
 
 var current_email = {
