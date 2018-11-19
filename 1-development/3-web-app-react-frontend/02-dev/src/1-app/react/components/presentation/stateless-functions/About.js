@@ -45,7 +45,7 @@ const component = (props, {history}) => {
 
       <hr />
 
-      <h4>Survey of Existing Solutions <em><sup className="small">[1-2]</sup></em></h4>
+      <h4>Survey of Existing Solutions <em><sup className="small">[1-3]</sup></em></h4>
       <ul>
         <li>Pretty Good Privacy (PGP) is the <a target="_blank" href="https://tools.ietf.org/html/rfc4880">standard</a> for securing email communication with encryption.
           <ul>
@@ -87,6 +87,7 @@ const component = (props, {history}) => {
       <ol className="small">
         <li><a target="_blank" href="https://trendblog.net/encrypt-gmail-openpgp/">https://trendblog.net/encrypt-gmail-openpgp/</a></li>
         <li><a target="_blank" href="http://www.primalsecurity.net/pgp-encryption/">http://www.primalsecurity.net/pgp-encryption/</a></li>
+        <li><a target="_blank" href="https://www.wired.com/2017/02/3-years-gmails-end-end-encryption-still-vapor/">https://www.wired.com/2017/02/3-years-gmails-end-end-encryption-still-vapor/</a></li>
       </ol>
 
       <hr />
@@ -175,7 +176,7 @@ const component = (props, {history}) => {
 
       <h4>Pros</h4>
       <ul>
-        <li>All cryptographic operations are transparent to the end-user.
+        <li>All cryptographic operations are transparent to the end-user, with the following caveats:
           <ul>
             <li>initial generation of an asymmetric keypair requires a single mouse-click</li>
             <li>persistent storage of the private RSA encryption key is the responsibility of the end-user

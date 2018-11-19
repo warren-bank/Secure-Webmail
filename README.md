@@ -16,7 +16,7 @@
 
 - - - -
 
-#### Survey of Existing Solutions _<sup>[1-2]</sup>_
+#### Survey of Existing Solutions _<sup>[1-3]</sup>_
 
 * Pretty Good Privacy (PGP) is the [standard](https://tools.ietf.org/html/rfc4880) for securing email communication with encryption.
   * it works as a technical solution
@@ -25,18 +25,21 @@
     * there is no defacto keystore from which to obtain asymmetric public keys
     * support by popular email service providers (ex: Gmail) is non-existent
     * support by popular email clients (ex: [Thunderbird](https://support.mozilla.org/en-US/kb/digitally-signing-and-encrypting-messages)) is very limited
-    * support for basic features in experimental tools that only the technically-minded might use (ex: [mailvelope](https://github.com/mailvelope/mailvelope/issues/608)) is incomplete
-* Specialized email service providers that combine a proprietary keystore with a proprietary client,
-  which requires that all email participants use the service to send and receive messages.
-* Specialized services that layer on top of any email service provider.
-  * encryption can be performed on the client
-  * decryption can be performed on the client
-  * out-of-band communication between email participants is needed to share the symmetric encryption key required to decrypt the message
+    * open-source tools are all highly experimental, and either:
+      * feature incomplete (ex: [mailvelope](https://github.com/mailvelope/mailvelope/issues/608))
+      * outright abandoned (ex: [Google End-To-End](https://github.com/google/end-to-end/issues/391))
+* Specialized email service providers:
+  * combine a proprietary keystore with a proprietary client
+  * require that all email participants use the service to both send and receive messages
+* Specialized services that layer on top of any email service provider:
+  * encryption and decryption are performed on the client
+  * out-of-band communication between email participants is needed to share encryption key(s)
 
 #### References
 
 1. [https://trendblog.net/encrypt-gmail-openpgp/](https://trendblog.net/encrypt-gmail-openpgp/)
 2. [http://www.primalsecurity.net/pgp-encryption/](http://www.primalsecurity.net/pgp-encryption/)
+3. [https://www.wired.com/2017/02/3-years-gmails-end-end-encryption-still-vapor/](https://www.wired.com/2017/02/3-years-gmails-end-end-encryption-still-vapor/)
 
 - - - -
 
@@ -80,7 +83,7 @@
 
 #### Pros
 
-* All cryptographic operations are transparent to the end-user.
+* All cryptographic operations are transparent to the end-user, with the following caveats:
   * initial generation of an asymmetric keypair requires a single mouse-click
   * persistent storage of the private RSA encryption key is the responsibility of the end-user
     * if lost, then all emails sent or received using that keypair can no-longer be decrypted by the corresponding Google account
@@ -107,7 +110,7 @@
 #### License
 
 * [No license.](https://choosealicense.com/no-permission/)
-  * the source code is publicly available for the purpose of security audit
+  * the [source code](https://github.com/warren-bank/Secure-Webmail) is publicly available for the purpose of security audit
   * full copyright is held by the author
     * code contributions will __NOT__ be accepted, unless the contributor transfers copyright ownership to the author
   * permission is __NOT__ granted to any other individual or business entity to host (publicly or privately) any of the source code (in its original form or in any derived form)
@@ -117,7 +120,7 @@
       * minification
       * compilation
       * transcompilation
-* A private license is available for purchase.
+* A private license is [available for purchase](mailto:secure.webmail.addon@gmail.com?subject=private-license).
   * intended for use by a limited number of members belonging to a private organization
   * implications:
     * when the source code is published, the new instance does not share the same &ldquo;Properties Service&rdquo; key-value store
