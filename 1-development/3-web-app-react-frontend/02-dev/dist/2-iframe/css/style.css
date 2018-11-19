@@ -51,7 +51,7 @@ body,
 }
 
 #root > .app > .header > button.google > span.icon {
-  background: url('../img/icon.png') transparent center/100% no-repeat;
+  background: url('../img/icons/google-login.png') transparent center/100% no-repeat;
   display: inline-block;
   vertical-align: middle;
   width:  42px;
