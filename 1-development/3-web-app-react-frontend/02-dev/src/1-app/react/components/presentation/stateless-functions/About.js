@@ -59,17 +59,26 @@ const component = (props, {history}) => {
                 <li>there is no defacto keystore from which to obtain asymmetric public keys</li>
                 <li>support by popular email service providers (ex: Gmail) is non-existent</li>
                 <li>support by popular email clients (ex: <a target="_blank" href="https://support.mozilla.org/en-US/kb/digitally-signing-and-encrypting-messages">Thunderbird</a>) is very limited</li>
-                <li>support for basic features in experimental tools that only the technically-minded might use (ex: <a target="_blank" href="https://github.com/mailvelope/mailvelope/issues/608">mailvelope</a>) is incomplete</li>
+                <li>open-source tools are all highly experimental, and either:
+                  <ul>
+                    <li>feature incomplete (ex: <a target="_blank" href="https://github.com/mailvelope/mailvelope/issues/608">mailvelope</a>)</li>
+                    <li>outright abandoned (ex: <a target="_blank" href="https://github.com/google/end-to-end/issues/391">Google End-To-End</a>)</li>
+                  </ul>
+                </li>
               </ul>
             </li>
           </ul>
         </li>
-        <li>Specialized email service providers that combine a proprietary keystore with a proprietary client, which requires that all email participants use the service to send and receive messages.</li>
-        <li>Specialized services that layer on top of any email service provider.
+        <li>Specialized email service providers:
           <ul>
-            <li>encryption can be performed on the client</li>
-            <li>decryption can be performed on the client</li>
-            <li>out-of-band communication between email participants is needed to share the symmetric encryption key required to decrypt the message</li>
+            <li>combine a proprietary keystore with a proprietary client</li>
+            <li>require that all email participants use the service to both send and receive messages</li>
+          </ul>
+        </li>
+        <li>Specialized services that layer on top of any email service provider:
+          <ul>
+            <li>encryption and decryption are performed on the client</li>
+            <li>out-of-band communication between email participants is needed to share encryption key(s)</li>
           </ul>
         </li>
       </ul>
