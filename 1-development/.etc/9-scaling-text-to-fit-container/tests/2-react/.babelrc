@@ -1,0 +1,7 @@
+{
+  "presets": [
+    "../../../../3-web-app-react-frontend/02-dev/node_modules/babel-preset-env",
+    "../../../../3-web-app-react-frontend/02-dev/node_modules/babel-preset-stage-0",
+    "../../../../3-web-app-react-frontend/02-dev/node_modules/babel-preset-react"
+  ]
+}

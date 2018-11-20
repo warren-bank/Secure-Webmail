@@ -1,0 +1,10 @@
+div.component.fontscaler  {
+/*
+  display:     block;
+  white-space: nowrap;
+  overflow:    hidden;
+  font-size:   1em;
+  width:      10em;
+ */
+  height:      1em;
+}
