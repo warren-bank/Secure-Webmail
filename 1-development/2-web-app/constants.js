@@ -4,6 +4,5 @@ var app = {
   public_url: 'https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec'
 }
 
-var spreadsheet_id = {
-  errors: '1dSjsGGZ0iDVrcLFh0qVLlU7ZxwWdHhlvdHKDpOIzF-c'
-}
+// reminder: URL needs to be added to "urlFetchWhitelist" in "appsscript.json"
+var logger_service_URL = 'https://script.google.com/macros/s/AKfycbz_PwK-fIKfpmSm1huz8cUXrfc2n5fPLr21aRHZenCsRA7D62Q/exec'

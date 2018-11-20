@@ -2,5 +2,12 @@
   "timeZone": "GMT",
   "dependencies": {
   },
+  "webapp": {
+    "access": "ANYONE",
+    "executeAs": "USER_ACCESSING"
+  },
+  "urlFetchWhitelist": [
+    "https://script.google.com/macros/s/AKfycbz_PwK-fIKfpmSm1huz8cUXrfc2n5fPLr21aRHZenCsRA7D62Q/exec"
+  ],
   "exceptionLogging": "STACKDRIVER"
 }

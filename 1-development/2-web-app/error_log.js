@@ -1,42 +1,60 @@
-function get_error_string_chunks(e) {
-  try {
-    var props = Object.getOwnPropertyNames(e)
-    var i, prop
-    var str = ''
+function convert_error_object_to_string_(e) {
+  if (typeof e === 'object') {
+    if (e === null) return null
 
-    str += '{'
-    for (i=0; i < props.length; i++) {
-      prop = props[i]
-      if (i>0) str += ', '
-      str += '"' + prop + '": ' + JSON.stringify(e[prop])
+    try {
+      var props = Object.getOwnPropertyNames(e)
+      if (!props.length) return null
+
+      var i, prop
+      var str = ''
+
+      str += '{'
+      for (i=0; i < props.length; i++) {
+        prop = props[i]
+        if (i>0) str += ', '
+        str += '"' + prop + '": ' + JSON.stringify(e[prop])
+      }
+      str += '}'
+
+      return str
     }
-    str += '}'
-
-    // prevent error: "Your input contains more than the maximum of 50000 characters in a single cell."
-    var chunks = str.match(/.{1,50000}/g)
-    return chunks
+    catch(err) {
+      return e.message || null
+    }
   }
-  catch(err){
-    return [e.message, err.message]
-  }
+  return e
 }
 
-function log_error(ss, e) {
-  var string_chunks = get_error_string_chunks(e)
-  var last_column_index = 2 + string_chunks.length
-  var row_data = [new Date(), state.email_address].concat(string_chunks)
+function log_error_(script_name, script_version, script_context, user_email, error) {
+  error = convert_error_object_to_string_(error)
+  if (!error || (typeof error !== 'string')) return
 
-  var range = ss.getRange(ss.getLastRow()+1, 1, 1, last_column_index)
-  var values = [row_data]
-  range.setValues(values)
+  var POST_data = JSON.stringify({
+    "script_name":    script_name,
+    "script_version": script_version,
+    "script_context": script_context,
+    "user_email":     user_email,
+    "error":          error
+  })
+
+  var options = {
+    "method":                    "post",
+    "contentType":               "application/json",
+    "payload":                   POST_data,
+    "followRedirects":           true,
+    "muteHttpExceptions":        true,
+    "validateHttpsCertificates": true
+  }
+
+  var response = UrlFetchApp.fetch(logger_service_URL, options)
+  Logger.log('Log Service response: (' + response.getResponseCode() + ') ' + response.getContentText())
 }
 
 function log_server_error(e){
-  var ss = SpreadsheetApp.openById(spreadsheet_id.errors).getSheetByName('errors_server')
-  log_error(ss, e)
+  log_error_(app.title, app.version, 'server', state.email_address, e)
 }
 
 function log_client_error(e){
-  var ss = SpreadsheetApp.openById(spreadsheet_id.errors).getSheetByName('errors_client')
-  log_error(ss, e)
+  log_error_(app.title, app.version, 'client', state.email_address, e)
 }

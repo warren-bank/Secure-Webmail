@@ -1,0 +1,61 @@
+--------------------------------------------------------------------------------
+
+current design:
+===============
+
+* each Gapps script:
+  * published to run as active Google account belonging to the visitor
+  * contains a hard-coded Spreadsheet ID
+  * contains a function to persistently log errors
+    * all errors are logged to this Spreadsheet
+* the Spreadsheet is shared:
+  * everyone has read/write access
+
+pro:
+====
+* relatively simple design
+
+con:
+====
+* minor:
+  * anyone can delete valid error log data
+  * anyone can write invalid error log data
+* serious:
+  * vectors of attack:
+    * trigger condition that causes sensitive user data to be written to the error log
+    * denial-of-service by filling the Spreadsheet to its maximum capacity
+      * example: if there is a hard limit on the number of rows that can exist in a Sheet
+
+--------------------------------------------------------------------------------
+
+improved design:
+================
+
+* each Gapps script:
+  * published to run as active Google account belonging to the visitor
+  * contains a function to persistently log errors
+    * error log data is POSTed to an external "logger" Gapp script
+* the "logger" Gapp script:
+  * published to run as the owner of the script (ie: NOT the visitor)
+  * contains a hard-coded Spreadsheet ID
+  * POST data is validated and persistently logged to this Spreadsheet
+* the Spreadsheet is private:
+  * only the owner of the script/Spreadsheet has read/write access
+
+pro:
+====
+* error log data is secure
+* Gapps script is protected
+* Gapps script doesn't need read/write permission to access the visitor's Spreadsheets
+
+con:
+====
+* slightly more complicated design
+
+related docs:
+=============
+https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app#fetch(String,Object)
+https://developers.google.com/apps-script/guides/web
+https://developers.google.com/apps-script/guides/content
+
+--------------------------------------------------------------------------------

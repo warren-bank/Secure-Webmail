@@ -139,3 +139,85 @@ https://secure-webmail.github.io/?debug=1
 https://secure-webmail.github.io/?debug=1&tid=1670eb635f2f2a6f
 
 --------------------------------------------------------------------------------
+
+// =====================================
+// purpose:
+//  * call the "logger" web service directly
+// =====================================
+// usage:
+//  * bash command-line
+// =====================================
+
+logger_service_URL='https://script.google.com/macros/s/AKfycbz_PwK-fIKfpmSm1huz8cUXrfc2n5fPLr21aRHZenCsRA7D62Q/exec'
+contentType='application/json'
+POST_data='{"script_name":"Logger","script_version":"1","script_context":"command-line","user_email":"me@test.ing","error":"none"}'
+
+curl -L -d "$POST_data" -H "Content-Type: $contentType" "$logger_service_URL"
+
+--------------------------------------------------------------------------------
+
+// =====================================
+// purpose:
+//  * call the "logger" web service directly
+// =====================================
+// usage:
+//  * open "inbox" folder
+//      https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec
+//  * open the javascript console
+//  * select the window:
+//      top
+//  * run the following script(s):
+// =====================================
+
+try {
+  let logger_service_URL = 'https://script.google.com/macros/s/AKfycbz_PwK-fIKfpmSm1huz8cUXrfc2n5fPLr21aRHZenCsRA7D62Q/exec'
+  let contentType        = 'application/json'
+  let POST_data          = '{"script_name":"Logger","script_version":"1","script_context":"console","user_email":"me@test.ing","error":"none"}'
+
+  fetch(logger_service_URL, {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": contentType
+    },
+    redirect: "follow",
+    referrer: "no-referrer",
+    body: POST_data
+  })
+  .then(response => response.text())
+  .then(console.log)
+  .catch(console.error)
+}
+catch(error) {
+  console.error(error)
+}
+
+--------------------------------------------------------------------------------
+
+// =====================================
+// purpose:
+//  * trigger an error in the server-side of the webapp to cause it to call the "logger" web service
+// =====================================
+// note:
+//  * need to be logged into a Google account (any will do)
+// usage:
+//  * open "inbox" folder
+//      https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec
+//  * open the javascript console
+//  * select the window:
+//      top > sandboxFrame > userHtmlFrame
+//  * run the following script(s):
+// =====================================
+
+try {
+  let active_email_address = window.init_data.email_address
+
+  google.script.run.withSuccessHandler(console.log).get_thread(active_email_address, "")
+}
+catch(error) {
+  console.error(error)
+}
+
+--------------------------------------------------------------------------------
