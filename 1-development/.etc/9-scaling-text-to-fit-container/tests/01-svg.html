@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Demo: Using SVG to Scale Text to Fit Container</title>
+  <style>
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+}
+
+div.font-scaler {
+  width:  10em;
+  height:  1em;
+}
+
+div.font-scaler.small {
+  font-size: 1em;
+}
+div.font-scaler.medium {
+  font-size: 2em;
+}
+div.font-scaler.large {
+  font-size: 3em;
+}
+
+  </style>
+</head>
+<body>
+
+<div class="font-scaler small">
+<svg width="100%" height="100%">
+  <text x="0" y="100%" textLength="100%">LABEL</text>
+</svg>
+</div>
+
+<div class="font-scaler medium">
+<svg width="100%" height="100%">
+  <text x="0" y="100%" textLength="100%">LABEL</text>
+</svg>
+</div>
+
+<div class="font-scaler large">
+<svg width="100%" height="100%">
+  <text x="0" y="100%" textLength="100%">LABEL</text>
+</svg>
+</div>
+
+</body>
+</html>

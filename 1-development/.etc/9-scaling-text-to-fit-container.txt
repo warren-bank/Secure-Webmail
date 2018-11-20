@@ -1,0 +1,6 @@
+Using SVG to Scale Text to Fit Container
+========================================
+
+https://stackoverflow.com/questions/16056591/font-scaling-based-on-width-of-container
+https://stackoverflow.com/questions/2938779/svg-scaling-text-to-fit-container
+http://tavmjong.free.fr/SVG/TEXT_IN_A_BOX/index.html
