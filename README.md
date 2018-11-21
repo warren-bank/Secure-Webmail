@@ -1,4 +1,4 @@
-### &ldquo;Secure Webmail&rdquo;
+### [&ldquo;Secure Webmail&rdquo;](https://github.com/warren-bank/Secure-Webmail)
 
 #### Purpose
 
@@ -96,6 +96,85 @@
 #### Cons
 
 * Cannot send messages to non-Gmail recipients.
+
+- - - -
+
+#### Website Hosts
+
+* [GitHub Pages](https://secure-webmail.github.io/)
+* [GitLab Pages](https://secure-webmail.gitlab.io/)
+
+Authorization Instructions:
+* click: "REVIEW PERMISSIONS"
+  * in confirmation dialog window:
+    * select: Google account (to grant permissions)
+    * under: "This app isn't verified"
+      * click: "Advanced"
+      * scroll to bottom
+      * click: "Go to Secure_Webmail_webapp (unsafe)"
+    * under the list of required permissions
+      * click: "Allow"
+
+Required Permissions:
+* Read, compose, send, and permanently delete all your email from Gmail
+  * required to read and send messages
+    * will not permanently delete any email
+* Connect to an external service
+  * only used to log errors (if any should occur)
+
+#### Gmail Add-on
+
+Installation Instructions:
+* open: [Settings &gt; Add-ons](https://mail.google.com/mail/u/0/#settings/addons)
+* check: "Enable developer add-ons for my account"
+  * in confirmation dialog window:
+    * click: "Enable"
+* in text field: "Developer add-ons"
+  * enter: `AKfycbz3o_YXBhGDD2Y_ucojsKSW423hGj8b08fE9EHpmobNk0dgg8QYBwxP7pYdJHwAvjaIXw`
+    * Deployment ID for: `Secure Webmail (Version: 1)`
+* click: "Install"
+  * in confirmation dialog window:
+    * check: "I trust the developer of this add-on"
+    * click: "Install"
+
+Authorization Instructions:
+* open the add-on by [clicking its icon](https://developers.google.com/gmail/add-ons/how-tos/using-addons)
+* click: "AUTHORIZE ACCESS"
+  * in confirmation dialog window:
+    * select: Google account (to grant permissions)
+    * under: "This app isn't verified"
+      * click: "Advanced"
+      * scroll to bottom
+      * click: "Go to Secure_Webmail_gmailaddon (unsafe)"
+    * under the list of required permissions
+      * click: "Allow"
+
+Required Permissions:
+* Run as a Gmail add-on
+  * required by all Gmail add-ons
+* View your email message metadata when the add-on is running
+  * required to obtain the ID of the open email thread
+* Connect to an external service
+  * only used to log errors (if any should occur)
+
+Purpose and Usage:
+* this add-on is entirely optional
+* it integrates with official Gmail client(s) and provides a single button
+* when an email thread is open:
+  * clicking this button opens the same email thread in "Secure Webmail" (in a new browser tab)
+* by doing so:
+  * an encrypted message can be read
+  * an encrypted response can be written and sent
+
+Notes:
+* when the button in the add-on is clicked and a new browser tab is being opened:
+  * most browsers block the new tab from opening
+* if this occurs, some browser configuration is needed
+  * in Chrome / Chromium:
+    * open: [Settings (Advanced) &gt; Privacy and security &gt; Content settings &gt; Popups](chrome://settings/content/popups)
+    * click: Allow &gt; ADD
+    * enter: `https://mail.google.com:443`
+    * click: ADD
 
 - - - -
 
