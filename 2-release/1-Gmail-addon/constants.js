@@ -4,8 +4,8 @@ var app = {
 }
 
 var config = {
-  test:  true,
-  debug: true
+  test:  false,
+  debug: false
 }
 
 // reminder: URL needs to be added to "gmail.openLinkUrlPrefixes" in "appsscript.json"

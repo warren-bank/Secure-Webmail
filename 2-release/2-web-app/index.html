@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><?!= app.title ?></title>
+    <link rel="canonical" href="<?!= app.public_url ?>" />
+    <?!= helpers.include('css/style'); ?>
+    <?!= helpers.include('lib/jsencrypt-min-js') ?>
+    <?!= helpers.include('lib/crypto-js-min-js') ?>
+    <?!= helpers.include('lib/uuidv4-min-js') ?>
+    <script>
+      var init_data = {
+        email_address: "<?!= state.email_address ?>",
+        thread_id:     "<?!= state.thread_id ?>",
+        debug:          <?!= state.debug ? 'true' : 'false' ?>
+      }
+    </script>
+    <?!= helpers.include('js/bundle-js') ?>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div id="root"></div>
+    </div>
+  </body>
+</html>

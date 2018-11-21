@@ -6,6 +6,8 @@ window.constants = (function(){
     )))
   }
 
+  var is_offline = false
+
   var env = (window.location.search.toLowerCase().indexOf('env=test') === -1)
     ? 'production'
     : 'testing'
@@ -15,14 +17,20 @@ window.constants = (function(){
         "clientId": "133752900170-96kd1367qdladljtl6isd7i2mo2pvi0c.apps.googleusercontent.com",
         "urls": {
             "iframe_parent": "https://secure-webmail.github.io/",
-            "iframe_source": static_iframe_source.response_503_service_unavailable
+            "iframe_source": (is_offline
+              ? static_iframe_source.response_503_service_unavailable
+              : "https://script.google.com/macros/s/AKfycbwAsEsZwqiPoC0CyKYC-GzzsFFffMNz3UehxzJOYXgX8ePDnzs/exec"
+            )
         }
       }
     : {
         "clientId": "133752900170-96kd1367qdladljtl6isd7i2mo2pvi0c.apps.googleusercontent.com",
         "urls": {
             "iframe_parent": "https://secure-webmail.github.io/",
-            "iframe_source": "https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec"
+            "iframe_source": (is_offline
+              ? static_iframe_source.response_503_service_unavailable
+              : "https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec"
+            )
         }
       }
 })()

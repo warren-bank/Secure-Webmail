@@ -1,20 +1,15 @@
 var app = {
-  title:   'Gmail Addon for Secure Webmail',
+  title:   'Secure Webmail',
   version: '1.0.0'
 }
 
 var config = {
-  test:  true,
-  debug: true
+  test: false
 }
 
-// reminder: URL needs to be added to "gmail.openLinkUrlPrefixes" in "appsscript.json"
-var webapp_URL = 'https://secure-webmail.github.io/?'
-if (config.test)
-  webapp_URL += 'env=test&'
-if (config.debug)
-  webapp_URL += 'debug=1&'
-webapp_URL += 'tid='
+app.public_url = (config.test)
+  ? 'https://script.google.com/macros/s/AKfycbxjGr_DXhEsXfQxDtKII3LkCEGC5zgsQcdx4DJNWJitkyx8FLZV/exec'
+  : 'https://script.google.com/macros/s/AKfycbwAsEsZwqiPoC0CyKYC-GzzsFFffMNz3UehxzJOYXgX8ePDnzs/exec'
 
 // reminder: URL needs to be added to "urlFetchWhitelist" in "appsscript.json"
 var logger_service_URL = (config.test)
