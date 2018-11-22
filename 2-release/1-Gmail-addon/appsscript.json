@@ -16,10 +16,10 @@
   "urlFetchWhitelist": [
     "https://secure-webmail.github.io/",
     "https://script.google.com/macros/s/AKfycbz_PwK-fIKfpmSm1huz8cUXrfc2n5fPLr21aRHZenCsRA7D62Q/exec",
-    "https://script.google.com/macros/s/AKfycbzdT1rVCmsna_DleU11gb2snuBbDejCMxI4pydEDZ9kwvz7FMb-/exec"
+    "https://script.google.com/macros/s/AKfycbxpYS1gnjRxTotoBz1C2AKUZorn0fxHNshYfFgR5eMnvycgIL8/exec"
   ],
   "gmail": {
-    "name": "Secure Webmail",
+    "name": "Gmail Add-on for Secure Webmail",
     "logoUrl": "https://avatars3.githubusercontent.com/u/43976068?s=400",
     "contextualTriggers": [{
       "unconditional": {

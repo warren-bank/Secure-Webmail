@@ -19,7 +19,7 @@ window.constants = (function(){
             "iframe_parent": "https://secure-webmail.github.io/",
             "iframe_source": (is_offline
               ? static_iframe_source.response_503_service_unavailable
-              : "https://script.google.com/macros/s/AKfycbwAsEsZwqiPoC0CyKYC-GzzsFFffMNz3UehxzJOYXgX8ePDnzs/exec"
+              : "https://script.google.com/macros/s/AKfycbzrmI7ej1jrk6hPXum6J_f49UM--KeUjf9yWKlu3X985O5iY-E/exec"
             )
         }
       }

@@ -1,5 +1,5 @@
 var app = {
-  title:   'Gmail Addon for Secure Webmail',
+  title:   'Gmail Add-on for Secure Webmail',
   version: '1.0.0'
 }
 
@@ -19,4 +19,4 @@ webapp_URL += 'tid='
 // reminder: URL needs to be added to "urlFetchWhitelist" in "appsscript.json"
 var logger_service_URL = (config.test)
   ? 'https://script.google.com/macros/s/AKfycbz_PwK-fIKfpmSm1huz8cUXrfc2n5fPLr21aRHZenCsRA7D62Q/exec'
-  : 'https://script.google.com/macros/s/AKfycbzdT1rVCmsna_DleU11gb2snuBbDejCMxI4pydEDZ9kwvz7FMb-/exec'
+  : 'https://script.google.com/macros/s/AKfycbxpYS1gnjRxTotoBz1C2AKUZorn0fxHNshYfFgR5eMnvycgIL8/exec'

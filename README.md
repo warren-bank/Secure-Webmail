@@ -111,15 +111,15 @@ Authorization Instructions:
     * under: "This app isn't verified"
       * click: "Advanced"
       * scroll to bottom
-      * click: "Go to Secure_Webmail_webapp (unsafe)"
+      * click: "Go to Secure Webmail (unsafe)"
     * under the list of required permissions
       * click: "Allow"
 
 Required Permissions:
-* Read, compose, send, and permanently delete all your email from Gmail
+* `Read, compose, send, and permanently delete all your email from Gmail`
   * required to read and send messages
     * will not permanently delete any email
-* Connect to an external service
+* `Connect to an external service`
   * only used to log errors (if any should occur)
 
 #### Gmail Add-on
@@ -130,8 +130,8 @@ Installation Instructions:
   * in confirmation dialog window:
     * click: "Enable"
 * in text field: "Developer add-ons"
-  * enter: `AKfycbz3o_YXBhGDD2Y_ucojsKSW423hGj8b08fE9EHpmobNk0dgg8QYBwxP7pYdJHwAvjaIXw`
-    * Deployment ID for: `Secure Webmail (Version: 1)`
+  * enter: `AKfycbxT8y51i6_JN6Ac9SBXl13r0h5owk8s7fX70B5cYGeFhsgog2oY7I5k_bhWj4XE7JVXbw`
+    * Deployment ID for: `Gmail Add-on for Secure Webmail (Version: 1)`
 * click: "Install"
   * in confirmation dialog window:
     * check: "I trust the developer of this add-on"
@@ -145,16 +145,16 @@ Authorization Instructions:
     * under: "This app isn't verified"
       * click: "Advanced"
       * scroll to bottom
-      * click: "Go to Secure_Webmail_gmailaddon (unsafe)"
+      * click: "Go to Gmail Add-on for Secure Webmail (unsafe)"
     * under the list of required permissions
       * click: "Allow"
 
 Required Permissions:
-* Run as a Gmail add-on
+* `Run as a Gmail add-on`
   * required by all Gmail add-ons
-* View your email message metadata when the add-on is running
+* `View your email message metadata when the add-on is running`
   * required to obtain the ID of the open email thread
-* Connect to an external service
+* `Connect to an external service`
   * only used to log errors (if any should occur)
 
 Purpose and Usage:
