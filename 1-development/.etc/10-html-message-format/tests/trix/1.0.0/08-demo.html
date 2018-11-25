@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Trix: Demo</title>
+  <link rel="stylesheet" href="lib/trix.css" />
+  <style>
+
+trix-editor {
+  height: 30em;
+  overflow-y: auto;
+}
+
+trix-toolbar .trix-button--icon-attach::before {
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDIwMDEwOTA0Ly9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9UUi8yMDAxL1JFQy1TVkctMjAwMTA5MDQvRFREL3N2ZzEwLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiB3aWR0aD0iNTEyLjAwMDAwMHB0IiBoZWlnaHQ9IjUxMi4wMDAwMDBwdCIgdmlld0JveD0iMCAwIDUxMi4wMDAwMDAgNTEyLjAwMDAwMCIKIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIG1lZXQiPgo8bWV0YWRhdGE+CkNyZWF0ZWQgYnkgcG90cmFjZSAxLjE1LCB3cml0dGVuIGJ5IFBldGVyIFNlbGluZ2VyIDIwMDEtMjAxNwo8L21ldGFkYXRhPgo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjAwMDAwMCw1MTIuMDAwMDAwKSBzY2FsZSgwLjEwMDAwMCwtMC4xMDAwMDApIgpmaWxsPSIjMDAwMDAwIiBzdHJva2U9Im5vbmUiPgo8cGF0aCBkPSJNMTgwNSA0NTc3IGMtNzYgLTI5IC0xMzcgLTcwIC0xOTggLTEzNiAtNzggLTgzIC0xMDQgLTE1MiAtMTQwIC0zNzEKbC0zMSAtMTkwIC0zNzcgMCBjLTQzMSAwIC00NjMgLTQgLTYyNCAtODUgLTIwNCAtMTAxIC0zNTkgLTI5NSAtNDE1IC01MTkgLTE5Ci03NiAtMjAgLTExNCAtMjAgLTEwNzYgMCAtMTEzNCAtNSAtMTA2NCA4NiAtMTI1MCA0MSAtODIgNjEgLTEwOSAxNDggLTE5NiA4NwotODcgMTE0IC0xMDcgMTk2IC0xNDggNTIgLTI1IDEzMSAtNTUgMTc0IC02NiA3OCAtMjAgMTE1IC0yMCAxOTU2IC0yMCAxODQxIDAKMTg3OCAwIDE5NTYgMjAgNDMgMTEgMTIyIDQxIDE3NCA2NiA4MiA0MSAxMDkgNjEgMTk2IDE0OCA4NyA4NyAxMDcgMTE0IDE0OAoxOTYgOTEgMTg2IDg2IDExNiA4NiAxMjUwIDAgMTEzNCA1IDEwNjQgLTg2IDEyNTAgLTQxIDgyIC02MSAxMDkgLTE0OCAxOTYKLTg3IDg3IC0xMTQgMTA3IC0xOTYgMTQ4IC0xNjggODIgLTE5NyA4NiAtNjI5IDg2IGwtMzc2IDAgLTMxIDE4OCBjLTM2IDIyMAotNjMgMjkwIC0xNDUgMzc3IC02MiA2NiAtMTI2IDEwOCAtMjA0IDEzNSAtNTYgMTkgLTgzIDIwIC03NDkgMTkgLTY5MCAwIC02OTEKMCAtNzUxIC0yMnogbTEzODIgLTM5NyBjMzcgLTIyIDMzIC05IDczIC0yNDQgMTkgLTExNSAzOSAtMTk5IDU1IC0yMzMgMzIgLTcwCjExOSAtMTU3IDE5MiAtMTkxIGw1OCAtMjcgNDEwIC02IGM0NTAgLTYgNDY1IC04IDU1OCAtNzAgMTAwIC02NiAxNjEgLTE2NQoxNzcgLTI5MCAxMyAtMTAxIDEzIC0xNzUzIDAgLTE4NDQgLTE0IC05NSAtNDkgLTE2NSAtMTE0IC0yMzEgLTY3IC02NyAtMTM5Ci0xMDEgLTIzNyAtMTE0IC0xMDMgLTEzIC0zNTExIC0xMyAtMzYwNCAwIC05NSAxNCAtMTY1IDQ5IC0yMzEgMTE0IC02NSA2NgotMTAwIDEzNiAtMTE0IDIzMSAtMTMgOTQgLTEzIDE3NTYgMCAxODUwIDE4IDEyMSA3OSAyMTkgMTc3IDI4NCA5MyA2MiAxMDggNjQKNTU4IDcwIGw0MTAgNiA1NSAyNiBjODAgMzggMTU0IDEwOSAxOTAgMTgyIDIzIDQ4IDM3IDEwNCA2MCAyNDIgNDAgMjM2IDM2CjIyMyA3MyAyNDUgMzEgMTkgNTMgMjAgNjI3IDIwIDU3NCAwIDU5NiAtMSA2MjcgLTIweiIvPgo8cGF0aCBkPSJNMjQyMCAzNDQ0IGMtMTQgLTIgLTUyIC05IC04NSAtMTUgLTIxOSAtMzggLTQ0MiAtMTU2IC02MTAgLTMyNAotMTc0IC0xNzMgLTI4NiAtMzg0IC0zMzEgLTYyMiAtMjUgLTEzNCAtMTUgLTM5NSAyMCAtNTIwIDg1IC0zMDYgMjY3IC01NTAKNTMxIC03MDkgMTU4IC05NyAzMTAgLTE0NyA1MDMgLTE2NiA0NTYgLTQ3IDkwNCAxODIgMTEzNyA1ODIgNTUgOTUgODkgMTc3CjEyMSAyOTMgMzIgMTE0IDQ0IDM1NSAyNCA0ODggLTU4IDQwMCAtMzQ3IDc2NCAtNzI0IDkxNCAtMTQxIDU1IC0yNDkgNzYgLTQxMQo4MCAtODIgMiAtMTYxIDIgLTE3NSAtMXogbTI4NCAtNDE4IGMxNTggLTMxIDI3NCAtOTQgNDAxIC0yMjEgMTUzIC0xNTIgMjI1Ci0zMjMgMjI1IC01MzIgMCAtMTI0IC0yMCAtMjIxIC02NiAtMzIxIC04OSAtMTk2IC0yNDUgLTM0MCAtNDQ0IC00MTIgLTM3NwotMTM4IC03OTQgNDAgLTk2NCA0MTIgLTQ2IDEwMCAtNjYgMTk3IC02NiAzMjEgMCAxMzIgMjQgMjI3IDg3IDM1MCAzOCA3NCA2NQoxMDkgMTM4IDE4MiA5MyA5MyAxNjEgMTQwIDI2NiAxODIgMTI2IDUxIDI4MyA2NSA0MjMgMzl6Ii8+CjxwYXRoIGQ9Ik00MTcxIDMyMzggYy0xMDggLTU4IC0xMjIgLTIwMyAtMjggLTI4NSAxMTcgLTEwMyAzMTIgNyAyODMgMTYwIC0yMgoxMTkgLTE1MCAxODEgLTI1NSAxMjV6Ii8+CjwvZz4KPC9zdmc+Cg==');
+  background-position: center;
+  background-size: 2.6em 1.6em;
+}
+
+  </style>
+  <script src="lib/trix.min.js"></script>
+  <script>
+
+document.addEventListener('trix-initialize', function(e) {
+    var trix, toolBar, button, uploadButton;
+
+    trix = e.target;
+    toolBar = trix.toolbarElement;
+
+    button = document.createElement("button");
+    button.setAttribute("type", "button");
+    button.setAttribute("class", "trix-button trix-button--icon trix-button--icon-attach");
+    button.setAttribute("data-trix-action", "x-attach");
+    button.setAttribute("title", "Attach a file");
+    button.setAttribute("tabindex", "-1");
+    button.innerText = "Attach a file";
+
+    uploadButton = toolBar.querySelector('.trix-button-group[data-trix-button-group="block-tools"]').appendChild(button);
+
+    uploadButton.addEventListener('click', function() {
+        var fileInput;
+
+        // Create a temporary file input
+        fileInput = document.createElement("input");
+        fileInput.setAttribute("type", "file");
+        fileInput.setAttribute("multiple", "");
+
+        // Add listener on change for this file input
+        fileInput.addEventListener("change", function(event) {
+            var file, _i, _len, _ref, _results;
+            _ref = this.files;
+            _results = [];
+            // Getting files
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                file = _ref[_i];
+                // pushing them to Trix
+                _results.push(trix.editor.insertFile(file));
+            }
+            return _results;
+        });
+
+        // Click to open file-chooser dialog
+        fileInput.click();
+    });
+
+});
+
+document.addEventListener("trix-attachment-add", function(e) {
+    var attachment;
+
+    attachment = e.attachment;
+    if (attachment.file && attachment.file.type && (attachment.file.type.toLowerCase().indexOf('image') === 0)) {
+        handleAttachmentAdd(attachment);
+    }
+});
+
+function handleAttachmentAdd(attachment){
+    readFile(attachment.file)
+    .then(function(data){
+        attachment.setAttributes({
+            previewable: true,
+            url: data,
+            previewURL: data
+        });
+
+        attachment.releaseFile();
+        attachment.setUploadProgress(100);
+        return data;
+    });
+}
+
+function readFile(file){
+    return new Promise(function(resolve, reject){
+        var reader = new FileReader();
+
+        function loadFile(){
+            var data = reader.result;
+            resolve(data);
+            reader.removeEventListener('load',loadFile );
+        }
+
+        reader.addEventListener('load', loadFile, false);
+        reader.readAsDataURL(file);
+    })
+}
+
+  </script>
+</head>
+<body>
+  <trix-editor input="content" class="trix-content" autofocus></trix-editor>
+</body>
+</html>

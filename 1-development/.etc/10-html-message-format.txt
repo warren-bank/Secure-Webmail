@@ -1,0 +1,67 @@
+--------------------------------------------------------------------------------
+
+to display:
+===========
+
+https://github.com/cure53/DOMPurify
+  filter function for an html string.. to remove dangerous elements (ie: XSS, etc)
+  ex: clean = DOMPurify.sanitize(dirty)
+
+https://github.com/cure53/DOMPurify/tree/master/demos#hook-to-open-all-links-in-a-new-window-link
+  demo: all links open in new tab
+
+--------------------------------------------------------------------------------
+
+to edit:
+========
+
+https://github.com/jaredreich/pell#comparisons
+
+https://github.com/basecamp/trix
+https://github.com/basecamp/trix/releases/tag/1.0.0
+https://github.com/basecamp/trix/releases/download/1.0.0/trix.js
+
+https://github.com/basecamp/trix/blob/master/README.md#storing-attached-files
+  pros:
+    * this is the only wysiwyg editor that handles nested lists properly
+  cons:
+    * the API to handle file attachments is very low-level
+      * it gives all the hooks necessary to fully customize the behavior
+      * it gives very little out-of-the-box
+    * the html it generates for file attachment previews includes extra elements
+      * when the html is export from the editor, the DOM will need a small amount of cleanup
+
+https://trix-editor.org/
+https://trix-editor.org/js/attachments.js
+  interesting example, but not what I want at all
+    * uploads file to server
+    * obtains remote URI
+    * uses remote URI in editor to "preview" the uploaded file
+
+https://gist.github.com/pmhoudry/a0dc6905872a41a316135d42a5537ddb
+  how to add a button to the toolbar to do something very similar to the upload example
+
+https://git.ng.bluemix.net/mws-developers/virtual-agent/commit/9e25a013c837c81ac1a9e9c94500e712a5b7f986
+  how to add a button to the toolbar to do something much more relevant to what I have in mind
+    * filter attachments to only accept image file types
+    * read the contents of the file into a base64 encoded data-URI
+    * display the image inline
+
+https://github.com/basecamp/trix/issues/568
+https://github.com/basecamp/trix/issues/229#issuecomment-298843840
+https://github.com/basecamp/trix/issues/213
+  related..
+
+https://github.com/basecamp/trix/blob/master/src/trix/views/attachment_view.coffee
+https://github.com/basecamp/trix/blob/master/src/trix/models/attachment.coffee
+https://github.com/basecamp/trix/blob/master/src/trix/views/previewable_attachment_view.coffee
+https://github.com/basecamp/trix/blob/master/src/trix/views/piece_view.coffee
+https://github.com/basecamp/trix/blob/master/src/trix/models/managed_attachment.coffee
+https://github.com/basecamp/trix/blob/master/src/trix/models/editor.coffee
+  related..
+
+status:
+  * demo #12 is ready to use
+  * I'll want to make a React component that encapsulates the functionality..
+
+--------------------------------------------------------------------------------

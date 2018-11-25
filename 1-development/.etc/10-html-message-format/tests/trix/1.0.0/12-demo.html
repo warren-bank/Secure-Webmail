@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Trix: Demo</title>
+  <link rel="stylesheet" href="lib/trix.css" />
+  <style>
+
+trix-toolbar .trix-button--icon-embed-image::before {
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDIwMDEwOTA0Ly9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9UUi8yMDAxL1JFQy1TVkctMjAwMTA5MDQvRFREL3N2ZzEwLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiB3aWR0aD0iNTEyLjAwMDAwMHB0IiBoZWlnaHQ9IjUxMi4wMDAwMDBwdCIgdmlld0JveD0iMCAwIDUxMi4wMDAwMDAgNTEyLjAwMDAwMCIKIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIG1lZXQiPgo8bWV0YWRhdGE+CkNyZWF0ZWQgYnkgcG90cmFjZSAxLjE1LCB3cml0dGVuIGJ5IFBldGVyIFNlbGluZ2VyIDIwMDEtMjAxNwo8L21ldGFkYXRhPgo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjAwMDAwMCw1MTIuMDAwMDAwKSBzY2FsZSgwLjEwMDAwMCwtMC4xMDAwMDApIgpmaWxsPSIjMDAwMDAwIiBzdHJva2U9Im5vbmUiPgo8cGF0aCBkPSJNMTgwNSA0NTc3IGMtNzYgLTI5IC0xMzcgLTcwIC0xOTggLTEzNiAtNzggLTgzIC0xMDQgLTE1MiAtMTQwIC0zNzEKbC0zMSAtMTkwIC0zNzcgMCBjLTQzMSAwIC00NjMgLTQgLTYyNCAtODUgLTIwNCAtMTAxIC0zNTkgLTI5NSAtNDE1IC01MTkgLTE5Ci03NiAtMjAgLTExNCAtMjAgLTEwNzYgMCAtMTEzNCAtNSAtMTA2NCA4NiAtMTI1MCA0MSAtODIgNjEgLTEwOSAxNDggLTE5NiA4NwotODcgMTE0IC0xMDcgMTk2IC0xNDggNTIgLTI1IDEzMSAtNTUgMTc0IC02NiA3OCAtMjAgMTE1IC0yMCAxOTU2IC0yMCAxODQxIDAKMTg3OCAwIDE5NTYgMjAgNDMgMTEgMTIyIDQxIDE3NCA2NiA4MiA0MSAxMDkgNjEgMTk2IDE0OCA4NyA4NyAxMDcgMTE0IDE0OAoxOTYgOTEgMTg2IDg2IDExNiA4NiAxMjUwIDAgMTEzNCA1IDEwNjQgLTg2IDEyNTAgLTQxIDgyIC02MSAxMDkgLTE0OCAxOTYKLTg3IDg3IC0xMTQgMTA3IC0xOTYgMTQ4IC0xNjggODIgLTE5NyA4NiAtNjI5IDg2IGwtMzc2IDAgLTMxIDE4OCBjLTM2IDIyMAotNjMgMjkwIC0xNDUgMzc3IC02MiA2NiAtMTI2IDEwOCAtMjA0IDEzNSAtNTYgMTkgLTgzIDIwIC03NDkgMTkgLTY5MCAwIC02OTEKMCAtNzUxIC0yMnogbTEzODIgLTM5NyBjMzcgLTIyIDMzIC05IDczIC0yNDQgMTkgLTExNSAzOSAtMTk5IDU1IC0yMzMgMzIgLTcwCjExOSAtMTU3IDE5MiAtMTkxIGw1OCAtMjcgNDEwIC02IGM0NTAgLTYgNDY1IC04IDU1OCAtNzAgMTAwIC02NiAxNjEgLTE2NQoxNzcgLTI5MCAxMyAtMTAxIDEzIC0xNzUzIDAgLTE4NDQgLTE0IC05NSAtNDkgLTE2NSAtMTE0IC0yMzEgLTY3IC02NyAtMTM5Ci0xMDEgLTIzNyAtMTE0IC0xMDMgLTEzIC0zNTExIC0xMyAtMzYwNCAwIC05NSAxNCAtMTY1IDQ5IC0yMzEgMTE0IC02NSA2NgotMTAwIDEzNiAtMTE0IDIzMSAtMTMgOTQgLTEzIDE3NTYgMCAxODUwIDE4IDEyMSA3OSAyMTkgMTc3IDI4NCA5MyA2MiAxMDggNjQKNTU4IDcwIGw0MTAgNiA1NSAyNiBjODAgMzggMTU0IDEwOSAxOTAgMTgyIDIzIDQ4IDM3IDEwNCA2MCAyNDIgNDAgMjM2IDM2CjIyMyA3MyAyNDUgMzEgMTkgNTMgMjAgNjI3IDIwIDU3NCAwIDU5NiAtMSA2MjcgLTIweiIvPgo8cGF0aCBkPSJNMjQyMCAzNDQ0IGMtMTQgLTIgLTUyIC05IC04NSAtMTUgLTIxOSAtMzggLTQ0MiAtMTU2IC02MTAgLTMyNAotMTc0IC0xNzMgLTI4NiAtMzg0IC0zMzEgLTYyMiAtMjUgLTEzNCAtMTUgLTM5NSAyMCAtNTIwIDg1IC0zMDYgMjY3IC01NTAKNTMxIC03MDkgMTU4IC05NyAzMTAgLTE0NyA1MDMgLTE2NiA0NTYgLTQ3IDkwNCAxODIgMTEzNyA1ODIgNTUgOTUgODkgMTc3CjEyMSAyOTMgMzIgMTE0IDQ0IDM1NSAyNCA0ODggLTU4IDQwMCAtMzQ3IDc2NCAtNzI0IDkxNCAtMTQxIDU1IC0yNDkgNzYgLTQxMQo4MCAtODIgMiAtMTYxIDIgLTE3NSAtMXogbTI4NCAtNDE4IGMxNTggLTMxIDI3NCAtOTQgNDAxIC0yMjEgMTUzIC0xNTIgMjI1Ci0zMjMgMjI1IC01MzIgMCAtMTI0IC0yMCAtMjIxIC02NiAtMzIxIC04OSAtMTk2IC0yNDUgLTM0MCAtNDQ0IC00MTIgLTM3NwotMTM4IC03OTQgNDAgLTk2NCA0MTIgLTQ2IDEwMCAtNjYgMTk3IC02NiAzMjEgMCAxMzIgMjQgMjI3IDg3IDM1MCAzOCA3NCA2NQoxMDkgMTM4IDE4MiA5MyA5MyAxNjEgMTQwIDI2NiAxODIgMTI2IDUxIDI4MyA2NSA0MjMgMzl6Ii8+CjxwYXRoIGQ9Ik00MTcxIDMyMzggYy0xMDggLTU4IC0xMjIgLTIwMyAtMjggLTI4NSAxMTcgLTEwMyAzMTIgNyAyODMgMTYwIC0yMgoxMTkgLTE1MCAxODEgLTI1NSAxMjV6Ii8+CjwvZz4KPC9zdmc+Cg==');
+  background-position: center;
+  background-size: 2.6em 1.6em;
+}
+
+trix-toolbar .trix-button--icon-hr::before {
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgdmlld0JveD0iMCAwIDQ5MiA0OTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ5MiA0OTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnPg0KCTxnPg0KCQk8cGF0aCBkPSJNNDY1LjA2NCwyMDcuNTYySDI2LjkwOEMxMi4wNzYsMjA3LjU2MiwwLDIxOS42OTgsMCwyMzQuNTN2MjIuODA0YzAsMTQuODMyLDEyLjA3MiwyNy4xMDQsMjYuOTA4LDI3LjEwNGg0MzguMTU2DQoJCQljMTQuODQsMCwyNi45MzYtMTIuMjcyLDI2LjkzNi0yNy4xMDRWMjM0LjUzQzQ5MiwyMTkuNjk4LDQ3OS45MDQsMjA3LjU2Miw0NjUuMDY0LDIwNy41NjJ6Ii8+DQoJPC9nPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPC9zdmc+DQo=');
+  background-position: center;
+  background-size: 2.6em 1.6em;
+}
+
+trix-editor {
+  height: 30em;
+  overflow-y: auto;
+}
+
+trix-editor figure.attachment > figcaption {
+  display: none;
+}
+
+trix-editor figure.attachment[data-trix-content-type="application/vnd.trix.horizontal-rule.html"] {
+  display: block;
+}
+
+  </style>
+  <script src="lib/trix.min.js"></script>
+  <script>
+
+// -----------------------------------------------------------------------------
+
+document.addEventListener('trix-initialize', function(e) {
+    var trix = e.target;
+
+    addToolbarIcon_embedImage(trix);
+    addToolbarIcon_hr(trix);
+});
+
+function addToolbarIcon_embedImage(trix) {
+    var toolBar, button;
+
+    toolBar = trix.toolbarElement;
+
+    button = document.createElement("button");
+    button.setAttribute("type", "button");
+    button.setAttribute("class", "trix-button trix-button--icon trix-button--icon-embed-image");
+    button.setAttribute("data-trix-action", "x-attach");
+    button.setAttribute("title", "Embed an image");
+    button.setAttribute("tabindex", "-1");
+    button.innerText = "Embed an image";
+
+    toolBar.querySelector('.trix-button-group[data-trix-button-group="block-tools"]').appendChild(button);
+
+    button.addEventListener('click', function() {
+        var fileInput;
+
+        // Create a temporary file input
+        fileInput = document.createElement("input");
+        fileInput.setAttribute("type", "file");
+        fileInput.setAttribute("multiple", "");
+
+        // Add listener on change for this file input
+        fileInput.addEventListener("change", function(event) {
+            var file, _i, _len, _ref, _results;
+            _ref = this.files;
+            _results = [];
+            // Getting files
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                file = _ref[_i];
+                // pushing them to Trix
+                _results.push(trix.editor.insertFile(file));
+            }
+            return _results;
+        });
+
+        // Click to open file-chooser dialog
+        fileInput.click();
+    });
+}
+
+function addToolbarIcon_hr(trix) {
+    var toolBar, button;
+
+    toolBar = trix.toolbarElement;
+
+    button = document.createElement("button");
+    button.setAttribute("type", "button");
+    button.setAttribute("class", "trix-button trix-button--icon trix-button--icon-hr");
+    button.setAttribute("data-trix-action", "x-hrule");
+    button.setAttribute("title", "Horizontal rule");
+    button.setAttribute("tabindex", "-1");
+    button.innerText = "Horizontal rule";
+
+    toolBar.querySelector('.trix-button-group[data-trix-button-group="block-tools"]').appendChild(button);
+
+    button.addEventListener('click', function() {
+    //  trix.editor.insertHTML('<hr />')
+
+        var attachment = new Trix.Attachment({ content: "<hr>", contentType: "application/vnd.trix.horizontal-rule.html" });
+        trix.editor.insertAttachment(attachment);
+    });
+}
+
+// -----------------------------------------------------------------------------
+
+document.addEventListener("trix-attachment-add", function(e) {
+    var trix, attachment;
+
+    trix = e.target;
+    attachment = e.attachment;
+
+    if (attachment.file && attachment.file.type && (attachment.file.type.toLowerCase().indexOf('image') === 0)) {
+        handleAttachmentAdd(trix, attachment);
+    }
+    else if (attachment.attachment && attachment.attachment.attributes && attachment.attachment.attributes.values && (attachment.attachment.attributes.values.contentType === "image") && attachment.attachment.attributes.values.url && (attachment.attachment.attributes.values.url.toLowerCase().indexOf('data:') === 0)) {
+        // do nothing
+    }
+    else if (attachment.attachment && attachment.attachment.attributes && attachment.attachment.attributes.values && (attachment.attachment.attributes.values.contentType === "application/vnd.trix.horizontal-rule.html")) {
+        // do nothing
+    }
+    else {
+        // do not allow
+        attachment.remove();
+    }
+});
+
+function handleAttachmentAdd(trix, attachment){
+    readFile(attachment.file)
+    .then(function(data){
+        attachment.remove();
+        trix.editor.insertHTML(`<img src="${data}" />`)
+    });
+}
+
+function readFile(file){
+    return new Promise(function(resolve, reject){
+        var reader = new FileReader();
+
+        function loadFile(){
+            var data = reader.result;
+            resolve(data);
+            reader.removeEventListener('load', loadFile);
+        }
+
+        reader.addEventListener('load', loadFile, false);
+        reader.readAsDataURL(file);
+    })
+}
+
+// -----------------------------------------------------------------------------
+
+function export_html() {
+  var trix = document.querySelector("trix-editor");
+  var node = trix.cloneNode(true);
+
+  node.querySelectorAll('figure.attachment').forEach(figure => {
+    var payload = figure.firstChild;
+    figure.parentNode.replaceChild(payload, figure);
+  })
+
+  node.querySelectorAll('span[data-trix-serialize="false"]').forEach(el => {
+    el.parentNode.removeChild(el);
+  })
+
+  var nodeIterator = document.createNodeIterator(
+    node,
+    NodeFilter.SHOW_COMMENT,
+    { acceptNode: function(node) { return NodeFilter.FILTER_ACCEPT; } }
+  );
+
+  // Remove all comment nodes
+  while(nodeIterator.nextNode()){
+    var commentNode = nodeIterator.referenceNode;
+    commentNode.parentNode.removeChild(commentNode);
+  }
+
+  var html = node.innerHTML;
+  console.log(html);
+}
+
+  </script>
+</head>
+<body>
+  <trix-editor input="content" class="trix-content" autofocus></trix-editor>
+</body>
+</html>

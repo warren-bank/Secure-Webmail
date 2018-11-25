@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Trix: Demo</title>
+  <link rel="stylesheet" href="lib/trix.css" />
+  <style>
+
+trix-editor {
+  height: 30em;
+  overflow-y: auto;
+}
+
+  </style>
+  <script src="lib/trix.min.js"></script>
+  <script>
+
+document.addEventListener('trix-initialize', function(e) {
+    trix = e.target;
+    toolBar = trix.toolbarElement;
+
+    button = document.createElement("button");
+    button.setAttribute("type", "button");
+    button.setAttribute("class", "attach");
+    button.setAttribute("data-trix-action", "x-attach");
+    button.setAttribute("title", "Attach a file");
+    button.setAttribute("tabindex", "-1");
+    button.innerText = "Attach a file";
+
+    uploadButton = toolBar.querySelector('.trix-button-group[data-trix-button-group="block-tools"]').appendChild(button);
+    uploadButton.addEventListener('click', function() { console.log(arguments) });
+});
+
+  </script>
+</head>
+<body>
+  <trix-editor input="content" class="trix-content" autofocus></trix-editor>
+</body>
+</html>
