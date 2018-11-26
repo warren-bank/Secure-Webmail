@@ -35,6 +35,8 @@ trix-editor figure.attachment[data-trix-content-type="application/vnd.trix.horiz
   <script src="lib/trix.min.js"></script>
   <script>
 
+Trix.config.attachments.preview.caption = {name: false, size: false};
+
 // -----------------------------------------------------------------------------
 
 document.addEventListener('trix-initialize', function(e) {
@@ -189,6 +191,6 @@ function export_html() {
   </script>
 </head>
 <body>
-  <trix-editor input="content" class="trix-content" autofocus></trix-editor>
+  <trix-editor class="trix-content" autofocus></trix-editor>
 </body>
 </html>

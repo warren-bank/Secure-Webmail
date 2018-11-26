@@ -61,7 +61,15 @@ https://github.com/basecamp/trix/blob/master/src/trix/models/editor.coffee
   related..
 
 status:
-  * demo #12 is ready to use
+  * demo #13 is ready to use
   * I'll want to make a React component that encapsulates the functionality..
+
+considerations regarding a React component:
+  * doc = editor.getDocument()
+    * returns an immutable Object that represents the content of the editor
+  * editor.loadDocument(doc)
+    * restores the content of the editor
+  * so..
+    * "doc" is an ideal Component property
 
 --------------------------------------------------------------------------------
