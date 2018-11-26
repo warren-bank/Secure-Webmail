@@ -58,10 +58,11 @@ https://github.com/basecamp/trix/blob/master/src/trix/views/previewable_attachme
 https://github.com/basecamp/trix/blob/master/src/trix/views/piece_view.coffee
 https://github.com/basecamp/trix/blob/master/src/trix/models/managed_attachment.coffee
 https://github.com/basecamp/trix/blob/master/src/trix/models/editor.coffee
+https://github.com/basecamp/trix/blob/master/src/trix/controllers/editor_controller.coffee
   related..
 
 status:
-  * demo #13 is ready to use
+  * demo #15 is ready to use
   * I'll want to make a React component that encapsulates the functionality..
 
 considerations regarding a React component:

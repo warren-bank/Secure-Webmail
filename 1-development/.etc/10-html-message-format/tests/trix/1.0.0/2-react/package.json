@@ -1,0 +1,12 @@
+{
+  "name": "2-react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "build": "webpack && rm -rf node_modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": ""
+}
