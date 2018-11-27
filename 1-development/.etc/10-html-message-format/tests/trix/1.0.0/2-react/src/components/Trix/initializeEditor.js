@@ -159,49 +159,66 @@ const exportHTML = (trix) => {
 
 // -----------------------------------------------------------------------------
 
-const initializeEditor = (trix, doc) => {
+const onEvent_trixInitialize = (e) => {
+  const trix = e.target
 
-  trix.addEventListener('trix-initialize', () => {
-    addToolbarIcon_embedImage(trix)
-    addToolbarIcon_hr(trix)
-  })
+  addToolbarIcon_embedImage(trix)
+  addToolbarIcon_hr(trix)
+}
 
-  trix.addEventListener("trix-attachment-add", (e) => {
-    const attachment = e.attachment
+const onEvent_trixAttachmentAdd = (e) => {
+  const trix       = e.target
+  const attachment = e.attachment
 
-    if (attachment.file && attachment.file.type && (attachment.file.type.toLowerCase().indexOf('image') === 0)) {
-      handleAttachmentAdd(trix, attachment)
-    }
-    else if (attachment.attachment && attachment.attachment.attributes && attachment.attachment.attributes.values && (attachment.attachment.attributes.values.contentType === "image") && attachment.attachment.attributes.values.url && (attachment.attachment.attributes.values.url.toLowerCase().indexOf('data:') === 0)) {
-      scrollToPosition(trix)
-    }
-    else if (attachment.attachment && attachment.attachment.attributes && attachment.attachment.attributes.values && (attachment.attachment.attributes.values.contentType === "application/vnd.trix.horizontal-rule.html")) {
-      scrollToPosition(trix)
-    }
-    else {
-      // ignore
-      attachment.remove()
-    }
-  })
-
-  trix.addEventListener("trix-paste", () => {
+  if (attachment.file && attachment.file.type && (attachment.file.type.toLowerCase().indexOf('image') === 0)) {
+    handleAttachmentAdd(trix, attachment)
+  }
+  else if (attachment.attachment && attachment.attachment.attributes && attachment.attachment.attributes.values && (attachment.attachment.attributes.values.contentType === "image") && attachment.attachment.attributes.values.url && (attachment.attachment.attributes.values.url.toLowerCase().indexOf('data:') === 0)) {
     scrollToPosition(trix)
-  })
+  }
+  else if (attachment.attachment && attachment.attachment.attributes && attachment.attachment.attributes.values && (attachment.attachment.attributes.values.contentType === "application/vnd.trix.horizontal-rule.html")) {
+    scrollToPosition(trix)
+  }
+  else {
+    // ignore
+    attachment.remove()
+  }
+}
 
-  if (doc) {
+const onEvent_trixPaste = (e) => {
+  const trix = e.target
+
+  scrollToPosition(trix)
+}
+
+// -----------------------------------------------------------------------------
+
+const initializeEditor = (trix, doc) => {
+  trix.addEventListener('trix-initialize',     onEvent_trixInitialize)
+  trix.addEventListener("trix-attachment-add", onEvent_trixAttachmentAdd)
+  trix.addEventListener("trix-paste",          onEvent_trixPaste)
+
+  if (trix && doc) {
     trix.editor.loadDocument(doc)
   }
-
 }
 
 // -----------------------------------------------------------------------------
 
 const updateEditor = (trix, doc) => {
-  if (doc) {
+  if (trix && doc) {
     trix.editor.loadDocument(doc)
   }
 }
 
 // -----------------------------------------------------------------------------
 
-module.exports = {initializeEditor, updateEditor, exportDocument, exportHTML}
+const finalizeEditor = () => {
+  trix.removeEventListener('trix-initialize',     onEvent_trixInitialize)
+  trix.removeEventListener("trix-attachment-add", onEvent_trixAttachmentAdd)
+  trix.removeEventListener("trix-paste",          onEvent_trixPaste)
+}
+
+// -----------------------------------------------------------------------------
+
+module.exports = {initializeEditor, updateEditor, finalizeEditor, exportDocument, exportHTML}

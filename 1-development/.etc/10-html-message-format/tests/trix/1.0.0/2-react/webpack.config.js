@@ -13,8 +13,7 @@ module.exports = {
     resolve: {
         modules: [
             path.resolve('./src'),
-            path.resolve('../../../../../../3-web-app-react-frontend/02-dev/src/1-app'),
-            path.resolve('../../../../../../3-web-app-react-frontend/02-dev/node_modules')
+            modules.substring(0, modules.length-1)
         ]
     },
     module: {
