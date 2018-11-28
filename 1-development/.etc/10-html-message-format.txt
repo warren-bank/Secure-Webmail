@@ -73,4 +73,13 @@ considerations regarding a React component:
   * so..
     * "doc" is an ideal Component property
 
+status update:
+  * the React component is based on the html demo #15
+    * it works great
+  * rather than including this React component in the "Secure-Webmail" repo
+    * it was published to github in a separate repo
+      * https://github.com/warren-bank/react-trix-editor
+    * it was published to npm, and will be used by (this branch of) "Secure-Webmail" as a project dependency
+      * npm install --save "@warren-bank/react-trix-editor"
+
 --------------------------------------------------------------------------------
