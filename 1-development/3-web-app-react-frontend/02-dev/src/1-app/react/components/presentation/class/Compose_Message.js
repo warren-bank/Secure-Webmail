@@ -1,5 +1,6 @@
 const React       = require('react')
 const PropTypes   = require('prop-types')
+const TrixEditor  = require('@warren-bank/react-trix-editor')
 
 const displayName = 'Compose_Message'
 
@@ -22,6 +23,22 @@ class Compose_Message extends React.PureComponent {
     this.callbackQueue = []
 
     this.sent_msg_notification_timer = null
+
+    this.HTML_Editor = {
+      exportDocument: null,
+      exportHTML:     null
+    }
+
+    this.set_exportDocument = this.set_exportDocument.bind(this)
+    this.set_exportHTML     = this.set_exportHTML.bind(this)
+  }
+
+  set_exportDocument(func) {
+    this.HTML_Editor.exportDocument = func
+  }
+
+  set_exportHTML(func) {
+    this.HTML_Editor.exportHTML = func
   }
 
   componentWillMount() {
@@ -59,6 +76,11 @@ class Compose_Message extends React.PureComponent {
     const attachments    = draft.attachments.map(file => {return {...file}})
     const status         = {...draft.status}
 
+    const html_format    = props.html_format
+    const body           = html_format
+                             ? {...draft.body}
+                             : draft.body.text_message
+
     const onDomChange    = ((typeof props.onDomChange  === 'function') ? props.onDomChange  : null)
     const onNewMessage   = ((typeof props.onNewMessage === 'function') ? props.onNewMessage : null)
     const onSend         = ((typeof props.onSend       === 'function') ? props.onSend       : null)
@@ -66,7 +88,7 @@ class Compose_Message extends React.PureComponent {
     const txtCancel      = (props.txtCancel || 'Clear')
     const invalid_state  = false
 
-    const state = {...draft, cc, cc_suggestions, attachments, status, onDomChange, onNewMessage, onSend, onCancel, txtCancel, invalid_state}
+    const state = {...draft, cc, cc_suggestions, body, attachments, status, html_format, onDomChange, onNewMessage, onSend, onCancel, txtCancel, invalid_state}
 
     if (unset_error)
       state.error_message = null
@@ -190,13 +212,23 @@ class Compose_Message extends React.PureComponent {
 
     if (!this.validateReplyInput()) return
 
-    let {is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments} = this.state
+    let {html_format, is_reply, thread_id, recipient, cc, cc_suggestions, subject, attachments} = this.state
+
+    const body = {}
+    body.text_message = (html_format)
+      ? (typeof this.HTML_Editor.exportHTML === 'function')
+          ? this.HTML_Editor.exportHTML()
+          : ""
+      : this.state.body
+    body.html_document = (html_format && (typeof this.HTML_Editor.exportDocument === 'function'))
+      ? this.HTML_Editor.exportDocument()
+      : null
 
     // trim string values
-    recipient = recipient.trim()
-    cc        = cc.trim()
-    subject   = subject.trim()
-    body      = body.trim()
+    recipient         = recipient.trim()
+    cc                = cc.trim()
+    subject           = subject.trim()
+    body.text_message = body.text_message.trim()
 
     // validate required fields
     const empty_required_fields = []
@@ -204,7 +236,7 @@ class Compose_Message extends React.PureComponent {
       empty_required_fields.push('To')
     if (!subject && !is_reply)
       empty_required_fields.push('Subject')
-    if (!body)
+    if (!body.text_message)
       empty_required_fields.push('Message')
     if (empty_required_fields.length)
       return this.setError(`The following required field${ (empty_required_fields.length > 1) ? 's are' : ' is' } incomplete: "${empty_required_fields.join('", "')}"`)
@@ -226,7 +258,7 @@ class Compose_Message extends React.PureComponent {
     }
 
     // save draft
-    this.context.actions.DEBUG('SAVING DRAFT MESSAGE', {origin: displayName, old_draft: this.props.draft, new_draft: {is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments}})
+    this.context.actions.DEBUG('SAVING DRAFT MESSAGE', {origin: displayName, old_draft: this.props.draft, new_draft: {is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments}, html_format})
     this.context.actions.SAVE_DRAFT_MESSAGE(is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments)
 
     // send message
@@ -301,6 +333,10 @@ class Compose_Message extends React.PureComponent {
       )
     })
 
+    const body = (this.state.html_format)
+      ? <TrixEditor id="body" document={this.state.body.html_document} set_exportDocument={this.set_exportDocument} set_exportHTML={this.set_exportHTML} />
+      : <textarea id="body" value={this.state.body} onChange={this.eventHandlers.onChange} ></textarea>
+
     const attachments = this.state.attachments.map(attachment => {
       return (
         <div key={attachment.name} className="attachment" onClick={this.remove_attachment.bind(this, attachment)} >
@@ -357,7 +393,7 @@ class Compose_Message extends React.PureComponent {
                 <input type="text" id="subject" value={this.state.subject} onChange={this.eventHandlers.onChange} />
 
                 <label for="body">Message:</label>
-                <textarea id="body" value={this.state.body} onChange={this.eventHandlers.onChange} ></textarea>
+                {body}
 
                 <label>Files:</label>
                 <div className="attachments">
@@ -382,6 +418,7 @@ class Compose_Message extends React.PureComponent {
 }
 
 Compose_Message.propTypes = {
+  html_format:   PropTypes.bool.isRequired,
   draft:         PropTypes.object.isRequired,
 
   onNewMessage:  PropTypes.func,

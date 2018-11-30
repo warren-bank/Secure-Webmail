@@ -234,12 +234,14 @@ actions['SAVE_RSA_PUBLIC_KEYS'] = (public_keys) => {
 
 // -----------------------------------------------------------------------------
 
-actions['UPDATE_SETTINGS'] = (max_threads_per_page, private_key, private_key_storage) => {
+actions['UPDATE_SETTINGS'] = (private_key, private_key_storage, display_html_format=null, compose_html_format=null, max_threads_per_page=null) => {
   return {
     type: C.UPDATE_SETTINGS,
-    max_threads_per_page,
     private_key,
-    private_key_storage
+    private_key_storage,
+    display_html_format,
+    compose_html_format,
+    max_threads_per_page
   }
 }
 
@@ -273,6 +275,20 @@ actions['SAVE_APP']['UI']['START_THREADS_INDEX'] = (start_threads_index) => {
 }
 
 // -----------------------------------------------------------------------------
+
+actions['SAVE_APP']['SETTING']['DISPLAY_HTML_FORMAT'] = (display_html_format) => {
+  return {
+    type: C.SAVE_APP.SETTING.DISPLAY_HTML_FORMAT,
+    display_html_format
+  }
+}
+
+actions['SAVE_APP']['SETTING']['COMPOSE_HTML_FORMAT'] = (compose_html_format) => {
+  return {
+    type: C.SAVE_APP.SETTING.COMPOSE_HTML_FORMAT,
+    compose_html_format
+  }
+}
 
 actions['SAVE_APP']['SETTING']['MAX_THREADS_PER_PAGE'] = (max_threads_per_page) => {
   return {

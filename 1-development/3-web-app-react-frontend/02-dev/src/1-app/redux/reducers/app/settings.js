@@ -16,6 +16,12 @@ const get_initial_state = () => {
 const settings = (state = get_initial_state(), action) => {
   switch (action.type) {
 
+    case C.SAVE_APP.SETTING.DISPLAY_HTML_FORMAT:
+      return reduce_hash_table(state, action, 'display_html_format', true)
+
+    case C.SAVE_APP.SETTING.COMPOSE_HTML_FORMAT:
+      return reduce_hash_table(state, action, 'compose_html_format', true)
+
     case C.SAVE_APP.SETTING.MAX_THREADS_PER_PAGE:
       return reduce_hash_table(state, action, 'max_threads_per_page', true)
 

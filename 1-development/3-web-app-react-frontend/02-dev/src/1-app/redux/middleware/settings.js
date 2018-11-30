@@ -45,11 +45,25 @@ SETTINGS['SAVE_RSA_PUBLIC_KEYS'] = ({getState, dispatch, next, action}) => {
 // -----------------------------------------------------------------------------
 
 SETTINGS['UPDATE_SETTINGS'] = ({getState, dispatch, next, action}) => {
-  const {max_threads_per_page, private_key, private_key_storage} = Object.assign({}, constants.default_settings, action)
+  const {private_key, private_key_storage, display_html_format, compose_html_format, max_threads_per_page} = Object.assign({}, constants.default_settings, action)
+
+  // required fields: [private_key, private_key_storage]
+  // optional fields: [display_html_format, compose_html_format, max_threads_per_page]
+  //   - null values are ignored
 
   storage.SET.PRIVATE_KEY(getState, private_key, private_key_storage)
 
-  if (max_threads_per_page > 0) {
+  if (typeof display_html_format === 'boolean') {
+    dispatch(
+      actions.SAVE_APP.SETTING.DISPLAY_HTML_FORMAT(display_html_format)
+    )
+  }
+  if (typeof compose_html_format === 'boolean') {
+    dispatch(
+      actions.SAVE_APP.SETTING.COMPOSE_HTML_FORMAT(compose_html_format)
+    )
+  }
+  if ((typeof max_threads_per_page === 'number') && (max_threads_per_page > 0)) {
     dispatch(
       actions.SAVE_APP.SETTING.MAX_THREADS_PER_PAGE(max_threads_per_page)
     )

@@ -60,7 +60,7 @@ class Settings extends React.PureComponent {
     event.stopPropagation()
     event.preventDefault()
 
-    let {max_threads_per_page, private_key, private_key_storage} = this.state
+    let {private_key, private_key_storage, display_html_format, compose_html_format, max_threads_per_page} = this.state
 
     // perform validation
     const validation_result = this.does_private_match_public(private_key)
@@ -110,15 +110,17 @@ class Settings extends React.PureComponent {
     }
 
     // cast to correct data types
-    max_threads_per_page = Number(max_threads_per_page)
     private_key_storage  = Number(private_key_storage)
+    max_threads_per_page = Number(max_threads_per_page)
 
     if (
-         (this.props.settings.max_threads_per_page !== max_threads_per_page)
-      || (this.props.settings.private_key          !== private_key)
+         (this.props.settings.private_key          !== private_key)
       || (this.props.settings.private_key_storage  !== private_key_storage)
+      || (this.props.settings.display_html_format  !== display_html_format)
+      || (this.props.settings.compose_html_format  !== compose_html_format)
+      || (this.props.settings.max_threads_per_page !== max_threads_per_page)
     ) {
-      this.context.actions.UPDATE_SETTINGS(max_threads_per_page, private_key, private_key_storage)
+      this.context.actions.UPDATE_SETTINGS(private_key, private_key_storage, display_html_format, compose_html_format, max_threads_per_page)
     }
 
     if (this.context.history.location.pathname === '/settings')
@@ -216,6 +218,12 @@ class Settings extends React.PureComponent {
     return (
       <div className={`top-component ${displayName.toLowerCase()}`}>
         <form onSubmit={this.eventHandlers.onSubmit} >
+          <label for="display_html_format">Allow HTML format to display messages:</label>
+          <input id="display_html_format" type="checkbox" value={this.state.display_html_format} />
+
+          <label for="compose_html_format">Allow HTML format to compose messages:</label>
+          <input id="compose_html_format" type="checkbox" value={this.state.compose_html_format} />
+
           <label for="max_threads_per_page">Number of thread summaries to display in paginated folder list:</label>
           <input id="max_threads_per_page" type="number" value={this.state.max_threads_per_page} onChange={this.eventHandlers.onChange} />
   

@@ -178,6 +178,12 @@ API['GET_THREAD'] = ({getState, dispatch, next, action}) => {
   const onFailure = HELPERS.FailureHandler(dispatch, action)
   const my_email  = HELPERS.get_email(getState)
 
+  const html_format = (() => {
+    const state  = getState()
+
+    return state.app.settings.display_html_format
+  })()
+
   const current_message_count = (() => {
     const state  = getState()
     const thread = state.threads[thread_id]
@@ -185,7 +191,7 @@ API['GET_THREAD'] = ({getState, dispatch, next, action}) => {
     return (!thread || !thread.messages) ? 0 : thread.messages.length
   })()
 
-  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).get_thread(my_email, thread_id, current_message_count)
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).get_thread(my_email, thread_id, html_format, current_message_count)
 }
 
 // -----------------------------------------------------------------------------

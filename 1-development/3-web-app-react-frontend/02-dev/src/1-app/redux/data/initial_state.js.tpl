@@ -64,6 +64,8 @@ const initialState = {
       "start_threads_index":		0					// Number
     },
     "settings": {
+      "display_html_format":		true,				// Boolean
+      "compose_html_format":		true,				// Boolean
       "max_threads_per_page":		25,					// Number
       "public_key":					"",					// String
       "private_key":				"",					// String
@@ -77,11 +79,14 @@ const initialState = {
       "cc":							["$email_address"],	// Array of String
       "cc_suggestions":				["$email_address"],	// Array of String
       "subject":					"",					// String
-      "body":						"",					// String
+      "body":						{
+        "text_message":				"",					// String
+        "html_document":			null				// Object
+      },
       "attachments":				[{					// Array of Object
-        "data":						"",
-        "contentType":				"",
-        "name":						""
+        "data":						"",					// String
+        "contentType":				"",					// String
+        "name":						""					// String
       }],
       "status": {
         "code":						0,					// Number (enumeration: [0=can_edit, 1=busy_getting_pubkeys, 2=busy_sending, 3=sent_success, 4=sent_error])

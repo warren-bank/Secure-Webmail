@@ -100,6 +100,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
     const _render = ({history}) => {
       const props = {
         draft:        state.app.draft_message,
+        html_format:  state.app.settings.compose_html_format,
         onDomChange:  null,
         onNewMessage: null,
         onSend:       () => {

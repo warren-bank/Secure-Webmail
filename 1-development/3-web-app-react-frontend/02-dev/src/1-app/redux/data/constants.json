@@ -32,6 +32,8 @@
                 "START_THREADS_INDEX":      "SAVE_APP_UI_START_THREADS_INDEX"
             },
             "SETTING": {
+                "DISPLAY_HTML_FORMAT":      "SAVE_APP_SETTING_DISPLAY_HTML_FORMAT",
+                "COMPOSE_HTML_FORMAT":      "SAVE_APP_SETTING_COMPOSE_HTML_FORMAT",
                 "MAX_THREADS_PER_PAGE":     "SAVE_APP_SETTING_MAX_THREADS_PER_PAGE",
                 "PUBLIC_KEY":               "SAVE_APP_SETTING_PUBLIC_KEY",
                 "PRIVATE_KEY":              "SAVE_APP_SETTING_PRIVATE_KEY",
@@ -78,6 +80,8 @@
         }
     },
     "default_settings": {
+        "display_html_format":              true,
+        "compose_html_format":              true,
         "max_threads_per_page":             25,
         "public_key":                       "",
         "private_key":                      "",

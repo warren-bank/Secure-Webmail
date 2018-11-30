@@ -1,7 +1,8 @@
 const constants  = require('redux/data/constants')
 const actions    = require('redux/actions')
 
-const crypto     = require('redux/lib/middleware/crypto')
+const crypto       = require('redux/lib/middleware/crypto')
+const {strip_tags} = require('react/lib/sanitize_html')
 
 const C = constants.actions
 
@@ -24,7 +25,6 @@ RSA['GENERATE_KEYPAIR'] = ({getState, dispatch, next, action}) => {
     allow_update              = !!allow_update  // cast to a boolean
 
     let state                 = getState()
-    let max_threads_per_page  = 0  // "SETTINGS_middleware" only updates positive integer values
     let {private_key_storage} = state.app.settings
 
     dispatch(
@@ -34,7 +34,7 @@ RSA['GENERATE_KEYPAIR'] = ({getState, dispatch, next, action}) => {
       actions.SAVE_APP.SETTING.PUBLIC_KEY(public_key)
     )
     dispatch(
-      actions.UPDATE_SETTINGS(max_threads_per_page, private_key, private_key_storage)
+      actions.UPDATE_SETTINGS(private_key, private_key_storage)
     )
     dispatch(
       actions.SAVE_APP.SETTING.IS_GENERATING_KEYPAIR(false)
@@ -64,13 +64,25 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
   if (!my_email)  throw new Error('Redux state does not contain the email address associated with the current Google user account.')
   if (!my_pvtkey) throw new Error('Redux state does not contain the private RSA encryption key associated with the current Google user account.')
 
+  const update_summary = (msg_index, msg_body) => {
+    if ((msg_index === 0) && msg_body) {
+      summary.body = strip_tags(msg_body).substring(0, 160)
+    }
+  }
+
   for (let i=0; i < messages.length; i++) {
     let contents = messages[i].contents
 
-    if (!contents.attachments || !Array.isArray(contents.attachments) || !contents.attachments.length) continue  // next message
+    if (!contents.attachments || !Array.isArray(contents.attachments) || !contents.attachments.length) {
+      update_summary(i, contents.body)
+      continue  // next message
+    }
 
     let index_ciphers = contents.attachments.findIndex(attachment => attachment.name === filename.CIPHERS)
-    if ((typeof index_ciphers !== 'number') || (index_ciphers < 0)) continue  // next message
+    if ((typeof index_ciphers !== 'number') || (index_ciphers < 0)) {
+      update_summary(i, contents.body)
+      continue  // next message
+    }
 
     // intercept and ignore problems with individual messages. when in doubt, allow the message to pass through without decryption.
     try {
@@ -96,7 +108,7 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
         if (name === filename.BODY) {
           new_contents.body = cleartext
 
-          if (i===0) summary.body = cleartext.substring(0, 160)
+          update_summary(i, cleartext)
         }
         else {
           name = name.replace(/\.txt$/, '')
@@ -116,8 +128,7 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
       messages[i].contents = new_contents
     }
     catch(err) {
-      if (i===0) summary.body = contents.body.substring(0, 160)
-
+      update_summary(i, contents.body)
       continue  // next message
     }
   }
@@ -130,7 +141,7 @@ FILTER['ENCRYPT_OUTBOUND_MESSAGE'] = ({getState, dispatch, next, action}) => {
   const {recipient, body, cc, attachments} = action
   const state = getState()
 
-  if (!recipient || !body) return
+  if (!recipient || !body || !body.text_message) return
 
   let all_emails = [recipient, state.user.email_address]
   if (cc) {
@@ -180,7 +191,7 @@ FILTER['ENCRYPT_OUTBOUND_MESSAGE'] = ({getState, dispatch, next, action}) => {
 
   // attach: BODY
   new_attachments.push({
-    data:         crypto.AES.encrypt(body, secret),
+    data:         crypto.AES.encrypt(body.text_message, secret),
     contentType: 'text/plain',
     name:        filename.BODY
   })

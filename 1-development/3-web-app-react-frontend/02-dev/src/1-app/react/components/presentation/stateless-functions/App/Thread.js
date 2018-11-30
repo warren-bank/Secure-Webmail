@@ -30,12 +30,15 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
     )
   }
 
+  const state = store.getState()
+
   const Messages = messages.map((message, i) => {
-    const start_expanded = (message.settings.star === true) || (i === (messages.length - 1))
+    const html_format      = state.app.settings.display_html_format
+    const start_expanded   = (message.settings.star === true) || (i === (messages.length - 1))
     const onExpandCollapse = resizeParentIframe.bind(this, false)
 
     return (
-      <Message key={message.message_id} {...message} {...{thread_id, start_expanded, onExpandCollapse}} />
+      <Message key={message.message_id} {...message} {...{thread_id, html_format, start_expanded, onExpandCollapse}} />
     )
   })
 
@@ -43,6 +46,7 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
   {
     const props = {
       draft:           draft_message,
+      html_format:     state.app.settings.compose_html_format,
       onDomChange:     null,
       onNewMessage:    () => {
                          scroller.scrollToBottom()
@@ -65,9 +69,7 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
   const save_draft = () => {
     if (draft_message.status.code) return
 
-    const msg = messages[ messages.length - 1 ]
-
-    const state    = store.getState()
+    const msg      = messages[ messages.length - 1 ]
     const my_email = state.user.email_address
 
     const is_reply       = true
@@ -76,7 +78,10 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
     const cc_sugg_filter = [...cc, recipient, my_email]
     const cc_suggestions = participants.filter(email => cc_sugg_filter.indexOf(email) === -1)  // Cc Suggestions: All Additional Thread Participants => Sent or Received Previous Message(s) in Thread
     const subject        = ''
-    const body           = ''
+    const body           = {
+      text_message:        '',
+      html_document:       null
+    }
     const attachments    = []
 
     const is_new_draft   = () => {
@@ -102,7 +107,7 @@ const component = ({thread_id, summary, settings, messages, participants, draft_
     const requires_update = is_new_draft()
 
     if (requires_update)
-      actions.DEBUG('SAVING DRAFT MESSAGE', {origin: displayName, old_draft: draft_message, new_draft: {is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments}})
+      actions.DEBUG('SAVING DRAFT MESSAGE', {origin: displayName, old_draft: draft_message, new_draft: {is_reply, thread_id, recipient, cc, cc_suggestions, subject, body, attachments}, html_format: state.app.settings.compose_html_format})
     else
       actions.DEBUG('DRAFT MESSAGE IS NOT MODIFIED', {origin: displayName, draft: draft_message})
 
