@@ -48,8 +48,9 @@ class Settings extends React.PureComponent {
     event.stopPropagation()
     event.preventDefault()
 
-    const key      = event.currentTarget.id
-    const val      = event.currentTarget.value
+    const el       = event.currentTarget
+    const key      = el.id
+    const val      = (el.type === 'checkbox') ? el.checked : el.value
     const newState = {
       [key]: val
     }
@@ -219,10 +220,10 @@ class Settings extends React.PureComponent {
       <div className={`top-component ${displayName.toLowerCase()}`}>
         <form onSubmit={this.eventHandlers.onSubmit} >
           <label for="display_html_format">Allow HTML format to display messages:</label>
-          <input id="display_html_format" type="checkbox" value={this.state.display_html_format} />
+          <input id="display_html_format" type="checkbox" value={this.state.display_html_format} onChange={this.eventHandlers.onChange} />
 
           <label for="compose_html_format">Allow HTML format to compose messages:</label>
-          <input id="compose_html_format" type="checkbox" value={this.state.compose_html_format} />
+          <input id="compose_html_format" type="checkbox" value={this.state.compose_html_format} onChange={this.eventHandlers.onChange} />
 
           <label for="max_threads_per_page">Number of thread summaries to display in paginated folder list:</label>
           <input id="max_threads_per_page" type="number" value={this.state.max_threads_per_page} onChange={this.eventHandlers.onChange} />
