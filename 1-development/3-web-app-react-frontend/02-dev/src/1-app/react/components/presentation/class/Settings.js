@@ -219,11 +219,11 @@ class Settings extends React.PureComponent {
     return (
       <div className={`top-component ${displayName.toLowerCase()}`}>
         <form onSubmit={this.eventHandlers.onSubmit} >
-          <label for="display_html_format">Allow HTML format to display messages:</label>
-          <input id="display_html_format" type="checkbox" value={this.state.display_html_format} onChange={this.eventHandlers.onChange} />
+          <input id="display_html_format" type="checkbox" checked={this.state.display_html_format} onChange={this.eventHandlers.onChange} />
+          <label for="display_html_format">Allow HTML format to display messages</label>
 
-          <label for="compose_html_format">Allow HTML format to compose messages:</label>
-          <input id="compose_html_format" type="checkbox" value={this.state.compose_html_format} onChange={this.eventHandlers.onChange} />
+          <input id="compose_html_format" type="checkbox" checked={this.state.compose_html_format} onChange={this.eventHandlers.onChange} />
+          <label for="compose_html_format">Allow HTML format to compose messages</label>
 
           <label for="max_threads_per_page">Number of thread summaries to display in paginated folder list:</label>
           <input id="max_threads_per_page" type="number" value={this.state.max_threads_per_page} onChange={this.eventHandlers.onChange} />

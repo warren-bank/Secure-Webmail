@@ -77,6 +77,21 @@ html, body, .wrapper {
   padding: 0.5em 0;
 }
 
+.top-component.settings > form > input[type="checkbox"],
+.top-component.settings > form > input[type="checkbox"] + label {
+  display: inline-block;
+  margin-top: 1em;
+}
+.top-component.settings > form > input[type="checkbox"] {
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  margin-right: 0.5em;
+}
+.top-component.settings > form > input[type="checkbox"] + label {
+  width: calc(100% - 1.5em);
+}
+
 .top-component.settings > form > .icon {
   display: inline-block;
   vertical-align: top;
@@ -439,11 +454,12 @@ html, body, .wrapper {
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_3 {
   width: 80%;
 }
-.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_3 > span.subject {
-  padding-right: 0.25em;
-}
-.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_3 > span.body {
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_3 > span.subject {}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_3 > span.body {}
+.top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_3 > span.body:before {
+  content: '\00bb';
   padding-left: 0.25em;
+  padding-right: 0.25em;
 }
 
 .top-component.app > .component.folder > .thread_summaries > .component.thread_summary > .col.col_4 {

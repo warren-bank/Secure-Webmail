@@ -334,7 +334,7 @@ class Compose_Message extends React.PureComponent {
     })
 
     const body = (this.state.html_format)
-      ? <TrixEditor id="body" document={this.state.body.html_document} set_exportDocument={this.set_exportDocument} set_exportHTML={this.set_exportHTML} />
+      ? <div id="body"><TrixEditor document={this.state.body.html_document} set_exportDocument={this.set_exportDocument} set_exportHTML={this.set_exportHTML} /></div>
       : <textarea id="body" value={this.state.body} onChange={this.eventHandlers.onChange} ></textarea>
 
     const attachments = this.state.attachments.map(attachment => {

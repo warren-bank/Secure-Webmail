@@ -19,7 +19,7 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /(node_modules)/,
+                exclude: /\/node_modules\/(?!@warren-bank\/)/,
                 loader: 'babel-loader',
                 query: {
                     presets: ['env', 'stage-0', 'react']

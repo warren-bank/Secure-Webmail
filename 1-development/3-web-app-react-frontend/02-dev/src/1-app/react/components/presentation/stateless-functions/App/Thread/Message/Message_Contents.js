@@ -10,7 +10,7 @@ const Message_Attachment  = require(`./${displayName}/Message_Attachment`)
 const component = ({contents, html_format}) => {
 
   const body = (html_format === true)
-    ? <div className="body" dangerouslySetInnerHTML={{__html: sanitize_html(contents.body)}} />
+    ? <div className="body trix-content" dangerouslySetInnerHTML={{__html: sanitize_html(contents.body)}} />
     : <div className="body">{contents.body}</div>
 
   const Attachments = contents.attachments.map((attachment, i) => (

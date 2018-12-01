@@ -30,8 +30,10 @@ const component = ({thread_id, summary, settings}, {actions, constants, history}
       </div>
       <div className="col col_3">
         <span className="subject">{summary.subject}</span>
-        <span>-</span>
-        <span className="body">{summary.body}</span>
+        {
+          (summary.body) &&
+            <span className="body">{summary.body}</span>
+        }
       </div>
       <div className="col col_4">
         <span className="date_modified">{date_modified}</span>
