@@ -19,7 +19,7 @@ const component = ({thread_id, message_id, summary, settings, contents, html_for
 
   const body    = strip_tags(contents.body).substring(0, 160)
   const label   = <Message_Summary  {...{thread_id, message_id, has_attachments, body, summary, settings}} />
-  const content = <Message_Contents {...{contents, html_format}} />
+  const content = <Message_Contents {...{contents, html_format, onLoad: ((start_expanded && html_format) ? onExpandCollapse : null)}} />
 
   return (
     <div className={`component ${displayName.toLowerCase()}`}>
