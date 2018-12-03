@@ -1,5 +1,21 @@
 const DOMPurify = require('dompurify')
 
+// add a hook to make all links open a new tab/window
+DOMPurify.addHook('afterSanitizeAttributes', (node) => {
+  if ('target' in node) {
+    node.setAttribute('target', '_blank')
+  }
+
+  if (
+    !node.hasAttribute('target') &&
+    (
+      node.hasAttribute('xlink:href') || node.hasAttribute('href')
+    )
+  ) {
+    node.setAttribute('xlink:show', 'new')
+  }
+})
+
 const sanitize_html = (html) => {
   if (!html) return ''
 
