@@ -7,9 +7,11 @@
     <title><?!= app.title ?></title>
     <link rel="canonical" href="<?!= app.public_url ?>" />
     <?!= helpers.include('css/style'); ?>
+    <?!= helpers.include('css/trix'); ?>
     <?!= helpers.include('lib/jsencrypt-min-js') ?>
     <?!= helpers.include('lib/crypto-js-min-js') ?>
     <?!= helpers.include('lib/uuidv4-min-js') ?>
+    <?!= helpers.include('lib/trix-min-js') ?>
     <script>
       var init_data = {
         email_address: "<?!= state.email_address ?>",

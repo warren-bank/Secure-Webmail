@@ -186,7 +186,7 @@ function get_threads_in_folder(active_email_address, folder_name, body_length, s
   return threads
 }
 
-function get_thread(active_email_address, thread_id, current_message_count, body_length) {
+function get_thread(active_email_address, thread_id, html_format, current_message_count, body_length) {
   helpers.disallow_account_mismatch(active_email_address)
 
   var thread = {
@@ -301,7 +301,11 @@ function get_thread(active_email_address, thread_id, current_message_count, body
             timestamp:   oMessage.getDate().getTime() // Number (UTC timestamp in ms)
           },
           contents: {
-            body:        oMessage.getPlainBody(),     // String
+            body:        (                            // String
+                           (html_format === true)
+                             ? oMessage.getBody()
+                             : oMessage.getPlainBody()
+                         ),
             attachments: attachments                  // Array of Object {data: string, contentType: string, name: string}
           },
           settings: {
