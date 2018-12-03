@@ -84,7 +84,7 @@ const component   = ({state}, {store, actions, constants, history}) => {
 
       start_threads_index = Number(start_threads_index)
 
-      if ((state.app.ui.folder_name !== folder_name) || (state.app.ui.start_threads_index !== start_threads_index))
+      if ((state.app.ui.folder_name !== folder_name) || (state.app.ui.start_threads_index !== start_threads_index) || (state.app.ui.thread_id))
         actions.OPEN_FOLDER(folder_name, start_threads_index)  // `history` is not passed to prevent URL redirect
 
       const component = wrapScrollToTop(
