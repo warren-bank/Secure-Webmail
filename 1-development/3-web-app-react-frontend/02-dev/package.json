@@ -4,7 +4,7 @@
   "description": "Webmail frontend using react/redux with Gmail integration powered by Google Apps Script.",
   "main": "",
   "dependencies": {
-    "@warren-bank/react-trix-editor": "~0.2.0",
+    "@warren-bank/react-trix-editor": "^0.3.0",
     "dompurify": "~1.0.8",
     "prop-types": "15.6.0",
     "react": "16.2.0",
