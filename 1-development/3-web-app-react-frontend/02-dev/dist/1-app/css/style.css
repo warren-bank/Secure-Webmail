@@ -661,6 +661,9 @@ html, body, .wrapper {
 .top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .body {
   white-space: pre-wrap;
 }
+.top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .body.trix-content {
+  white-space: normal;
+}
 
 .top-component.app > .component.thread > .messages > .component.message > .component.expandcollapse .component.message_contents > .attachments {
   display: flex;
