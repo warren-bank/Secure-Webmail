@@ -459,7 +459,10 @@ function get_public_keys(active_email_address, emails) {
   if (emails && Array.isArray(emails) && emails.length) {
     emails.forEach(function(email_address){
       try {
-        keys[email_address] = get_public_key_(email_address)
+        var val = get_public_key_(email_address)
+
+        if (val)
+          keys[email_address] = val
       }
       catch(err) {}
     })
