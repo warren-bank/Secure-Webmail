@@ -112,7 +112,7 @@ FILTER['DECRYPT_MESSAGES_IN_THREAD'] = ({getState, dispatch, next, action}) => {
         }
         else {
           name = name.replace(/\.txt$/, '')
-          name = name.replace('-', '/')
+          name = name.replace(/[-]/g, '/')
           name = window.atob(name)
           name = crypto.AES.decrypt(name, secret)
 
@@ -203,7 +203,7 @@ FILTER['ENCRYPT_OUTBOUND_MESSAGE'] = ({getState, dispatch, next, action}) => {
       data = crypto.AES.encrypt(data, secret)
       name = crypto.AES.encrypt(name, secret)
       name = window.btoa(name)
-      name = name.replace('/', '-')
+      name = name.replace(/[\/]/g, '-')
       name = name + '.txt'
 
       // attach
