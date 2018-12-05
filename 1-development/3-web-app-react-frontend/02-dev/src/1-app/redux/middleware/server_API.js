@@ -299,6 +299,7 @@ API['GET_RSA_PUBLIC_KEYS'] = ({getState, dispatch, next, action}) => {
 
   const onSuccess = keys => {
     if (!keys || (typeof keys !== 'object')) return
+    if (Object.keys(keys).length === 0) return
 
     dispatch(
       actions.SAVE_RSA_PUBLIC_KEYS(keys)

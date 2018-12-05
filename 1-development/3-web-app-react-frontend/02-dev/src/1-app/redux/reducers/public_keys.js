@@ -8,6 +8,7 @@ const RDCR = {}
 
 RDCR['SAVE'] = (state, {public_keys}) => {
   if (!public_keys || (typeof public_keys !== 'object')) return state  // noop
+  if (Object.keys(public_keys).length === 0)             return state  // noop
 
   const new_state = {...state}
   Object.assign(new_state, public_keys)
