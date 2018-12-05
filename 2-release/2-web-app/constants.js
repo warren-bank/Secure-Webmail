@@ -1,6 +1,6 @@
 var app = {
   title:   'Secure Webmail',
-  version: '2.0.3'
+  version: '2.0.4'
 }
 
 var config = {

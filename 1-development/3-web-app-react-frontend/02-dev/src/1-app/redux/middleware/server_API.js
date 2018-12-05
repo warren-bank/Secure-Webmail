@@ -298,8 +298,8 @@ API['GET_RSA_PUBLIC_KEYS'] = ({getState, dispatch, next, action}) => {
   if (!filtered_emails.length) return
 
   const onSuccess = keys => {
-    if (!keys || (typeof keys !== 'object')) return
-    if (Object.keys(keys).length === 0) return
+    if (!keys || (typeof keys !== 'object'))
+      keys = {}
 
     dispatch(
       actions.SAVE_RSA_PUBLIC_KEYS(keys)
