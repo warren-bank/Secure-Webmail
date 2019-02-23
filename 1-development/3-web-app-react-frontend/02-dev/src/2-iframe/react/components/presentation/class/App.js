@@ -1,6 +1,9 @@
 const React       = require('react')
 const PropTypes   = require('prop-types')
 
+const displayName = 'App'
+
+const Summary                             = require(`./${displayName}/Summary`)
 const {GoogleLogin, GoogleLogout}         = require('react-google-login')
 
 const {getQuerystring, removeQuerystring} = require('react/lib/querystring')
@@ -64,13 +67,21 @@ class App extends React.Component {
     }
 
     return (
-      <div className="app">
+      <div className={displayName.toLowerCase()}>
       {
         !this.state.account &&
         <div className="header">
           {this.buttons.login}
         </div>
       }
+      {
+        !this.state.account &&
+        <div className="summary_container">
+          <Summary />
+        </div>
+      }
+      {
+        this.state.account &&
         <div className="iframe_container">
           <iframe
             id={this.props.iframe_id}
@@ -82,6 +93,7 @@ class App extends React.Component {
             scrolling="no"
           ></iframe>
         </div>
+      }
       </div>
     )
   }
