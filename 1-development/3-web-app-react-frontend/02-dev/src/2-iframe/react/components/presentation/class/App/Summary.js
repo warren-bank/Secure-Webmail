@@ -237,6 +237,7 @@ class Summary extends React.PureComponent {
               </ul>
             </li>
           </ul>
+          <hr />
           <h4>Gmail Add-on</h4>
           <p>Installation Instructions:</p>
           <ul>
@@ -349,6 +350,20 @@ class Summary extends React.PureComponent {
               </ul>
             </li>
           </ul>
+          <hr />
+          <h4>Screencasts</h4>
+          <h5>Google account login</h5>
+          <p>
+            <img src="https://github.com/warren-bank/Secure-Webmail/raw/master/4-screencasts/1.%20Google%20account%20login/2.%20animation/1.%20Google%20account%20login.gif" alt="Google account login" />
+          </p>
+          <h5>New user</h5>
+          <p>
+            <img src="https://github.com/warren-bank/Secure-Webmail/raw/master/4-screencasts/2.%20new%20user/2.%20animation/2.%20new%20user.gif" alt="New user" />
+          </p>
+          <h5>Returning user</h5>
+          <p>
+            <img src="https://github.com/warren-bank/Secure-Webmail/raw/master/4-screencasts/3.%20existing%20user/2.%20animation/3.%20existing%20user.gif" alt="Returning user" />
+          </p>
           <hr />
           <h4>About the Author</h4>
           <p>

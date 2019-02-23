@@ -138,6 +138,10 @@ body,
   font-size: 1.15em;
   font-weight: bold;
 }
+#root > .app > .summary_container > .summary h5 {
+  font-size: 1.0em;
+  font-weight: bold;
+}
 #root > .app > .summary_container > .summary a {
   color: #0366d6;
   text-decoration: none;
