@@ -80,9 +80,7 @@ class App extends React.Component {
           <Summary />
         </div>
       }
-      {
-        this.state.account &&
-        <div className="iframe_container">
+        <div className={`iframe_container ${this.state.account ? '' : 'hidden'}`}>
           <iframe
             id={this.props.iframe_id}
             src={url}
@@ -93,7 +91,6 @@ class App extends React.Component {
             scrolling="no"
           ></iframe>
         </div>
-      }
       </div>
     )
   }
