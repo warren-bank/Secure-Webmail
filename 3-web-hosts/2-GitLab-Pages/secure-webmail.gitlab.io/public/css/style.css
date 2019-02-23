@@ -27,7 +27,43 @@ body,
 /* ------------------------------------------------------------------ */
 
 #root > .app > .iframe_container > iframe {
-  min-height: 500px;  /* required for initial Google user authorization prompt */
+  min-height: 500px;
+}
+
+/* *******************************
+ * When the user (re)loads the page, React state is lost.
+ * However, within the iframe, the Google Apps Script can determine the user account (#0),
+ * and communicate its email address to the parent window.
+ * In order for this communication to occur, the iframe needs to be rendered alongside the login screen.
+ *
+ * When the user is already logged into one (or more) Google account(s),
+ * React receives the user's email address from the iframe and adds it to its state.
+ * This triggers a fresh render, which removes the login screen.
+ *
+ * When the user is not logged into any Google account, the login screen is rendered.
+ * For the reasons just explained, the iframe must also be added to the DOM.
+ * Currently:
+ *  - Google redirects the page inside the iframe to a login page
+ *  - the server response for this login page prevents its rendering within an iframe
+ *  - the iframe appears empty
+ * However:
+ *  - should Google ever fix this error and the iframe properly display a login prompt:
+ *     - on the one hand, this page could be dramatically simplified since Google website sign-in would no-longer be necessary
+ *     - on the other hand, this page would look horrible until I got around to making changes
+ *  - to prevent the latter,
+ *    the following CSS rule is intended to hide the iframe in the DOM when the login screen is visible
+ *     - a communication channel will still exist
+ *     - any content within the iframe is hidden
+ * *******************************
+ */
+#root > .app > .iframe_container.hidden {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 /* ------------------------------------------------------------------ */
@@ -100,6 +136,10 @@ body,
 }
 #root > .app > .summary_container > .summary h4 {
   font-size: 1.15em;
+  font-weight: bold;
+}
+#root > .app > .summary_container > .summary h5 {
+  font-size: 1.0em;
   font-weight: bold;
 }
 #root > .app > .summary_container > .summary a {
