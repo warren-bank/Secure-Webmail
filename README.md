@@ -122,6 +122,8 @@ Required Permissions:
 * `Connect to an external service`
   * only used to log errors (if any should occur)
 
+- - - -
+
 #### Gmail Add-on
 
 Installation Instructions:
@@ -175,6 +177,22 @@ Notes:
     * click: Allow &gt; ADD
     * enter: `https://mail.google.com:443`
     * click: ADD
+
+- - - -
+
+#### Screencasts
+
+##### Google account login
+
+![Google account login](https://github.com/warren-bank/Secure-Webmail/raw/master/4-screencasts/1.%20Google%20account%20login/2.%20animation/1.%20Google%20account%20login.gif)
+
+##### New user
+
+![New user](https://github.com/warren-bank/Secure-Webmail/raw/master/4-screencasts/2.%20new%20user/2.%20animation/2.%20new%20user.gif)
+
+##### Returning user
+
+![Returning user](https://github.com/warren-bank/Secure-Webmail/raw/master/4-screencasts/3.%20existing%20user/2.%20animation/3.%20existing%20user.gif)
 
 - - - -
 
